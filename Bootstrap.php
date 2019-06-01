@@ -90,7 +90,7 @@ class Bootstrap implements BootstrapInterface
         $module = Yii::$app->getModule('admin');
         $extensions = $module->module->extensions;
         foreach ($extensions as $extension) {
-            if (in_array($extension['name'], $this->installed)) {
+            if (in_array($extension['name'], $this->modules)) {
                 $module_id = substr($extension['name'], strpos($extension['name'], '-') + 1, strlen($extension['name']));
                 if (!empty($module_id)) {
                     Yii::$app->setModule($module_id, [
