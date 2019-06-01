@@ -1,6 +1,6 @@
 <?php
 
-namespace wdmg\api;
+namespace wdmg\admin;
 
 /**
  * Yii2 Admin
