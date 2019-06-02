@@ -7,7 +7,7 @@ namespace wdmg\admin\components;
  * Yii2 Dashboard
  *
  * @category        Component
- * @version         0.0.1
+ * @version         1.0.3
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-messages
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -21,6 +21,7 @@ use yii\base\Component;
 class Dashboard extends Component
 {
 
+    protected $module;
     protected $model;
 
     /**
@@ -30,7 +31,18 @@ class Dashboard extends Component
      */
     public function init()
     {
+        $this->module = Yii::$app->getModule('admin');
         parent::init();
+    }
+
+    public function getSidebarMenuItems()
+    {
+        $items = [];
+        foreach ($this->module->packages as $package) {
+            if($module = Yii::$app->getModule('admin/'. $package['moduleId']))
+                $items[] = $module->dashboardNavItems();
+        }
+        return $items;
     }
 }
 
