@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.0.3
+ * @version         1.0.4
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -15,11 +15,12 @@ namespace wdmg\admin;
  */
 
 use Yii;
+use wdmg\base\BaseModule;
 
 /**
  * api module definition class
  */
-class Module extends \yii\base\Module
+class Module extends BaseModule
 {
     /**
      * {@inheritdoc}
@@ -32,11 +33,6 @@ class Module extends \yii\base\Module
     public $defaultRoute = 'dashboard/index';
 
     /**
-     * @var string the prefix for routing of module
-     */
-    public $routePrefix = "admin";
-
-    /**
      * @var string, the name of module
      */
     public $name = "Dashboard";
@@ -47,14 +43,9 @@ class Module extends \yii\base\Module
     public $description = "Main administrative panel";
 
     /**
-     * @var string the vendor name of module
-     */
-    private $vendor = "wdmg";
-
-    /**
      * @var string the module version
      */
-    private $version = "1.0.3";
+    private $version = "1.0.4";
 
     /**
      * @var integer, priority of initialization
@@ -62,11 +53,8 @@ class Module extends \yii\base\Module
     private $priority = 1;
 
     /**
-     * @var array of strings missing translations
+     * @var array of modules
      */
-    public $missingTranslation;
-
-
     public $packages = [
         "wdmg/yii2-activity" => [
             'moduleId' => 'activity',
@@ -222,99 +210,73 @@ class Module extends \yii\base\Module
         ],
     ];
 
-    /**
-     * {@inheritdoc}
-     */
-    public function init()
+
+    public function bootstrap($app)
     {
-        parent::init();
+        // Get the module instance
+        $module = Yii::$app->getModule('admin');
 
-        // Set controller namespace for console commands
-        if (Yii::$app instanceof \yii\console\Application)
-            $this->controllerNamespace = 'wdmg\admin\commands';
+        // Add module URL rules
+        $app->getUrlManager()->enablePrettyUrl = true;
+        $app->getUrlManager()->showScriptName = false;
+        $app->getUrlManager()->enableStrictParsing = true;
+        $app->getUrlManager()->addRules(
+            [
+                '<module:admin>/<controller:\w+>' => '<module>/<controller>',
+                '<module:admin>/<submodule:\w+>/<controller:\w+>' => '<module>/<submodule>/<controller>',
+                '<module:admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                '<module:admin>/<submodule:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<submodule>/<controller>/<action>',
+                [
+                    'pattern' => '<module:admin>/',
+                    'route' => '<module>/dashboard/index',
+                    'suffix' => '',
+                ], [
+                    'pattern' => '<module:admin>/<controller:\w+>/',
+                    'route' => '<module>/<controller>',
+                    'suffix' => '',
+                ], [
+                    'pattern' => '<module:admin>/<controller:\w+>/<action:\w+>',
+                    'route' => '<module>/<controller>/<action>',
+                    'suffix' => '',
+                ],
+            ],
+            true
+        );
 
-        // Set current version of module
-        $this->setVersion($this->version);
+        // Configure administrative panel
+        $app->setComponents([
+            'dashboard' => [
+                'class' => 'wdmg\admin\components\Dashboard'
+            ]
+        ]);
 
-        // Register translations
-        $this->registerTranslations();
+        // Loading all modules
+        $extensions = $module->module->extensions;
+        foreach ($extensions as $extension) {
+            if (array_key_exists($extension['name'], $module->packages)) {
 
-        // Normalize route prefix
-        $this->routePrefixNormalize();
-    }
+                $package = (object)$module->packages[$extension['name']];
+                $module->setModule($package->moduleId, ArrayHelper::merge([
+                    //Yii::$app->setModule($package->moduleId, ArrayHelper::merge([
+                    'class' => $package->moduleClass
+                ], $package->moduleOptions));
 
-    /**
-     * Return module vendor
-     * @var string of current module vendor
-     */
-    public function getVendor() {
-        return $this->vendor;
-    }
+                $installed = Yii::$app->getModule('admin/'.$package->moduleId);
+                if ($installed) {
 
-    /**
-     * {@inheritdoc}
-     */
-    public function afterAction($action, $result)
-    {
+                    // Configure dashboard
+                    $installed->layout = 'dashboard';
+                    $installed->layoutPath = '@wdmg/admin/views/layouts';
 
-        // Log to debuf console missing translations
-        if (is_array($this->missingTranslation) && YII_ENV == 'dev')
-            Yii::warning('Missing translations: ' . var_export($this->missingTranslation, true), 'i18n');
+                    if (isset($module->routePrefix))
+                        $installed->routePrefix = $module->routePrefix;
 
-        $result = parent::afterAction($action, $result);
-        return $result;
-
-    }
-
-    // Registers translations for the module
-    public function registerTranslations()
-    {
-        Yii::$app->i18n->translations['app/modules/admin'] = [
-            'class' => 'yii\i18n\PhpMessageSource',
-            'sourceLanguage' => 'en-US',
-            'basePath' => '@vendor/wdmg/yii2-admin/messages',
-            'on missingTranslation' => function($event) {
-
-                if (YII_ENV == 'dev')
-                    $this->missingTranslation[] = $event->message;
-
-            },
-        ];
-
-        // Name and description translation of module
-        $this->name = Yii::t('app/modules/admin', $this->name);
-        $this->description = Yii::t('app/modules/admin', $this->description);
-    }
-
-    public static function t($category, $message, $params = [], $language = null)
-    {
-        return Yii::t('app/modules/admin' . $category, $message, $params, $language);
-    }
-
-    /**
-     * Normalize route prefix
-     * @return string of current route prefix
-     */
-    public function routePrefixNormalize()
-    {
-        if(!empty($this->routePrefix)) {
-            $this->routePrefix = str_replace('/', '', $this->routePrefix);
-            $this->routePrefix = '/'.$this->routePrefix;
-            $this->routePrefix = str_replace('//', '/', $this->routePrefix);
+                    if ($installed instanceof yii\base\BootstrapInterface)
+                        $installed->bootstrap(Yii::$app);
+                    else
+                        Yii::$app->bootstrap[] = $package->bootstrapClass;
+                }
+            }
         }
-        return $this->routePrefix;
-    }
-
-    /**
-     * Build dashboard navigation items for NavBar
-     * @return array of current module nav items
-     */
-    public function dashboardNavItems()
-    {
-        return [
-            'label' => $this->name,
-            'url' => [$this->routePrefix . '/admin/'],
-            'active' => in_array(\Yii::$app->controller->module->id, ['admin'])
-        ];
     }
 }

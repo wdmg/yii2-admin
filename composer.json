@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-admin", "dashboard", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "homepage": "https://github.com/wdmg/yii2-admin",
   "support": {
     "source": "https://github.com/wdmg/yii2-admin",
@@ -21,15 +21,13 @@
     }
   ],
   "require": {
-    "yiisoft/yii2": "^2.0.19"
+    "yiisoft/yii2": "^2.0.20",
+    "wdmg/yii2-base": "^1.0.0"
   },
   "minimum-stability": "dev",
   "autoload": {
     "psr-4": {
       "wdmg\\admin\\": ""
     }
-  },
-  "extra": {
-    "bootstrap": "wdmg\\admin\\Bootstrap"
   }
 }
