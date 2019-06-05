@@ -18,7 +18,7 @@ use Yii;
 use wdmg\base\BaseModule;
 
 /**
- * api module definition class
+ * Admin module definition class
  */
 class Module extends BaseModule
 {
