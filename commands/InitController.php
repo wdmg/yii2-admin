@@ -21,7 +21,7 @@ class InitController extends Controller
         $welcome =
             '╔════════════════════════════════════════════════╗'. "\n" .
             '║                                                ║'. "\n" .
-            '║              ADMIN MODULE, v.'.$version.'            ║'. "\n" .
+            '║             ADMIN MODULE, v.'.$version.'              ║'. "\n" .
             '║          by Alexsander Vyshnyvetskyy           ║'. "\n" .
             '║         (c) 2019 W.D.M.Group, Ukraine          ║'. "\n" .
             '║                                                ║'. "\n" .

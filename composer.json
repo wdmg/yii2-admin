@@ -1,10 +1,10 @@
 {
   "name": "wdmg/yii2-admin",
-  "description": "Administrative panel for Yii2",
+  "description": "Administrative panel for Butterfly.CMS",
   "keywords": ["yii2", "yii2-admin", "dashboard", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "homepage": "https://github.com/wdmg/yii2-admin",
   "support": {
     "source": "https://github.com/wdmg/yii2-admin",
@@ -22,7 +22,7 @@
   ],
   "require": {
     "yiisoft/yii2": "^2.0.20",
-    "wdmg/yii2-base": "^1.0.0"
+    "wdmg/yii2-base": "^1.0.1"
   },
   "minimum-stability": "dev",
   "autoload": {
