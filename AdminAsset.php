@@ -26,13 +26,13 @@ class AdminAsset extends AssetBundle
     {
         parent::init();
 
-        /*\Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
+        \Yii::$app->assetManager->bundles['yii\web\JqueryAsset'] = [
             'sourcePath' => $this->sourcePath,
             'js' => [
                 YII_ENV_DEV ? 'js/jquery.js' : 'js/jquery.min.js',
                 YII_ENV_DEV ? 'js/helper.js' : 'js/helper.min.js'
             ]
-        ];*/
+        ];
         \Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset'] = [
             'sourcePath' => $this->sourcePath,
             'js' => [

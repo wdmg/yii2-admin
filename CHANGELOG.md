@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 1.0.6 (2019-06-07)
+ * Build assets files and registration for layouts
+ * Added admin assets bundle
+ * Add NPM package and init Grunt
+ 
 ## 1.0.5 (2019-06-07)
  * Module refactoring
 
