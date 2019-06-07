@@ -1,6 +1,9 @@
-assets/*
 !assets/.gitignore
 protected/runtime/*
 !protected/runtime/.gitignore
 protected/data/*.db
 themes/classic/views/
+.sass-cache
+node_modules
+assets/scss/*
+!assets/scss/admin.scss
