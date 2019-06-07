@@ -1,0 +1,56 @@
+{
+  "name": "yii2-admin-assets",
+  "version": "1.0.5",
+  "description": "Admin Module Assets",
+  "main": "Gruntfile.js",
+  "scripts": {
+    "postinstall": "grunt"
+  },
+  "keywords": [
+    "yii2-admin",
+    "assets"
+  ],
+  "dependencies": {
+    "bootstrap-sass": "~3.4.1",
+    "jquery": "^3.4.0",
+    "jquery-helper": "^1.7.1",
+    "roboto-fontface": "^0.10.0",
+    "font-awesome": "^4.7.0",
+    "sticky-sidebar": "^3.3.1"
+  },
+  "devDependencies": {
+    "grunt": "latest",
+    "grunt-autoprefixer": "^3.0.4",
+    "grunt-cli": "^1.3.2",
+    "grunt-contrib-concat": "^1.0.1",
+    "grunt-contrib-copy": "^1.0.0",
+    "grunt-contrib-cssmin": "^3.0.0",
+    "grunt-contrib-sass": "^1.0.0",
+    "grunt-contrib-uglify-es": "^3.3.0",
+    "grunt-contrib-watch": "^1.1.0",
+    "grunt-css": "^0.5.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://github.com:wdmg/yii2-admin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/wdmg/yii2-admin/issues",
+    "email": "webmaster@wdmg.com.ua"
+  },
+  "homepage": "https://github.com/wdmg/yii2-admin#readme",
+  "author": "Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>",
+  "contributors": [
+    {
+      "name": "Alexsander Vyshnyvetskyy",
+      "email": "alex.vyshnyvetskyy@gmail.com",
+      "url": "http://vyshnyvetskyy.com/"
+    },
+    {
+      "name": "W.D.M.Group, Ukraine",
+      "email": "wdmg.com.ua@gmail.com",
+      "url": "https://wdmg.com.ua/"
+    }
+  ],
+  "license": "MIT"
+}
