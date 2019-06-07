@@ -228,7 +228,10 @@ class Module extends BaseModule
         $this->setPriority($this->priority);
 
         // Set authorization route
-        \Yii::$app->user->loginUrl = ['admin/login'];
+        Yii::$app->user->loginUrl = ['/admin/login'];
+
+        // Set dashboard main page
+        /*Yii::$app->homeUrl = '/admin';*/
 
     }
 }

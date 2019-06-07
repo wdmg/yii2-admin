@@ -1,8 +1,9 @@
 <?php
 
 return [
-    'API' => "API",
-    'API control module' => "Модуль управления API",
+    'Dashboard' => "Приборная панель",
+    'Main' => "Главная",
+    'Main administrative panel' => "Главная административная панель",
 ];
 
 ?>
