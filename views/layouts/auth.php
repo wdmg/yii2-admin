@@ -9,9 +9,11 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
-use app\assets\AppAsset;
+//use app\assets\AppAsset;
+use wdmg\admin\AdminAsset;
 
-AppAsset::register($this);
+//AppAsset::register($this);
+$bundle = AdminAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -25,7 +27,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="admin">
 <?php $this->beginBody() ?>
 <div class="wrap">
     <div class="container-fluid">

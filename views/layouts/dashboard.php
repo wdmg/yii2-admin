@@ -9,9 +9,11 @@ use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
-use app\assets\AppAsset;
+//use app\assets\AppAsset;
+use wdmg\admin\AdminAsset;
 
-AppAsset::register($this);
+//AppAsset::register($this);
+$bundle = AdminAsset::register($this);
 
 ?>
 <?php $this->beginPage() ?>
@@ -25,7 +27,7 @@ AppAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body>
+<body class="admin">
 <?php $this->beginBody() ?>
 <div class="wrap">
 <?php
@@ -60,6 +62,7 @@ AppAsset::register($this);
         ],
     ]);
     NavBar::end();
+
 ?>
     <div class="container-fluid">
         <div class="row" style="padding-top:96px;">
@@ -75,6 +78,10 @@ AppAsset::register($this);
                     'timeout' => 10000
                 ]); ?>
                 <?= Breadcrumbs::widget([
+                    'homeLink' => [
+                        'label' => Yii::t('app/modules/admin', 'Main'),
+                        'url' => '/admin/'
+                    ],
                     'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                 ]) ?>
                 <?= Alert::widget() ?>
