@@ -38,7 +38,7 @@ class AdminController extends Controller
                         'allow' => false
                     ], [
                         'roles' => ['admin'],
-                        'actions' => ['logout'],
+                        'actions' => ['index', 'login', 'logout'],
                         'allow' => true,
                     ],
                 ],
@@ -82,13 +82,13 @@ class AdminController extends Controller
             try {
 
                 if($model->login()) {
-                    Yii::$app->activity->set( 'User has successfully login.', 'login', 'info', 2);
-                    return $this->goBack();
+                    Yii::$app->activity->set('User has successfully login.', 'login', 'info', 2);
+                    return $this->redirect(['admin/index']);
                 }
 
             } catch (\DomainException $error) {
                 Yii::$app->session->setFlash('error', $error->getMessage());
-                return $this->redirect(['admin/index']);
+                return $this->redirect(['admin/login']);
             }
         }
 
@@ -97,4 +97,16 @@ class AdminController extends Controller
         ]);
     }
 
+
+    /**
+     * Logout action.
+     *
+     * @return Response
+     */
+    public function actionLogout()
+    {
+        Yii::$app->user->logout();
+        Yii::$app->activity->set('User has successfully logout.', 'logout', 'info', 2);
+        return $this->goHome();
+    }
 }

@@ -39,6 +39,7 @@ class Bootstrap implements BootstrapInterface
             [
                 '/admin' => 'admin/admin/index',
                 '/admin/login' => 'admin/admin/login',
+                '/admin/logout' => 'admin/admin/logout',
                 [
                     'pattern' => '/admin',
                     'route' => 'admin/admin/index',
@@ -46,6 +47,10 @@ class Bootstrap implements BootstrapInterface
                 ], [
                     'pattern' => '/admin/login',
                     'route' => 'admin/admin/login',
+                    'suffix' => '',
+                ], [
+                    'pattern' => '/admin/logout',
+                    'route' => 'admin/admin/logout',
                     'suffix' => '',
                 ],
 

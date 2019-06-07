@@ -227,5 +227,8 @@ class Module extends BaseModule
         // Set priority of current module
         $this->setPriority($this->priority);
 
+        // Set authorization route
+        \Yii::$app->user->loginUrl = ['admin/login'];
+
     }
 }
