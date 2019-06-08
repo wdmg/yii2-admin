@@ -37,38 +37,24 @@ class Bootstrap implements BootstrapInterface
 
         $app->getUrlManager()->addRules(
             [
-                '/admin' => 'admin/admin/index',
-                '/admin/login' => 'admin/admin/login',
-                '/admin/logout' => 'admin/admin/logout',
+                'admin' => 'admin/admin/index',
+                'admin/<action:(index|login|logout|restore|checkpoint)>' => 'admin/admin/<action>',
                 [
-                    'pattern' => '/admin',
+                    'pattern' => 'admin/index',
                     'route' => 'admin/admin/index',
                     'suffix' => '',
                 ], [
-                    'pattern' => '/admin/login',
-                    'route' => 'admin/admin/login',
-                    'suffix' => '',
-                ], [
-                    'pattern' => '/admin/logout',
-                    'route' => 'admin/admin/logout',
+                    'pattern' => 'admin/<action:(index|login|logout|restore|checkpoint)>',
+                    'route' => 'admin/admin/<action>',
                     'suffix' => '',
                 ],
-
-                '<action>'=>'site/<action>',
-                '<controller:\w+>/<id:\d+>' => '<controller>/view',
-                '<controller:\w+>/<action:\w+>/<id:\d+>' => '<controller>/<action>',
-                '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
-                '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
-                '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-                '<module:\w+>/<controller:\w+>' => '<module>/<controller>/index',
-
                 '<module:admin>/<controller:\w+>' => '<module>/<controller>',
                 '<module:admin>/<submodule:\w+>/<controller:\w+>' => '<module>/<submodule>/<controller>',
                 '<module:admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
                 '<module:admin>/<submodule:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<submodule>/<controller>/<action>',
                 [
                     'pattern' => '<module:admin>/',
-                    'route' => '<module>/dashboard/index',
+                    'route' => '<module>/admin/index',
                     'suffix' => '',
                 ], [
                     'pattern' => '<module:admin>/<controller:\w+>/',
@@ -83,6 +69,7 @@ class Bootstrap implements BootstrapInterface
             true
         );
 
+
         // Configure administrative panel
         $app->setComponents([
             'dashboard' => [
@@ -90,11 +77,25 @@ class Bootstrap implements BootstrapInterface
             ]
         ]);
 
+        // Loading all support modules
+        /*$migrationLookup = [];
+        $support = $module->getSupportModules();
+        $extensions = $module->module->extensions;
+        foreach ($support as $name) {
+            if ($extensions[$name]) {
+                //var_dump($extensions[$name]);
+                $alias = array_key_first($extensions[$name]['alias']);
+                $basePath = Yii::getAlias($alias).'/Module';
+                var_dump($instance = new $basePath());
+
+            }
+        }*/
+
         // Loading all modules
         $migrationLookup = [];
-        $extensions = $module->module->extensions;
-        foreach ($extensions as $extension) {
-            if (array_key_exists($extension['name'], $module->packages)) {
+        $support = $module->getSupportModules();
+        foreach (Yii::$app->extensions as $extension) {
+            if (in_array($extension['name'], $support) && array_key_exists($extension['name'], $module->packages)) {
 
                 $package = (object)$module->packages[$extension['name']];
                 $module->setModule($package->moduleId, ArrayHelper::merge([

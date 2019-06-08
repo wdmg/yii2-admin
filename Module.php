@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.0.6
+ * @version         1.0.7
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -45,12 +45,38 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.6";
+    private $version = "1.0.7";
 
     /**
      * @var integer, priority of initialization
      */
     private $priority = 1;
+
+    /**
+     * @var array of support modules
+     */
+    private $support = [
+        'wdmg/yii2-activity',
+        'wdmg/yii2-api',
+        'wdmg/yii2-bookmarks',
+        'wdmg/yii2-comments',
+        'wdmg/yii2-forms',
+        'wdmg/yii2-geo',
+        'wdmg/yii2-likes',
+        'wdmg/yii2-messages',
+        'wdmg/yii2-options',
+        'wdmg/yii2-rbac',
+        'wdmg/yii2-reposts',
+        'wdmg/yii2-reviews',
+        'wdmg/yii2-services',
+        'wdmg/yii2-stats',
+        'wdmg/yii2-tasks',
+        'wdmg/yii2-tickets',
+        'wdmg/yii2-translations',
+        'wdmg/yii2-users',
+        'wdmg/yii2-views',
+        'wdmg/yii2-votes',
+    ];
 
     /**
      * @var array of modules
@@ -230,8 +256,18 @@ class Module extends BaseModule
         // Set authorization route
         Yii::$app->user->loginUrl = ['/admin/login'];
 
-        // Set dashboard main page
-        /*Yii::$app->homeUrl = '/admin';*/
+        // Set assets bundle, if not loaded
+        if(!isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
+            Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
 
+    }
+
+    /**
+     * Return list of support modules
+     * @return array of modules vendor/name
+     */
+    public function getSupportModules()
+    {
+        return $this->support;
     }
 }

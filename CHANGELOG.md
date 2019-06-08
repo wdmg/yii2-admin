@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.7 (2019-06-08)
+ * Module assets and login form
+ 
 ## 1.0.6 (2019-06-07)
  * Build assets files and registration for layouts
  * Added admin assets bundle

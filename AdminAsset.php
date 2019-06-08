@@ -6,6 +6,7 @@ use yii\web\AssetBundle;
 class AdminAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/wdmg/yii2-admin/assets';
+
     /*public $basePath = '@webroot';
     public $baseUrl = '@web';*/
 
@@ -14,12 +15,11 @@ class AdminAsset extends AssetBundle
         'js/admin.js'
     ];
 
-    public $css = [
-
-    ];
-
     public $depends = [
         'yii\web\YiiAsset',
+        'yii\web\JqueryAsset',
+        'yii\bootstrap\BootstrapPluginAsset',
+        'yii\bootstrap\BootstrapAsset',
     ];
 
     public function init()
@@ -46,9 +46,18 @@ class AdminAsset extends AssetBundle
             ]
         ];
 
+        /*$this = [
+            'sourcePath' => $this->sourcePath,
+            'js' => [
+                YII_ENV_DEV ? 'js/sticky-sidebar.js' : 'js/sticky-sidebar.min.js',
+                YII_ENV_DEV ? 'js/admin.js' : 'js/admin.min.js'
+            ]
+        ];
+*/
+        /*
         // Common scripts
-        $this->js = YII_DEBUG ? ['js/sticky-sidebar.js'] : ['js/sticky-sidebar.min.js'];
-        $this->js = YII_DEBUG ? ['js/admin.js'] : ['js/admin.min.js'];
+        $this->js[] = YII_DEBUG ? [$this->sourcePath . '/js/sticky-sidebar.js'] : [$this->sourcePath . '/js/sticky-sidebar.min.js'];
+        $this->js[] = YII_DEBUG ? [$this->sourcePath . '/js/admin.js'] : [$this->sourcePath . '/js/admin.min.js'];*/
 
     }
 
