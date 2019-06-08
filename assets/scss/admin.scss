@@ -921,12 +921,51 @@ $hr-border:                   $gray-lighter !default;
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
 
-body {
-  &.admin {
-    border: 2px solid red;
+// Admin dashboard
+.welcome {
+  display: flex;
+  align-content: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  border: 2px solid red;
+  .container, .container-fluid {
+    margin-bottom: auto;
+    margin-top: auto;
+  }
+  .admin-login {
+    .logotype {
+      display: inline-block;
+      /*padding: 0 30px 15px 30px;*/
+    }
+    form {
+      margin-top: 15px;
+    }
+  }
+  .footer {
+    display: inline-flex;
+    width: 100%;
+    flex-direction: row;
+    margin-bottom: 0px;
+    margin-top: auto;
   }
 }
 
+// Admin dashboard
+.dashboard {
+  border: 2px solid red;
+  .admin {
+    .navbar-brand {
+      display: inline-block;
+      overflow: hidden;
+      padding: 5px 0 5px 15px;
+      & > img {
+        display: inline-block;
+        height: 100%;
+      }
+    }
+  }
+}
 
 /* Responsive */
 /*
