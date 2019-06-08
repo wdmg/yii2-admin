@@ -47,8 +47,6 @@ $this->params['breadcrumbs'][] = $this->title;
     var_dump($data);*/
     /*var_dump(Yii::$app->extensions);*/
 
-
-
 echo "**** Base modules *****";
     if (Yii::$app->controller->module->getUniqueId() == "admin" && count(Yii::$app->controller->modules) > 0) {
         $modules = Yii::$app->controller->modules;

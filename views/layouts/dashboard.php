@@ -24,15 +24,18 @@ $bundle = AdminAsset::register($this);
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode($this->title . ' — Butterfly.CMS') ?></title>
     <?php $this->head() ?>
 </head>
-<body class="admin">
+<body class="dashboard">
 <?php $this->beginBody() ?>
-<div class="wrap">
+<div class="admin">
 <?php
     NavBar::begin([
-        'brandLabel' => "Butterfly.CMS",
+        'brandLabel' => Html::img($bundle->baseUrl . '/images/logotype-inline.svg', [
+            'class' => "img-responsive",
+            'onerror' => "this.src='" . $bundle->baseUrl . '/images/logotype-inline.png' . "'"
+        ]),
         'brandUrl' => ['/admin'],
         'options' => [
             'class' => 'navbar-inverse navbar-fixed-top',
@@ -91,11 +94,30 @@ $bundle = AdminAsset::register($this);
         </div>
     </div>
 </div>
+
+<?php $this->registerJs(
+    'setInterval(function() {
+        $.ajax({
+            type: \'POST\',
+            url: \'/admin/checkpoint\',
+            dataType: \'json\',
+            complete: function(data) {
+                if(data) {
+                    console.log(data.responseJSON.loggedin);
+                    if (data.status == 200 && data.responseJSON.loggedin) {
+                        return true;
+                    }
+                }
+                window.location.href = \'/admin/login\';
+            }
+        });
+    }, 5000);'
+); ?>
+
 <footer class="footer">
     <div class="container-fluid">
         <p class="pull-left">&copy; <?= date('Y') ?>, Butterfly.CMS</p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right">Created by <?= Html::a('W.D.M.Group, Ukraine', 'http://wdmg.com.ua', ['target' => "_blank"]) ?></p>
     </div>
 </footer>
 <?php $this->endBody() ?>

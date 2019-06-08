@@ -5,8 +5,6 @@
 
 use app\widgets\Alert;
 use yii\helpers\Html;
-use yii\bootstrap\Nav;
-use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
 //use app\assets\AppAsset;
@@ -27,28 +25,27 @@ $bundle = AdminAsset::register($this);
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="admin">
+<body class="welcome">
 <?php $this->beginBody() ?>
-<div class="wrap">
-    <div class="container-fluid">
-        <div class="row" style="padding-top:96px;">
-            <div class="col-xs-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
-                <?php Pjax::begin([
-                    'id' => 'authAjax',
-                    'timeout' => 10000
-                ]); ?>
-                <?= Alert::widget() ?>
-                <?= $content ?>
-                <?php Pjax::end(); ?>
-            </div>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-xs-12 col-md-6 col-md-offset-3 col-lg-4 col-lg-offset-4">
+            <?php Pjax::begin([
+                'id' => 'authAjax',
+                'timeout' => 10000
+            ]); ?>
+            <?= Alert::widget() ?>
+            <?= $content ?>
+            <?php Pjax::end(); ?>
         </div>
     </div>
 </div>
+
 <footer class="footer">
     <div class="container-fluid">
         <p class="pull-left">&copy; <?= date('Y') ?>, Butterfly.CMS</p>
-
-        <p class="pull-right"><?= Yii::powered() ?></p>
+        <p class="pull-right">Created by <?= Html::a('W.D.M.Group, Ukraine', 'http://wdmg.com.ua', ['target' => "_blank"]) ?></p>
     </div>
 </footer>
 <?php $this->endBody() ?>
