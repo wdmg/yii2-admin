@@ -253,13 +253,14 @@ class Module extends BaseModule
         // Set priority of current module
         $this->setPriority($this->priority);
 
-        // Set authorization route
-        Yii::$app->user->loginUrl = ['/admin/login'];
+        if (!Yii::$app instanceof \yii\console\Application) {
+            // Set authorization route
+            Yii::$app->user->loginUrl = ['/admin/login'];
 
-        // Set assets bundle, if not loaded
-        if(!isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
-            Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
-
+            // Set assets bundle, if not loaded
+            if(!isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
+                Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
+        }
     }
 
     /**
