@@ -2,12 +2,12 @@
 
 /* @var $this yii\web\View */
 /* @var $form yii\bootstrap\ActiveForm */
-/* @var $model app\models\LoginForm */
+/* @var $model wdmg\users\models\LoginForm */
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Login';
+$this->title = Yii::t('app/modules/admin', 'SignIn');
 $this->params['breadcrumbs'][] = $this->title;
 //use app\assets\AppAsset;
 use wdmg\admin\AdminAsset;
@@ -33,7 +33,7 @@ $bundle = AdminAsset::register($this);
     <?= $form->field($model, 'rememberMe')->checkbox([
         'template' => "<div class=\"col-xs-12\">{input} - {label}</div>\n<div class=\"col-xs-12\"><small>{error}</small></div>",
     ])->label(Yii::t('app/modules/admin', 'Remember Me')) ?>
-    <?= Html::submitButton(Yii::t('app/modules/admin', 'Login'), ['class' => 'btn btn-block btn-primary', 'name' => 'login-button']) ?>
+    <?= Html::submitButton(Yii::t('app/modules/admin', 'SignIn'), ['class' => 'btn btn-block btn-primary', 'name' => 'login-button']) ?>
     <hr/>
     <p class="text-center"><?= Yii::t('app/modules/admin', 'Don`t remember password? You may {link}.', [
         'link' => Html::a(Yii::t('app/modules/admin', 'restore it here'), ['/admin/restore']),

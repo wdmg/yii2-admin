@@ -8102,6 +8102,9 @@ button.close {
 @media print {
   .hidden-print {
     display: none !important; } }
+body {
+  transform: translate3d(0, 0, 0); }
+
 .welcome {
   /*display: flex;
   align-content: center;

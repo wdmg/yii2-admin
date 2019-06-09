@@ -927,6 +927,12 @@ $hr-border:                   $gray-lighter !default;
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
 
+
+body {
+  //-webkit-font-smoothing: subpixel-antialiased;
+  transform: translate3d( 0, 0, 0);
+}
+
 // Admin dashboard
 .welcome {
   /*display: flex;
