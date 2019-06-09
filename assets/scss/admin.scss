@@ -24,12 +24,18 @@ $gray:                   lighten($gray-base, 33.5%) !default; // #555
 $gray-light:             lighten($gray-base, 46.7%) !default; // #777
 $gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
 
-$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
-$brand-success:         #5cb85c !default;
+//$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
+$brand-primary:         #1786DB !default; // #337ab7
+//$brand-success:         #5cb85c !default;
+//$brand-success:         #28ca41 !default;
+$brand-success:         #42c14f !default;
 $brand-info:            #5bc0de !default;
-$brand-warning:         #f0ad4e !default;
-$brand-danger:          #d9534f !default;
-
+//$brand-warning:         #f0ad4e !default;
+//$brand-warning:         #ffbd2e !default;
+$brand-warning:         #f7b53e !default;
+//$brand-danger:          #d9534f !default;
+//$brand-danger:          #ff5f57 !default;
+$brand-danger:          #ec5852 !default;
 
 //== Scaffolding
 //
@@ -923,31 +929,48 @@ $hr-border:                   $gray-lighter !default;
 
 // Admin dashboard
 .welcome {
-  display: flex;
+  /*display: flex;
   align-content: center;
-  flex-direction: column;
+  flex-direction: column;*/
   width: 100vw;
   height: 100vh;
-  border: 2px solid red;
+  background: #00171F;
+  background-image: radial-gradient(50% 100%, rgba(138,213,247,0.38) 20%, rgba(30,111,147,0.00) 100%);
+  color: $body-bg;
   .container, .container-fluid {
     margin-bottom: auto;
     margin-top: auto;
   }
+  a {
+    color: $body-bg;
+    text-decoration: underline;
+    &:hover, &:focus {
+      color: $brand-info;
+      text-decoration: underline;
+    }
+  }
   .admin-login {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    color: $body-bg;
+    transform: translate(-50%, -50%);
     .logotype {
       display: inline-block;
       /*padding: 0 30px 15px 30px;*/
     }
     form {
       margin-top: 15px;
+      label {
+        color: $body-bg;
+      }
     }
   }
   .footer {
-    display: inline-flex;
-    width: 100%;
-    flex-direction: row;
-    margin-bottom: 0px;
-    margin-top: auto;
+    position: fixed;
+    left: 0px;
+    right: 0px;
+    bottom: 0px;
   }
 }
 
@@ -968,51 +991,35 @@ $hr-border:                   $gray-lighter !default;
 }
 
 /* Responsive */
-/*
-// Extra small devices (portrait phones, less than 576px)
-@include media-breakpoint-up(sm) { // @media (min-width: 576px)
 
+// Extra small grid
+// Columns, offsets, pushes, and pulls for extra small devices like smartphones.
+@media (max-width: $screen-sm-min) {
+  .welcome .admin-login {
+    width: #{"calc(80% - 60px)"};
+  }
 }
 
-@include media-breakpoint-down(sm) { // @media (max-width: 767.98px)
-
+// Small grid
+// Columns, offsets, pushes, and pulls for the small device range, from phones to tablets.
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+  .welcome .admin-login {
+    width: 280px;
+  }
 }
 
-// Small devices (landscape phones, 576px and up)
-@include media-breakpoint-between(sm, md) { // @media (min-width: 576px) and (max-width: 991.98px)
-
+// Medium grid
+// Columns, offsets, pushes, and pulls for the desktop device range.
+@media (min-width: $screen-md-min) and (max-width: $screen-md-max) {
+  .welcome .admin-login {
+    width: 300px;
+  }
 }
 
-
-// Medium devices (tablets, 768px and up)
-@include media-breakpoint-up(md) { // @media (min-width: 768px)
-
+// Large grid
+// Columns, offsets, pushes, and pulls for the large desktop device range.
+@media (min-width: $screen-lg-min) {
+  .welcome .admin-login {
+    width: 320px;
+  }
 }
-
-@include media-breakpoint-down(md) { // @media (max-width: 991.98px)
-
-}
-
-@include media-breakpoint-between(md, lg) { // @media (min-width: 768px) and (max-width: 1199.98px)
-
-}
-
-
-// Large devices (desktops, 992px and up)
-@include media-breakpoint-up(lg) { // @media (min-width: 992px)
-
-}
-
-@include media-breakpoint-down(lg) { // @media (max-width: 1199.98px)
-
-}
-
-@include media-breakpoint-between(lg, xl) { // @media (min-width: 992px)
-
-}
-
-
-// Extra large devices (large desktops, 1200px and up)
-@include media-breakpoint-up(xl) { // @media (min-width: 1200px)
-
-}*/
