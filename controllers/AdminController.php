@@ -30,12 +30,14 @@ class AdminController extends Controller
                 'class' => VerbFilter::className(),
                 'actions' => [
                     'index' => ['GET', 'POST'],
+                    'restore' => ['GET', 'POST'],
                     'logout' => ['POST'],
+                    'checkpoint' => ['POST'],
                 ],
             ],
             'access' => [
                 'class' => AccessControl::className(),
-                'except' => ['login', 'restore'],
+                'except' => ['login', 'checkpoint', 'restore'],
                 'rules' => [
                     [
                         'roles' => ['admin'],
@@ -49,7 +51,7 @@ class AdminController extends Controller
         if(!Yii::$app->authManager) {
             $behaviors['access'] = [
                 'class' => AccessControl::className(),
-                'except' => ['login', 'restore'],
+                'except' => ['login', 'checkpoint', 'restore'],
                 'rules' => [
                     [
                         'roles' => ['@'],
@@ -112,7 +114,6 @@ class AdminController extends Controller
         ]);
     }
 
-
     /**
      * Logout action.
      *
@@ -128,6 +129,75 @@ class AdminController extends Controller
 
         Yii::$app->user->logout();
         return $this->goHome();
+    }
+
+    /**
+     * Restore password.
+     *
+     * @return mixed
+     */
+    public function actionRestore()
+    {
+        if (!Yii::$app->user->isGuest)
+            return $this->redirect(['admin/index']);
+
+        // Checkout password reset token
+        $token = Yii::$app->request->get('token');
+        if ($token) {
+
+            $model = new \wdmg\users\models\UsersResetPassword($token, [], true);
+            if ($model->userIsFound() && Yii::$app->request->isGet) {
+                return $this->render('reset', [
+                    'model' => $model,
+                ]);
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('app/modules/admin', 'Incorrect password reset token.'));
+            }
+
+            if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+                Yii::$app->session->setFlash('success', Yii::t('app/modules/admin', 'New password saved!'));
+                return $this->redirect(['admin/index']);
+            }
+
+        }
+
+        // Get current module
+        if (Yii::$app->hasModule('admin/users'))
+            $module = Yii::$app->getModule('admin/users');
+        else
+            $module = Yii::$app->getModule('users');
+
+        $resetTokenExpire = $module->passwordReset['resetTokenExpire'];
+        if(isset(Yii::$app->params['resetTokenExpire']))
+            $resetTokenExpire = Yii::$app->params['resetTokenExpire'];
+
+        $supportEmail = $module->passwordReset['supportEmail'];
+        if(isset(Yii::$app->params['supportEmail']))
+            $supportEmail = Yii::$app->params['supportEmail'];
+
+        $module->passwordReset = [
+            'resetTokenExpire' => $resetTokenExpire,
+            'checkTokenRoute' => '/admin/restore',
+            'supportEmail' => $supportEmail,
+            'emailViewPath' => [
+                'html' => '@vendor/wdmg/yii2-admin/mail/passwordReset-html',
+                'text' => '@vendor/wdmg/yii2-admin/mail/passwordReset-text',
+            ],
+        ];
+
+        $model = new \wdmg\users\models\UsersPasswordRequest();
+        if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+            if ($model->sendEmail()) {
+                Yii::$app->session->setFlash('success', Yii::t('app/modules/admin', 'Check your email for further instructions.'));
+                return $this->redirect(['admin/login']);
+            } else {
+                Yii::$app->session->setFlash('error', Yii::t('app/modules/admin', 'Sorry, we are unable to reset password for the provided email address.'));
+            }
+        }
+
+        return $this->render('restore', [
+            'model' => $model,
+        ]);
     }
 
     /**
