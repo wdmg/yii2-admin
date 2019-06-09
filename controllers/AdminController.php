@@ -33,23 +33,23 @@ class AdminController extends Controller
                     'logout' => ['POST'],
                 ],
             ],
-            /*'access' => [
+            'access' => [
                 'class' => AccessControl::className(),
-                'except' => ['login'],
+                'except' => ['login', 'restore'],
                 'rules' => [
                     [
                         'roles' => ['admin'],
                         'allow' => true
-                    ]
+                    ],
                 ],
-            ],*/
+            ],
         ];
 
         // If auth manager not configured use default access control
         if(!Yii::$app->authManager) {
             $behaviors['access'] = [
                 'class' => AccessControl::className(),
-                'except' => ['login'],
+                'except' => ['login', 'restore'],
                 'rules' => [
                     [
                         'roles' => ['@'],
