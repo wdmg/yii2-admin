@@ -12,7 +12,17 @@ class InitController extends Controller
     /**
      * @inheritdoc
      */
+    public $choice = null;
+
+    /**
+     * @inheritdoc
+     */
     public $defaultAction = 'index';
+
+    public function options($actionID)
+    {
+        return ['choice', 'color', 'interactive', 'help'];
+    }
 
     public function actionIndex($params = null)
     {
@@ -28,13 +38,18 @@ class InitController extends Controller
             '╚════════════════════════════════════════════════╝';
         echo $name = $this->ansiFormat($welcome . "\n\n", Console::FG_GREEN);
         echo "Select the operation you want to perform:\n";
-        echo "  1) Apply all module migrations\n";
-        echo "  2) Revert all module migrations\n\n";
+        echo "  1) Apply all modules migrations\n";
+        echo "  2) Revert all modules migrations\n\n";
         echo "Your choice: ";
 
-        $selected = trim(fgets(STDIN));
+        if(!is_null($this->choice))
+            $selected = $this->choice;
+        else
+            $selected = trim(fgets(STDIN));
+
         if ($selected == "1") {
             Yii::$app->runAction('migrate/up', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => true]);
+            Yii::$app->runAction('admin/rbac/init', ['choice' => 2, 'interactive' => true]);
         } else if($selected == "2") {
             Yii::$app->runAction('migrate/down', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => true]);
         } else {
