@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.0.8 (2019-06-10)
+ * Added restore and reset password functionality
+ 
 ## 1.0.7 (2019-06-08)
  * Module assets and login form
  

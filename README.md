@@ -55,7 +55,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [in progress development]
+* v.1.0.8 - Added restore and reset password functionality
 * v.1.0.7 - Module assets and login form
 * v.1.0.6 - Added admin assets bundle
-* v.1.0.5 - Module refactoring
-* v.1.0.4 - Module transferred to base module interface. Update Yii2 version.
