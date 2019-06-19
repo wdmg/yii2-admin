@@ -69,6 +69,18 @@ class Bootstrap implements BootstrapInterface
             true
         );
 
+        // Register language of user interface
+        if(!($app instanceof \yii\console\Application)) {
+            $lang = $app->session->get('language', false);
+            if ($app->request->get('lang', false)) {
+                $lang = $app->request->get('lang');
+                $app->session->set('language', $lang);
+                $app->language = $lang;
+            } else if (isset($lang)) {
+                $lang = $app->session->get('language');
+                $app->language = $lang;
+            }
+        }
 
         // Configure administrative panel
         $app->setComponents([

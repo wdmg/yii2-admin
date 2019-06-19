@@ -53,18 +53,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/admin/login']]
-                ) : (
-                    '<li>'
-                    . Html::beginForm(['/admin/logout'], 'post')
-                    . Html::submitButton(
-                        'Logout (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
-                )
+                ['label' => 'Language', 'items' => $this->params['langs']],
+                (Yii::$app->user->isGuest) ? ['label' => 'Login', 'url' => ['/admin/login']] : ['label' => 'Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']],
             ],
         ]);
         NavBar::end();

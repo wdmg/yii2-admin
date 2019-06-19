@@ -13,6 +13,14 @@ return [
     'Reset Password' => "Сброс пароля",
     'Submit' => "Отправить",
 
+    'Set your new password' => "Установите новый пароль",
+    'Please use at least:' => "Используйте по крайней мере:",
+    '8 characters' => "8 символов",
+    '1 number' => "1 цифру",
+    '1 lowercase letter' => "1 строчную букву",
+    '1 uppercase letter' => "1 заглавную букву",
+    '1 special character' => "1 спец. символ",
+
     'E-mail' => "Эл. почта",
     'Username' => "Имя пользователя",
     'Password' => "Ваш пароль",

@@ -970,7 +970,51 @@ body {
       label {
         color: $body-bg;
       }
+      .input-group-addon {
+        color: $text-color;
+        text-decoration: none;
+        &:hover, &:focus {
+          color: $text-color;
+          text-decoration: none;
+        }
+      }
+      .help-block {
+        padding: 3px 4px;
+        background: rgba($gray-base, 0.32);
+        &:empty {
+          display: none;
+        }
+        &.help-block-error {
+          color: $brand-danger;
+        }
+      }
+      ul.list-unstyled {
+        & > li {
+          margin-left: 10px;
+        }
+        &.password-rules {
+          & > li::before {
+            content: '- ';
+          }
+          columns: 2;
+          -webkit-columns: 2;
+          -moz-columns: 2;
+        }
+      }
     }
+  }
+  .lang-select {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    & > .dropdown-toggle {
+      color: $body-bg;
+      background: rgba($body-bg, 0.42);
+    }
+    /*& > .dropdown-menu {
+      color: $body-bg;
+      background: rgba($body-bg, 0.42);
+    }*/
   }
   .footer {
     position: fixed;
@@ -982,7 +1026,6 @@ body {
 
 // Admin dashboard
 .dashboard {
-  border: 2px solid red;
   .admin {
     .navbar-brand {
       display: inline-block;

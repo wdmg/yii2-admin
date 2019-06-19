@@ -29,7 +29,11 @@ $bundle = AdminAsset::register($this);
         ],
     ]); ?>
     <?= $form->field($model, 'username')->textInput(['placeholder' => Yii::t('app/modules/admin', 'Username')]) ?>
-    <?= $form->field($model, 'password')->passwordInput(['placeholder' => Yii::t('app/modules/admin', 'Password')]) ?>
+    <?= $form->field($model, 'password', [
+        'template' => '<div class="col-xs-12"><div class="input-group">{input}
+            <a href="#" id="showInputPassword" class="input-group-addon"><span class="fa fa-eye"></span></a></div>{error}{hint}</div>'
+    ])->passwordInput(['placeholder' => Yii::t('app/modules/admin', 'Password')]); ?>
+
     <?= $form->field($model, 'rememberMe')->checkbox([
         'template' => "<div class=\"col-xs-12\">{input} - {label}</div>\n<div class=\"col-xs-12\"><small>{error}</small></div>",
     ])->label(Yii::t('app/modules/admin', 'Remember Me')) ?>

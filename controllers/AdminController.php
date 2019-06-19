@@ -64,8 +64,17 @@ class AdminController extends Controller
         return $behaviors;
     }
 
+    public function beforeAction($action)
+    {
+        $this->view->params['langs'] = [
+            ['label' => 'English', 'url' => '?lang=en-US', 'active'=> (Yii::$app->language == 'en-US') ? true : false, 'options' => ['class' => (Yii::$app->language == 'en-US') ? ['class' => 'active'] : false]],
+            ['label' => 'Русский', 'url' => '?lang=ru-RU', 'active'=> (Yii::$app->language == 'ru-RU') ? true : false, 'options' => ['class' => (Yii::$app->language == 'ru-RU') ? ['class' => 'active'] : false]],
+        ];
+        return parent::beforeAction($action);
+    }
+
     /**
-     * Auth action
+     * Index action
      * @return mixed
      */
     public function actionIndex()
@@ -154,39 +163,40 @@ class AdminController extends Controller
                 Yii::$app->session->setFlash('error', Yii::t('app/modules/admin', 'Incorrect password reset token.'));
             }
 
-            if ($model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
+            if (!Yii::$app->request->isAjax && $model->load(Yii::$app->request->post()) && $model->validate() && $model->resetPassword()) {
                 Yii::$app->session->setFlash('success', Yii::t('app/modules/admin', 'New password saved!'));
                 return $this->redirect(['admin/index']);
             }
 
         }
 
-        // Get current module
-        if (Yii::$app->hasModule('admin/users'))
-            $module = Yii::$app->getModule('admin/users');
-        else
-            $module = Yii::$app->getModule('users');
-
-        $resetTokenExpire = $module->passwordReset['resetTokenExpire'];
-        if(isset(Yii::$app->params['resetTokenExpire']))
-            $resetTokenExpire = Yii::$app->params['resetTokenExpire'];
-
-        $supportEmail = $module->passwordReset['supportEmail'];
-        if(isset(Yii::$app->params['supportEmail']))
-            $supportEmail = Yii::$app->params['supportEmail'];
-
-        $module->passwordReset = [
-            'resetTokenExpire' => $resetTokenExpire,
-            'checkTokenRoute' => '/admin/restore',
-            'supportEmail' => $supportEmail,
-            'emailViewPath' => [
-                'html' => '@vendor/wdmg/yii2-admin/mail/passwordReset-html',
-                'text' => '@vendor/wdmg/yii2-admin/mail/passwordReset-text',
-            ],
-        ];
-
         $model = new \wdmg\users\models\UsersPasswordRequest();
         if ($model->load(Yii::$app->request->post()) && $model->validate()) {
+
+            // Get `Users` module
+            if (Yii::$app->hasModule('admin/users'))
+                $module = Yii::$app->getModule('admin/users');
+            else
+                $module = Yii::$app->getModule('users');
+
+            $resetTokenExpire = $module->passwordReset['resetTokenExpire'];
+            if(isset(Yii::$app->params['resetTokenExpire']))
+                $resetTokenExpire = Yii::$app->params['resetTokenExpire'];
+
+            $supportEmail = $module->passwordReset['supportEmail'];
+            if(isset(Yii::$app->params['supportEmail']))
+                $supportEmail = Yii::$app->params['supportEmail'];
+
+            $module->passwordReset = [
+                'resetTokenExpire' => $resetTokenExpire,
+                'checkTokenRoute' => '/admin/restore',
+                'supportEmail' => $supportEmail,
+                'emailViewPath' => [
+                    'html' => '@vendor/wdmg/yii2-admin/mail/passwordReset-html',
+                    'text' => '@vendor/wdmg/yii2-admin/mail/passwordReset-text',
+                ],
+            ];
+
             if ($model->sendEmail()) {
                 Yii::$app->session->setFlash('success', Yii::t('app/modules/admin', 'Check your email for further instructions.'));
                 return $this->redirect(['admin/login']);

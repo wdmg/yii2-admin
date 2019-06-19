@@ -8,6 +8,8 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
+use yii\bootstrap\Dropdown;
+use yii\bootstrap\ButtonDropdown;
 //use app\assets\AppAsset;
 use wdmg\admin\AdminAsset;
 
@@ -35,6 +37,27 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
             <?php Pjax::begin([
                 'id' => 'authAjax',
                 'timeout' => 10000
+            ]); ?>
+            <?php
+            $label = 'Language';
+            foreach ($this->params['langs'] as $lang) {
+                if ($lang['active'] === true) {
+                    $label = $lang['label'];
+                    break;
+                }
+            }
+            echo ButtonDropdown::widget([
+                'label' => $label,
+                'containerOptions' => [
+                    'id' => 'languageSelector',
+                    'class' => 'lang-select'
+                ],
+                'dropdown' => [
+                    'options' => [
+                        'class' => 'dropdown-menu-right'
+                    ],
+                    'items' => $this->params['langs'],
+                ],
             ]); ?>
             <?= Alert::widget() ?>
             <?= $content ?>
