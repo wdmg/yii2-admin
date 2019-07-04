@@ -10421,6 +10421,16 @@ body {
   color: #fff;
   background: rgba(255, 255, 255, 0.42);
 }
+.welcome .alert {
+  position: absolute;
+  transform: translateX(-50%);
+  top: 15px;
+  left: 50%;
+}
+.welcome .alert .close {
+  margin-left: 10px;
+  margin-top: -2px;
+}
 .welcome .footer {
   position: fixed;
   left: 0px;
@@ -10436,6 +10446,18 @@ body {
 .dashboard .admin .navbar-brand > img {
   display: inline-block;
   height: 100%;
+}
+.dashboard .admin table th.changed td,
+.dashboard .admin table tr.changed td {
+  font-weight: bold;
+}
+.dashboard .admin table th.changed td > pre,
+.dashboard .admin table tr.changed td > pre {
+  font-weight: bold;
+}
+.dashboard .admin table th.changed td > *,
+.dashboard .admin table tr.changed td > * {
+  font-weight: normal;
 }
 
 /* Responsive */

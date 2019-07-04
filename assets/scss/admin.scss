@@ -1016,6 +1016,16 @@ body {
       background: rgba($body-bg, 0.42);
     }*/
   }
+  .alert {
+    position: absolute;
+    transform: translateX(-50%);
+    top: 15px;
+    left: 50%;
+    .close {
+      margin-left: 10px;
+      margin-top: -2px;
+    }
+  }
   .footer {
     position: fixed;
     left: 0px;
@@ -1034,6 +1044,19 @@ body {
       & > img {
         display: inline-block;
         height: 100%;
+      }
+    }
+
+    table {
+      th.changed td,
+      tr.changed td {
+        font-weight: bold;
+        & > pre {
+          font-weight: bold;
+        }
+        & > * {
+          font-weight: normal;
+        }
       }
     }
   }
