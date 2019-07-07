@@ -30,7 +30,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
     <title><?= Html::encode($this->title . ' — Butterfly.CMS') ?></title>
     <?php $this->head() ?>
 </head>
-<body class="dashboard">
+<body class="dashboard <?= (YII_ENV_DEV) ? 'env-dev' : '' ?>">
     <?php $this->beginBody() ?>
     <div class="admin">
         <?php
@@ -61,7 +61,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
 
     ?>
         <div class="container-fluid">
-            <div class="row" style="padding-top:96px;">
+            <div class="row" style="padding-top:72px;">
                 <div class="col-xs-12 col-md-3 col-lg-2">
                 <?= Nav::widget([
                     'options' => ['class' => 'nav nav-pills nav-stacked'],
@@ -109,10 +109,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 col-md-6 text-left">
-                    <p>&copy; <?= date('Y') ?>, Butterfly.CMS</p>
+                    <p>&copy; <?= date('Y') ?>, <?= Html::a('Butterfly.CMS', 'http://butterflycms.com/', ['target' => "_blank"]) ?></p>
                 </div>
                 <div class="col-xs-12 col-md-6 text-right">
-                    <p>Created by <?= Html::a('W.D.M.Group, Ukraine', 'http://wdmg.com.ua', ['target' => "_blank"]) ?></p>
+                    <p>Created by <?= Html::a('W.D.M.Group, Ukraine', 'http://wdmg.com.ua/', ['target' => "_blank"]) ?></p>
                 </div>
             </div>
         </div>

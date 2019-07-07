@@ -16,7 +16,6 @@ use wdmg\users\models\UsersSignin;
  */
 class AdminController extends Controller
 {
-
     public $defaultAction = 'index';
     public $layout = 'welcome';
 
@@ -70,6 +69,7 @@ class AdminController extends Controller
             ['label' => 'English', 'url' => '?lang=en-US', 'active'=> (Yii::$app->language == 'en-US') ? true : false, 'options' => ['class' => (Yii::$app->language == 'en-US') ? ['class' => 'active'] : false]],
             ['label' => 'Русский', 'url' => '?lang=ru-RU', 'active'=> (Yii::$app->language == 'ru-RU') ? true : false, 'options' => ['class' => (Yii::$app->language == 'ru-RU') ? ['class' => 'active'] : false]],
         ];
+
         return parent::beforeAction($action);
     }
 

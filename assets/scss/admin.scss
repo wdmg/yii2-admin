@@ -22,7 +22,7 @@ $gray-darker:            lighten($gray-base, 13.5%) !default; // #222
 $gray-dark:              lighten($gray-base, 20%) !default;   // #333
 $gray:                   lighten($gray-base, 33.5%) !default; // #555
 $gray-light:             lighten($gray-base, 46.7%) !default; // #777
-$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+$gray-lighter:           #ddd !default;
 
 //$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
 $brand-primary:         #1786DB !default; // #337ab7
@@ -43,6 +43,7 @@ $brand-danger:          #ec5852 !default;
 
 //** Background color for `<body>`.
 $body-bg:               #fff !default;
+$gray-bg:               #f5f5f5 !default;
 //** Global text color on `<body>`.
 $text-color:            $gray-dark !default;
 
@@ -151,11 +152,11 @@ $table-bg:                      transparent !default;
 //** Background color used for `.table-striped`.
 $table-bg-accent:               #f9f9f9 !default;
 //** Background color used for `.table-hover`.
-$table-bg-hover:                #f5f5f5 !default;
+$table-bg-hover:                $gray-bg !default;
 $table-bg-active:               $table-bg-hover !default;
 
 //** Border color for table and cell borders.
-$table-border-color:            #ddd !default;
+$table-border-color:            $gray-lighter !default;
 
 
 //== Buttons
@@ -265,7 +266,7 @@ $dropdown-link-color:            $gray-dark !default;
 //** Hover color for dropdown links.
 $dropdown-link-hover-color:      darken($gray-dark, 5%) !default;
 //** Hover background for dropdown links.
-$dropdown-link-hover-bg:         #f5f5f5 !default;
+$dropdown-link-hover-bg:         $gray-bg !default;
 
 //** Active dropdown menu item text color.
 $dropdown-link-active-color:     $component-active-color !default;
@@ -403,9 +404,9 @@ $navbar-default-brand-hover-color:         darken($navbar-default-brand-color, 1
 $navbar-default-brand-hover-bg:            transparent !default;
 
 // Navbar toggle
-$navbar-default-toggle-hover-bg:           #ddd !default;
+$navbar-default-toggle-hover-bg:           $gray-lighter !default;
 $navbar-default-toggle-icon-bar-bg:        #888 !default;
-$navbar-default-toggle-border-color:       #ddd !default;
+$navbar-default-toggle-border-color:       $gray-lighter !default;
 
 
 //=== Inverted navbar
@@ -446,15 +447,15 @@ $nav-disabled-link-color:                   $gray-light !default;
 $nav-disabled-link-hover-color:             $gray-light !default;
 
 //== Tabs
-$nav-tabs-border-color:                     #ddd !default;
+$nav-tabs-border-color:                     $gray-lighter !default;
 
 $nav-tabs-link-hover-border-color:          $gray-lighter !default;
 
 $nav-tabs-active-link-hover-bg:             $body-bg !default;
 $nav-tabs-active-link-hover-color:          $gray !default;
-$nav-tabs-active-link-hover-border-color:   #ddd !default;
+$nav-tabs-active-link-hover-border-color:   $gray-lighter !default;
 
-$nav-tabs-justified-link-border-color:            #ddd !default;
+$nav-tabs-justified-link-border-color:            $gray-lighter !default;
 $nav-tabs-justified-active-link-border-color:     $body-bg !default;
 
 //== Pills
@@ -469,11 +470,11 @@ $nav-pills-active-link-hover-color:         $component-active-color !default;
 
 $pagination-color:                     $link-color !default;
 $pagination-bg:                        #fff !default;
-$pagination-border:                    #ddd !default;
+$pagination-border:                    $gray-lighter !default;
 
 $pagination-hover-color:               $link-hover-color !default;
 $pagination-hover-bg:                  $gray-lighter !default;
-$pagination-hover-border:              #ddd !default;
+$pagination-hover-border:              $gray-lighter !default;
 
 $pagination-active-color:              #fff !default;
 $pagination-active-bg:                 $brand-primary !default;
@@ -481,7 +482,7 @@ $pagination-active-border:             $brand-primary !default;
 
 $pagination-disabled-color:            $gray-light !default;
 $pagination-disabled-bg:               #fff !default;
-$pagination-disabled-border:           #ddd !default;
+$pagination-disabled-border:           $gray-lighter !default;
 
 
 //== Pager
@@ -666,7 +667,7 @@ $alert-danger-border:         $state-danger-border !default;
 //##
 
 //** Background color of the whole progress component
-$progress-bg:                 #f5f5f5 !default;
+$progress-bg:                 $gray-bg !default;
 //** Progress bar text color
 $progress-bar-color:          #fff !default;
 //** Variable for setting rounded corners on progress bar.
@@ -691,12 +692,12 @@ $progress-bar-info-bg:        $brand-info !default;
 //** Background color on `.list-group-item`
 $list-group-bg:                 #fff !default;
 //** `.list-group-item` border color
-$list-group-border:             #ddd !default;
+$list-group-border:             $gray-lighter !default;
 //** List group border radius
 $list-group-border-radius:      $border-radius-base !default;
 
 //** Background color of single list items on hover
-$list-group-hover-bg:           #f5f5f5 !default;
+$list-group-hover-bg:           $gray-bg !default;
 //** Text color of active list items
 $list-group-active-color:       $component-active-color !default;
 //** Background color of active list items
@@ -729,12 +730,12 @@ $panel-footer-padding:        $panel-heading-padding !default;
 $panel-border-radius:         $border-radius-base !default;
 
 //** Border color for elements within panels
-$panel-inner-border:          #ddd !default;
-$panel-footer-bg:             #f5f5f5 !default;
+$panel-inner-border:          $gray-lighter !default;
+$panel-footer-bg:             $gray-bg !default;
 
 $panel-default-text:          $gray-dark !default;
-$panel-default-border:        #ddd !default;
-$panel-default-heading-bg:    #f5f5f5 !default;
+$panel-default-border:        $gray-lighter !default;
+$panel-default-heading-bg:    $gray-bg !default;
 
 $panel-primary-text:          #fff !default;
 $panel-primary-border:        $brand-primary !default;
@@ -766,7 +767,7 @@ $thumbnail-padding:           4px !default;
 //** Thumbnail background color
 $thumbnail-bg:                $body-bg !default;
 //** Thumbnail border color
-$thumbnail-border:            #ddd !default;
+$thumbnail-border:            $gray-lighter !default;
 //** Thumbnail border radius
 $thumbnail-border-radius:     $border-radius-base !default;
 
@@ -780,7 +781,7 @@ $thumbnail-caption-padding:   9px !default;
 //
 //##
 
-$well-bg:                     #f5f5f5 !default;
+$well-bg:                     $gray-bg !default;
 $well-border:                 darken($well-bg, 7%) !default;
 
 
@@ -810,7 +811,7 @@ $badge-border-radius:         10px !default;
 $breadcrumb-padding-vertical:   8px !default;
 $breadcrumb-padding-horizontal: 15px !default;
 //** Breadcrumb background color
-$breadcrumb-bg:                 #f5f5f5 !default;
+$breadcrumb-bg:                 $gray-bg !default;
 //** Breadcrumb text color
 $breadcrumb-color:              #ccc !default;
 //** Text color of current page in the breadcrumb
@@ -855,7 +856,7 @@ $code-bg:                     #f9f2f4 !default;
 $kbd-color:                   #fff !default;
 $kbd-bg:                      #333 !default;
 
-$pre-bg:                      #f5f5f5 !default;
+$pre-bg:                      $gray-bg !default;
 $pre-color:                   $gray-dark !default;
 $pre-border-color:            #ccc !default;
 $pre-scrollable-max-height:   340px !default;
@@ -930,10 +931,10 @@ $hr-border:                   $gray-lighter !default;
 
 body {
   //-webkit-font-smoothing: subpixel-antialiased;
-  transform: translate3d( 0, 0, 0);
+  //transform: translate3d( 0, 0, 0);
 }
 
-// Admin dashboard
+// Admin dashboard welcome
 .welcome {
   /*display: flex;
   align-content: center;
@@ -1028,15 +1029,28 @@ body {
   }
   .footer {
     position: fixed;
-    left: 0px;
-    right: 0px;
-    bottom: 0px;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    height: 32px;
+    padding: $padding-base-vertical $padding-base-horizontal;
+    p {
+      margin-bottom: 0 !important;
+    }
+  }
+  &.env-dev {
+    .footer {
+      right: 96px !important;
+    }
   }
 }
 
-// Admin dashboard
+// Admin main dashboard
 .dashboard {
   .admin {
+    margin-bottom: (42px + ($padding-base-vertical*2));
+
     .navbar-brand {
       display: inline-block;
       overflow: hidden;
@@ -1058,6 +1072,55 @@ body {
           font-weight: normal;
         }
       }
+    }
+
+    form {
+      .hint-block {
+        padding-top: $padding-base-vertical;
+        padding-bottom: ($padding-base-vertical * 2);
+      }
+    }
+
+    .nav {
+      .nav-tabs {
+        & > li {
+          & > a {
+
+          }
+          &.active {
+
+          }
+        }
+      }
+      & + .tab-content {
+        & > .tab-pane {
+          padding: ($padding-base-horizontal * 2) ($padding-base-horizontal * 2) ($padding-base-vertical * 2) ($padding-base-horizontal * 2);
+          &.active {
+            border: 1px solid $nav-tabs-border-color;
+            border-top: none;
+          }
+        }
+      }
+    }
+
+  }
+  .footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    height: 42px;
+    padding: ($padding-base-vertical*2) $padding-base-horizontal;
+    border-top: 1px solid $gray-lighter;
+    background-color: $gray-bg;
+    p {
+      margin-bottom: 0 !important;
+    }
+  }
+  &.env-dev {
+    .footer {
+      right: 96px !important;
     }
   }
 }

@@ -30,7 +30,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
     <title><?= Html::encode($this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="welcome">
+<body class="welcome <?= (YII_ENV_DEV) ? 'env-dev' : '' ?>">
     <?php $this->beginBody() ?>
     <div class="container-fluid">
         <div class="row">

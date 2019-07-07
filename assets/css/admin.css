@@ -4501,7 +4501,7 @@ hr {
   margin-top: 20px;
   margin-bottom: 20px;
   border: 0;
-  border-top: 1px solid #eeeeee;
+  border-top: 1px solid #ddd;
 }
 
 .sr-only {
@@ -4774,7 +4774,7 @@ a.bg-danger:focus {
 .page-header {
   padding-bottom: 9px;
   margin: 40px 0 20px;
-  border-bottom: 1px solid #eeeeee;
+  border-bottom: 1px solid #ddd;
 }
 
 ul,
@@ -4858,7 +4858,7 @@ blockquote {
   padding: 10px 20px;
   margin: 0 0 20px;
   font-size: 17.5px;
-  border-left: 5px solid #eeeeee;
+  border-left: 5px solid #ddd;
 }
 blockquote p:last-child,
 blockquote ul:last-child,
@@ -4884,7 +4884,7 @@ blockquote.pull-right {
   padding-right: 15px;
   padding-left: 0;
   text-align: right;
-  border-right: 5px solid #eeeeee;
+  border-right: 5px solid #ddd;
   border-left: 0;
 }
 .blockquote-reverse footer:before,
@@ -6222,7 +6222,7 @@ output {
   border: 0;
 }
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
-  background-color: #eeeeee;
+  background-color: #ddd;
   opacity: 1;
 }
 .form-control[disabled], fieldset[disabled] .form-control {
@@ -7428,7 +7428,7 @@ tbody.collapse.in {
   line-height: 1;
   color: #555555;
   text-align: center;
-  background-color: #eeeeee;
+  background-color: #ddd;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
@@ -7528,7 +7528,7 @@ tbody.collapse.in {
 }
 .nav > li > a:hover, .nav > li > a:focus {
   text-decoration: none;
-  background-color: #eeeeee;
+  background-color: #ddd;
 }
 .nav > li.disabled > a {
   color: #777777;
@@ -7540,7 +7540,7 @@ tbody.collapse.in {
   background-color: transparent;
 }
 .nav .open > a, .nav .open > a:hover, .nav .open > a:focus {
-  background-color: #eeeeee;
+  background-color: #ddd;
   border-color: #1786DB;
 }
 .nav .nav-divider {
@@ -7567,7 +7567,7 @@ tbody.collapse.in {
   border-radius: 4px 4px 0 0;
 }
 .nav-tabs > li > a:hover {
-  border-color: #eeeeee #eeeeee #ddd;
+  border-color: #ddd #ddd #ddd;
 }
 .nav-tabs > li.active > a, .nav-tabs > li.active > a:hover, .nav-tabs > li.active > a:focus {
   color: #555555;
@@ -8227,7 +8227,7 @@ tbody.collapse.in {
 .pagination > li > span:focus {
   z-index: 2;
   color: #105c96;
-  background-color: #eeeeee;
+  background-color: #ddd;
   border-color: #ddd;
 }
 .pagination > li:first-child > a,
@@ -8324,7 +8324,7 @@ tbody.collapse.in {
 .pager li > a:hover,
 .pager li > a:focus {
   text-decoration: none;
-  background-color: #eeeeee;
+  background-color: #ddd;
 }
 .pager .next > a,
 .pager .next > span {
@@ -8461,7 +8461,7 @@ a.badge:hover, a.badge:focus {
   padding-bottom: 30px;
   margin-bottom: 30px;
   color: inherit;
-  background-color: #eeeeee;
+  background-color: #ddd;
 }
 .jumbotron h1,
 .jumbotron .h1 {
@@ -8473,7 +8473,7 @@ a.badge:hover, a.badge:focus {
   font-weight: 200;
 }
 .jumbotron > hr {
-  border-top-color: #d5d5d5;
+  border-top-color: #c4c4c4;
 }
 .container .jumbotron, .container-fluid .jumbotron {
   padding-right: 15px;
@@ -8787,7 +8787,7 @@ a.thumbnail.active {
 .list-group-item.disabled, .list-group-item.disabled:hover, .list-group-item.disabled:focus {
   color: #777777;
   cursor: not-allowed;
-  background-color: #eeeeee;
+  background-color: #ddd;
 }
 .list-group-item.disabled .list-group-item-heading, .list-group-item.disabled:hover .list-group-item-heading, .list-group-item.disabled:focus .list-group-item-heading {
   color: inherit;
@@ -10336,10 +10336,6 @@ td.visible-print {
     display: none !important;
   }
 }
-body {
-  transform: translate3d(0, 0, 0);
-}
-
 .welcome {
   /*display: flex;
   align-content: center;
@@ -10433,11 +10429,23 @@ body {
 }
 .welcome .footer {
   position: fixed;
-  left: 0px;
-  right: 0px;
-  bottom: 0px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  height: 32px;
+  padding: 6px 12px;
+}
+.welcome .footer p {
+  margin-bottom: 0 !important;
+}
+.welcome.env-dev .footer {
+  right: 96px !important;
 }
 
+.dashboard .admin {
+  margin-bottom: 54px;
+}
 .dashboard .admin .navbar-brand {
   display: inline-block;
   overflow: hidden;
@@ -10458,6 +10466,34 @@ body {
 .dashboard .admin table th.changed td > *,
 .dashboard .admin table tr.changed td > * {
   font-weight: normal;
+}
+.dashboard .admin form .hint-block {
+  padding-top: 6px;
+  padding-bottom: 12px;
+}
+.dashboard .admin .nav + .tab-content > .tab-pane {
+  padding: 24px 24px 12px 24px;
+}
+.dashboard .admin .nav + .tab-content > .tab-pane.active {
+  border: 1px solid #ddd;
+  border-top: none;
+}
+.dashboard .footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  height: 42px;
+  padding: 12px 12px;
+  border-top: 1px solid #ddd;
+  background-color: #f5f5f5;
+}
+.dashboard .footer p {
+  margin-bottom: 0 !important;
+}
+.dashboard.env-dev .footer {
+  right: 96px !important;
 }
 
 /* Responsive */
