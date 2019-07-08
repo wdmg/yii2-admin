@@ -10443,40 +10443,60 @@ td.visible-print {
   right: 96px !important;
 }
 
-.dashboard .admin {
+.dashboard {
   margin-bottom: 54px;
 }
-.dashboard .admin .navbar-brand {
+.dashboard .navbar-brand {
   display: inline-block;
   overflow: hidden;
   padding: 5px 0 5px 15px;
 }
-.dashboard .admin .navbar-brand > img {
+.dashboard .navbar-brand > img {
   display: inline-block;
   height: 100%;
 }
-.dashboard .admin table th.changed td,
-.dashboard .admin table tr.changed td {
+.dashboard table th.changed td,
+.dashboard table tr.changed td {
   font-weight: bold;
 }
-.dashboard .admin table th.changed td > pre,
-.dashboard .admin table tr.changed td > pre {
+.dashboard table th.changed td > pre,
+.dashboard table tr.changed td > pre {
   font-weight: bold;
 }
-.dashboard .admin table th.changed td > *,
-.dashboard .admin table tr.changed td > * {
+.dashboard table th.changed td > *,
+.dashboard table tr.changed td > * {
   font-weight: normal;
 }
-.dashboard .admin form .hint-block {
+.dashboard form .hint-block {
   padding-top: 6px;
   padding-bottom: 12px;
 }
-.dashboard .admin .nav + .tab-content > .tab-pane {
+.dashboard .nav + .tab-content > .tab-pane {
   padding: 24px 24px 12px 24px;
 }
-.dashboard .admin .nav + .tab-content > .tab-pane.active {
+.dashboard .nav + .tab-content > .tab-pane.active {
   border: 1px solid #ddd;
   border-top: none;
+}
+.dashboard .sidebar {
+  display: none;
+}
+.dashboard .sidebar .nav-sidebar {
+  margin-right: -13px;
+  /* + 1px border */
+  margin-bottom: 12px;
+  margin-left: -12px;
+}
+.dashboard .sidebar .nav-sidebar > li > a {
+  padding-right: 12px;
+  padding-left: 12px;
+}
+.dashboard .sidebar .nav-sidebar > li.active > a, .dashboard .sidebar .nav-sidebar > li.active > a:hover, .dashboard .sidebar .nav-sidebar > li.active > a:focus {
+  color: #fff;
+  background-color: #1786DB;
+}
+.dashboard .main {
+  padding: 6px 12px;
 }
 .dashboard .footer {
   position: fixed;
@@ -10500,6 +10520,28 @@ td.visible-print {
 @media (max-width: 768px) {
   .welcome .admin-login {
     width: calc(80% - 60px);
+  }
+}
+@media (min-width: 768px) {
+  .dashboard .sidebar {
+    position: fixed;
+    display: block;
+    top: 51px;
+    bottom: 42px;
+    left: 0;
+    padding: 12px;
+    overflow-x: hidden;
+    overflow-y: auto;
+    background-color: #f5f5f5;
+    border-right: 1px solid #ddd;
+    z-index: 1000;
+  }
+  .dashboard .main {
+    padding-right: 24px;
+    padding-left: 24px;
+  }
+  .dashboard .main .page-header {
+    margin-top: 0;
   }
 }
 @media (min-width: 768px) and (max-width: 991px) {

@@ -1046,83 +1046,105 @@ body {
   }
 }
 
-// Admin main dashboard
+// Admin dashboard
 .dashboard {
-  .admin {
-    margin-bottom: (42px + ($padding-base-vertical*2));
-
-    .navbar-brand {
+  margin-bottom: (42px + ($padding-base-vertical*2));
+  .navbar-brand {
+    display: inline-block;
+    overflow: hidden;
+    padding: 5px 0 5px 15px;
+    & > img {
       display: inline-block;
-      overflow: hidden;
-      padding: 5px 0 5px 15px;
-      & > img {
-        display: inline-block;
-        height: 100%;
-      }
+      height: 100%;
     }
+  }
 
-    table {
-      th.changed td,
-      tr.changed td {
+  table {
+    th.changed td,
+    tr.changed td {
+      font-weight: bold;
+      & > pre {
         font-weight: bold;
-        & > pre {
-          font-weight: bold;
-        }
-        & > * {
-          font-weight: normal;
-        }
+      }
+      & > * {
+        font-weight: normal;
       }
     }
-
-    form {
-      .hint-block {
-        padding-top: $padding-base-vertical;
-        padding-bottom: ($padding-base-vertical * 2);
-      }
-    }
-
-    .nav {
-      .nav-tabs {
-        & > li {
-          & > a {
-
-          }
-          &.active {
-
-          }
-        }
-      }
-      & + .tab-content {
-        & > .tab-pane {
-          padding: ($padding-base-horizontal * 2) ($padding-base-horizontal * 2) ($padding-base-vertical * 2) ($padding-base-horizontal * 2);
-          &.active {
-            border: 1px solid $nav-tabs-border-color;
-            border-top: none;
-          }
-        }
-      }
-    }
-
   }
+
+  form {
+    .hint-block {
+      padding-top: $padding-base-vertical;
+      padding-bottom: ($padding-base-vertical * 2);
+    }
+  }
+
+  .nav {
+    .nav-tabs {
+      & > li {
+        & > a {
+
+        }
+        &.active {
+
+        }
+      }
+    }
+    & + .tab-content {
+      & > .tab-pane {
+        padding: ($padding-base-horizontal * 2) ($padding-base-horizontal * 2) ($padding-base-vertical * 2) ($padding-base-horizontal * 2);
+        &.active {
+          border: 1px solid $nav-tabs-border-color;
+          border-top: none;
+        }
+      }
+    }
+  }
+
+  .sidebar {
+    display: none;
+    .nav-sidebar {
+      margin-right: -($padding-base-horizontal + 1px); /* + 1px border */
+      margin-bottom: $padding-base-horizontal;
+      margin-left: -$padding-base-horizontal;
+      & > li {
+        & > a {
+          padding-right: $padding-base-horizontal;
+          padding-left: $padding-base-horizontal;
+        }
+        &.active > a,
+        &.active > a:hover,
+        &.active > a:focus {
+          color: $body-bg;
+          background-color: $brand-primary;
+        }
+      }
+    }
+  }
+
+  .main {
+    padding: $padding-base-vertical $padding-base-horizontal;
+  }
+
+.footer {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  margin: 0;
+  height: 42px;
+  padding: ($padding-base-vertical*2) $padding-base-horizontal;
+  border-top: 1px solid $gray-lighter;
+  background-color: $gray-bg;
+  p {
+    margin-bottom: 0 !important;
+  }
+}
+&.env-dev {
   .footer {
-    position: fixed;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    margin: 0;
-    height: 42px;
-    padding: ($padding-base-vertical*2) $padding-base-horizontal;
-    border-top: 1px solid $gray-lighter;
-    background-color: $gray-bg;
-    p {
-      margin-bottom: 0 !important;
-    }
+    right: 96px !important;
   }
-  &.env-dev {
-    .footer {
-      right: 96px !important;
-    }
-  }
+}
 }
 
 /* Responsive */
@@ -1137,6 +1159,30 @@ body {
 
 // Small grid
 // Columns, offsets, pushes, and pulls for the small device range, from phones to tablets.
+@media (min-width: $screen-sm-min) {
+  .dashboard {
+    .sidebar {
+      position: fixed;
+      display: block;
+      top: 51px;
+      bottom: 42px;
+      left: 0;
+      padding: $padding-base-horizontal;
+      overflow-x: hidden;
+      overflow-y: auto;
+      background-color: $gray-bg;
+      border-right: 1px solid $gray-lighter;
+      z-index: 1000;
+    }
+    .main {
+      padding-right: ($padding-base-horizontal*2);
+      padding-left: ($padding-base-horizontal*2);
+      .page-header {
+        margin-top: 0;
+      }
+    }
+  }
+}
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
   .welcome .admin-login {
     width: 280px;

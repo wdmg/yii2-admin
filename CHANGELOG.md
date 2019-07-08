@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.0.9 (2019-07-07)
+## 1.0.9 (2019-07-08)
+ * Start stylized sidebar menu
  * Rebuild assets
  
 ## 1.0.8 (2019-06-10)
