@@ -249,6 +249,97 @@ class Module extends BaseModule
         ]
     ];
 
+    /**
+     * @var array of main menu items
+     */
+    public $menu = [
+        [
+            'label' => 'Dashboard',
+            'icon' => 'fa-dashboard',
+            'url' => '/admin/index',
+            'order' => 1,
+        ], [
+            'label' => 'System',
+            'icon' => 'fa-gears',
+            'url' => 'fa-gears',
+            'items' => ['users', 'redirects'],
+            'order' => 2,
+        ], [
+            'label' => 'Access',
+            'icon' => 'fa-lock',
+            'order' => 3,
+            'items' => [
+                [
+                    'label' => 'Some link3',
+                    'icon' => 'fa-check',
+                    'items' => ['geo', 'stats'],
+                    'order' => 3
+                ], [
+                    'label' => 'Some link1',
+                    'icon' => 'fa-check',
+                    'order' => 1
+                ], [
+                    'label' => 'Some link2',
+                    'icon' => 'fa-check',
+                    'items' => ['users'],
+                    'url' => 'fa-check',
+                    'order' => 2
+                ]
+            ],
+        ], [
+            'label' => 'Users',
+            'icon' => 'fa-users',
+            'module' => 'geo',
+            'order' => 4,
+        ], [
+            'label' => 'Pages',
+            'url' => 'test',
+            'icon' => 'fa-folder',
+            'order' => 5,
+        ], [
+            'label' => 'Content',
+            'icon' => 'fa-object-group',
+            'order' => 6,
+        ], [
+            'label' => 'Media library',
+            'icon' => 'fa-archive',
+            'order' => 7,
+        ], [
+            'label' => 'Publications',
+            'icon' => 'fa-newspaper-o',
+            'order' => 8,
+        ], [
+            'label' => 'E-commerce',
+            'icon' => 'fa-shopping-bag',
+            'order' => 9,
+        ], [
+            'label' => 'Feedbacks',
+            'icon' => 'fa-comments',
+            'order' => 10,
+        ], [
+            'label' => 'Socials',
+            'icon' => 'fa-share-alt',
+            'order' => 11,
+        ], [
+            'label' => 'Common',
+            'icon' => 'fa-wrench',
+            'order' => 12,
+        ], [
+            'label' => 'Security',
+            'icon' => 'fa-shield',
+            'order' => 13,
+        ], [
+            'label' => 'Stats',
+            'icon' => 'fa-pie-chart',
+            'module' => 'stats',
+            'order' => 14,
+        ], [
+            'label' => 'Support',
+            'icon' => 'fa-support',
+            'order' => 15,
+        ]
+    ];
+
 
     /**
      * {@inheritdoc}

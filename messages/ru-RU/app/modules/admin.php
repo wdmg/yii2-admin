@@ -5,13 +5,26 @@ return [
     'Main' => "Главная",
     'Main administrative panel' => "Главная административная панель",
 
-
-
     'Login' => "Авторизация",
     'SignIn' => "Войти в систему",
     'Restore Password' => "Восстановить пароль",
     'Reset Password' => "Сброс пароля",
     'Submit' => "Отправить",
+
+    'System' => 'Система',
+    'Access' => 'Доступы',
+    'Users' => 'Пользователи',
+    'Pages' => 'Страницы',
+    'Content' => 'Контент',
+    'Media library' => 'Библиотека',
+    'Publications' => 'Публикации',
+    'E-commerce' => 'Коммерция',
+    'Feedbacks' => 'Обратная связь',
+    'Socials' => 'Социализация',
+    'Support' => 'Поддержка',
+    'Common' => 'Дополнительно',
+    'Security' => 'Безопасность',
+    'Stats' => 'Статистика',
 
     'Set your new password' => "Установите новый пароль",
     'Please use at least:' => "Используйте по крайней мере:",

@@ -1108,9 +1108,11 @@ body {
       margin-bottom: $padding-base-horizontal;
       margin-left: -$padding-base-horizontal;
       & > li {
+        display: inline-block;
+        white-space: nowrap;
+        width: 100%;
         & > a {
-          padding-right: $padding-base-horizontal;
-          padding-left: $padding-base-horizontal;
+          padding: ($padding-base-vertical/2) $padding-base-horizontal;
         }
         &.active > a,
         &.active > a:hover,
@@ -1168,6 +1170,7 @@ body {
       bottom: 42px;
       left: 0;
       padding: $padding-base-horizontal;
+      padding-top: 24px;
       overflow-x: hidden;
       overflow-y: auto;
       background-color: $gray-bg;

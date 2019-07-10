@@ -65,7 +65,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                 <div class="col-xs-12 col-sm-3 col-md-2 sidebar">
                     <?= Nav::widget([
                         'options' => ['class' => 'nav nav-sidebar'],
-                        'items' => Yii::$app->dashboard->getSidebarMenuItems()
+                        'items' => Yii::$app->dashboard->getSidebarMenuItems(),
+                        'encodeLabels' => false
                     ]); ?>
                 </div>
                 <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
