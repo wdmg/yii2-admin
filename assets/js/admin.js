@@ -82,20 +82,21 @@ $(document).ready(function() {
             $requestProgress.show();
         },
         'pjax:beforeSend': function(e){
-            setProgress($requestProgress, 25, true);
+            setProgress($requestProgress, 15);
         },
         'pjax:send': function(e) {
-            setProgress($requestProgress, 35, true);
+            setProgress($requestProgress, 35);
         },
         'pjax:beforeReplace': function(e) {
-            setProgress($requestProgress, 10, true);
+            setProgress($requestProgress, 75);
         },
-        'pjax:success': function(e) {
+        'pjax:complete': function(e) {
             setProgress($requestProgress, 100);
             setTimeout(function() {
                 $requestProgress.hide();
             }, 1200);
         }
     });
+
 
 });

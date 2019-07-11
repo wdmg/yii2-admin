@@ -59,6 +59,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.0.10 - Sidebar menu functionality
 * v.1.0.9 - Rebuild assets, start stylized sidebar menu
 * v.1.0.8 - Added restore and reset password functionality
 * v.1.0.7 - Module assets and login form

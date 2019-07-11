@@ -7,7 +7,7 @@ namespace wdmg\admin\components;
  * Yii2 Dashboard
  *
  * @category        Component
- * @version         1.0.9
+ * @version         1.0.10
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -57,26 +57,20 @@ class Dashboard extends Component
     public function getSidebarMenuItems()
     {
         $items = [];
-
-
-        foreach ($this->module->packages as $package) {
-            if($module = Yii::$app->getModule('admin/'. $package['moduleId']))
-                $items[] = $module->dashboardNavItems();
-        }
-
-        uasort($this->module->menu, array($this, 'sortByOrder'));
-        foreach ($this->module->menu as $menu) {
+        $menuItems = $this->module->getMenuItems();
+        uasort($menuItems, array($this, 'sortByOrder'));
+        foreach ($menuItems as $menu) {
 
             $subitems = [];
             $navitems = [];
             $disabled = false;
 
             // first, check if the menu item points to a specific module
-            if (isset($menu['module'])) {
+            if (isset($menu['item'])) {
 
                 // check the presence of the module identifier among the available packages
                 foreach ($this->module->packages as $package) {
-                    if ($menu['module'] == $package['moduleId']) {
+                    if ($menu['item'] == $package['moduleId']) {
                         if($module = Yii::$app->getModule('admin/'. $package['moduleId'])) {
 
                             // call Module::dashboardNavItems() to get its native menu
@@ -102,16 +96,23 @@ class Dashboard extends Component
                 // if the nested item is not represented by an array, then this is the module identifier,
                 // of the module in which you need to call Module::dashboardNavItems() to get its native menu
                 if (!is_array($menu['items'][0])) {
+                    $found = 0;
                     foreach ($menu['items'] as $moduleId) {
-
                         // check the presence of the module identifier among the available packages
                         foreach ($this->module->packages as $package) {
                             if ($moduleId == $package['moduleId']) {
-                                if($module = Yii::$app->getModule('admin/'. $package['moduleId']))
+                                if($module = Yii::$app->getModule('admin/'. $package['moduleId'])) {
                                     $navitems[] = $module->dashboardNavItems();
+                                    $found++;
+                                }
                             }
                         }
                     }
+
+                    // none of the modules were found
+                    if ($found == 0)
+                        $disabled = true;
+
                 } else {
                     // it means a nested array and it already contains submenus of the menu
                     $submenus = $menu['items'];
@@ -142,7 +143,7 @@ class Dashboard extends Component
                     }
                 }
             } else {
-                if (!isset($menu['url']) && !isset($menu['module']))
+                if (!isset($menu['url']) && !isset($menu['item']))
                     $disabled = true;
             }
 

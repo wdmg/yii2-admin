@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 1.0.10 (2019-07-11)
+ * Sidebar menu functionality
+ * Added page loading progress bar
+ * Refactoring getSidebarMenuItems() for Dashboard component
+
 ## 1.0.9 (2019-07-08)
  * Start stylized sidebar menu
  * Rebuild assets
