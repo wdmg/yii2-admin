@@ -290,6 +290,8 @@ $dropdown-caret-color:           #000 !default;
 //
 // Note: These variables are not generated into the Customizer.
 
+$zindex-sidebar:           998 !default;
+$zindex-progress:          999 !default;
 $zindex-navbar:            1000 !default;
 $zindex-dropdown:          1000 !default;
 $zindex-popover:           1060 !default;
@@ -1049,13 +1051,40 @@ body {
 // Admin dashboard
 .dashboard {
   margin-bottom: (42px + ($padding-base-vertical*2));
-  .navbar-brand {
-    display: inline-block;
-    overflow: hidden;
-    padding: 5px 0 5px 15px;
-    & > img {
+
+  .navbar {
+    .navbar-brand {
       display: inline-block;
-      height: 100%;
+      overflow: hidden;
+      padding: 5px 0 5px 15px;
+      & > img {
+        display: inline-block;
+        height: 100%;
+      }
+    }
+    & + .progress {
+      position: fixed;
+      top: 51px;
+      left: 0;
+      height: 3px;
+      width: 100%;
+      background-color: $gray-lighter;
+      background: $gray-lighter;
+      margin-bottom: 7px;
+      overflow: visible;
+      z-index: $zindex-progress;
+      & > .progress-bar {
+        background-color: #128fdc;
+        background: #128fdc;
+        width: 0px;
+        max-width: 100% !important;
+        box-shadow: 0 1px 3px rgba(0,0,0,.3);
+        -webkit-transition: width 1s ease-in-out;
+        transition: width 1s ease-in-out;
+        &[aria-valuenow="0"] {
+          display: none !important;
+        }
+      }
     }
   }
 
@@ -1101,6 +1130,7 @@ body {
     }
   }
 
+
   .sidebar {
     display: none;
     .nav-sidebar {
@@ -1128,25 +1158,25 @@ body {
     padding: $padding-base-vertical $padding-base-horizontal;
   }
 
-.footer {
-  position: fixed;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  margin: 0;
-  height: 42px;
-  padding: ($padding-base-vertical*2) $padding-base-horizontal;
-  border-top: 1px solid $gray-lighter;
-  background-color: $gray-bg;
-  p {
-    margin-bottom: 0 !important;
-  }
-}
-&.env-dev {
   .footer {
-    right: 96px !important;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    margin: 0;
+    height: 42px;
+    padding: ($padding-base-vertical*2) $padding-base-horizontal;
+    border-top: 1px solid $gray-lighter;
+    background-color: $gray-bg;
+    p {
+      margin-bottom: 0 !important;
+    }
   }
-}
+  &.env-dev {
+    .footer {
+      right: 96px !important;
+    }
+  }
 }
 
 /* Responsive */
@@ -1175,7 +1205,7 @@ body {
       overflow-y: auto;
       background-color: $gray-bg;
       border-right: 1px solid $gray-lighter;
-      z-index: 1000;
+      z-index: $zindex-sidebar;
     }
     .main {
       padding-right: ($padding-base-horizontal*2);

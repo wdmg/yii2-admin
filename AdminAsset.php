@@ -16,8 +16,12 @@ class AdminAsset extends AssetBundle
         'yii\web\YiiAsset',
         'yii\web\JqueryAsset',
         'yii\bootstrap\BootstrapPluginAsset',
-        'yii\bootstrap\BootstrapAsset',
+        'yii\bootstrap\BootstrapAsset'
     ];
+
+    public $jsOptions = array(
+        'position' => \yii\web\View::POS_END
+    );
 
     public function init()
     {
@@ -34,7 +38,8 @@ class AdminAsset extends AssetBundle
         \Yii::$app->assetManager->bundles['yii\bootstrap\BootstrapPluginAsset'] = [
             'sourcePath' => $this->sourcePath,
             'js' => [
-                YII_ENV_DEV ? 'js/bootstrap.js' : 'js/bootstrap.min.js'
+                YII_ENV_DEV ? 'js/bootstrap.js' : 'js/bootstrap.min.js',
+                YII_ENV_DEV ? 'js/admin.js' : 'js/admin.min.js'
             ]
         ];
 

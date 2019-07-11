@@ -10446,14 +10446,38 @@ td.visible-print {
 .dashboard {
   margin-bottom: 54px;
 }
-.dashboard .navbar-brand {
+.dashboard .navbar .navbar-brand {
   display: inline-block;
   overflow: hidden;
   padding: 5px 0 5px 15px;
 }
-.dashboard .navbar-brand > img {
+.dashboard .navbar .navbar-brand > img {
   display: inline-block;
   height: 100%;
+}
+.dashboard .navbar + .progress {
+  position: fixed;
+  top: 51px;
+  left: 0;
+  height: 3px;
+  width: 100%;
+  background-color: #ddd;
+  background: #ddd;
+  margin-bottom: 7px;
+  overflow: visible;
+  z-index: 999;
+}
+.dashboard .navbar + .progress > .progress-bar {
+  background-color: #128fdc;
+  background: #128fdc;
+  width: 0px;
+  max-width: 100% !important;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
+  -webkit-transition: width 1s ease-in-out;
+  transition: width 1s ease-in-out;
+}
+.dashboard .navbar + .progress > .progress-bar[aria-valuenow="0"] {
+  display: none !important;
 }
 .dashboard table th.changed td,
 .dashboard table tr.changed td {
@@ -10539,7 +10563,7 @@ td.visible-print {
     overflow-y: auto;
     background-color: #f5f5f5;
     border-right: 1px solid #ddd;
-    z-index: 1000;
+    z-index: 998;
   }
   .dashboard .main {
     padding-right: 24px;

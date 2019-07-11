@@ -8,6 +8,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\bootstrap\Nav;
 use yii\bootstrap\NavBar;
+use yii\bootstrap\Progress;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
 //use app\assets\AppAsset;
@@ -58,7 +59,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
             ],
         ]);
         NavBar::end();
-
+        echo Progress::widget([
+            'id' => 'requestProgress',
+            'percent' => 0,
+            'options' => ['style' => 'display: none;'],
+            'barOptions' => ['class' => 'progress-bar-info']
+        ]);
     ?>
         <div class="container-fluid">
             <div class="row" style="padding-top:72px;">
@@ -89,22 +95,26 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
         </div>
     </div>
     <?php $this->registerJs(
-        'setInterval(function() {
-            $.ajax({
-                type: \'POST\',
-                url: \'/admin/checkpoint\',
-                dataType: \'json\',
-                complete: function(data) {
-                    if(data) {
-                        console.log(data.responseJSON.loggedin);
-                        if (data.status == 200 && data.responseJSON.loggedin) {
-                            return true;
+        '$(document).ready(function() {
+        
+            setInterval(function() {
+                $.ajax({
+                    type: \'POST\',
+                    url: \'/admin/checkpoint\',
+                    dataType: \'json\',
+                    complete: function(data) {
+                        if(data) {
+                            console.log(data.responseJSON.loggedin);
+                            if (data.status == 200 && data.responseJSON.loggedin) {
+                                return true;
+                            }
                         }
+                        window.location.href = \'/admin/login\';
                     }
-                    window.location.href = \'/admin/login\';
-                }
-            });
-        }, 5000);'
+                });
+            }, 5000);
+            
+        });'
     ); ?>
     <footer class="footer">
         <div class="container-fluid">
