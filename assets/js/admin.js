@@ -5,6 +5,8 @@ $(document).ready(function() {
     var $dashboard = $('body.dashboard');
     var $welcomeScreen = $('body.welcome');
     var $requestProgress = $dashboard.find('#requestProgress');
+    var $sidebar = $dashboard.find('.sidebar');
+    var $sidebarNav = $sidebar.find('#sidebarNav');
 
     // Language selector of admin interface
     if ($welcomeScreen.find('#languageSelector')) {
@@ -98,5 +100,36 @@ $(document).ready(function() {
         }
     });
 
+
+    // Admin sidebar menu management
+    if ($sidebarNav.length > 0) {
+
+        // Disable click on dropdown element with empty link
+        $sidebarNav.find('.dropdown-menu > li > a[href="#"]').on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        // Disable click on popover element
+        $sidebarNav.find('.dropdown-submenu > a').on('click', function (event) {
+            event.preventDefault();
+            event.stopPropagation();
+        });
+
+        // Init popover menu
+        $sidebarNav.find('.dropdown-submenu > a').each(function() {
+            var $this = $(this);
+            $this.popover({
+                placement: 'right',
+                trigger: 'click',
+                container: 'body',
+                html: true,
+                content: function() {
+                    return $this.parent('.dropdown-submenu').find('ul').outerHtml();
+                }
+            });
+        });
+
+    }
 
 });

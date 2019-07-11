@@ -17,6 +17,7 @@ namespace wdmg\admin\components;
 
 use Yii;
 use yii\base\Component;
+use yii\helpers\ArrayHelper;
 
 class Dashboard extends Component
 {
@@ -93,11 +94,13 @@ class Dashboard extends Component
 
             // check if the menu item has nested sub-items
             if (isset($menu['items']) && is_array($menu['items'])) {
+
                 // if the nested item is not represented by an array, then this is the module identifier,
                 // of the module in which you need to call Module::dashboardNavItems() to get its native menu
                 if (!is_array($menu['items'][0])) {
                     $found = 0;
                     foreach ($menu['items'] as $moduleId) {
+
                         // check the presence of the module identifier among the available packages
                         foreach ($this->module->packages as $package) {
                             if ($moduleId == $package['moduleId']) {
@@ -110,8 +113,14 @@ class Dashboard extends Component
                     }
 
                     // none of the modules were found
-                    if ($found == 0)
+                    if ($found == 0) {
                         $disabled = true;
+                    } else {
+                        foreach ($navitems as $navitem) {
+                            if ($navitem['icon'])
+                                $navitem['label'] = ($navitem['icon']) ? '<span class="fa-stack"><i class="fa ' . $navitem['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $navitem['label']) : Yii::t('app/modules/admin', $navitem['label']);
+                        }
+                    }
 
                 } else {
                     // it means a nested array and it already contains submenus of the menu
@@ -135,9 +144,9 @@ class Dashboard extends Component
 
                         // collect the final sub-menu item
                         $subitems[] = [
-                            'label' => ($submenu['icon']) ? '<span class="fa-stack fa-lg"><i class="fa ' . $submenu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $submenu['label']) : Yii::t('app/modules/admin', $submenu['label']),
+                            'label' => ($submenu['icon']) ? '<span class="fa-stack"><i class="fa ' . $submenu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $submenu['label']) : Yii::t('app/modules/admin', $submenu['label']),
                             'url' => ($submenu['url']) ? \yii\helpers\Url::to($submenu['url']) : '#',
-                            'items' => ($navitems) ? $navitems : false,
+                            'items' => ($navitems) ? $navitems : false
                         ];
                         unset($navitems);
                     }
@@ -147,13 +156,22 @@ class Dashboard extends Component
                     $disabled = true;
             }
 
+            // check if the icon is installed for this menu item
+            if (count($navitems) > 0) {
+                foreach ($navitems as $nav => $item) {
+                    if ($item['icon']) {
+                        $navitems[$nav]['label'] = ($item['icon']) ? '<span class="fa-stack"><i class="fa ' . $item['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $item['label']) : Yii::t('app/modules/admin', $item['label']);
+                    }
+                }
+            }
+
             // collect the final parent menu item
             $items[] = [
                 'label' => ($menu['icon']) ? '<span class="fa-stack fa-lg"><i class="fa ' . $menu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $menu['label']) : Yii::t('app/modules/admin', $menu['label']),
                 'url' => ($menu['url']) ? \yii\helpers\Url::to($menu['url']) : '#',
-                'items' => ($subitems) ? $subitems : $navitems,
+                'items' => ($subitems) ? $subitems : (($navitems) ? $navitems : false),
                 'active' => false,
-                'options' => ['class' => ($disabled) ? 'disabled' : '']
+                'options' => ['class' => ($disabled) ? 'disabled' : ''],
             ];
         }
 

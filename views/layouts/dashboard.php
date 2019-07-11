@@ -11,7 +11,6 @@ use yii\bootstrap\NavBar;
 use yii\bootstrap\Progress;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
-//use app\assets\AppAsset;
 use wdmg\admin\AdminAsset;
 
 //AppAsset::register($this);
@@ -33,7 +32,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
 </head>
 <body class="dashboard <?= (YII_ENV_DEV) ? 'env-dev' : '' ?>">
     <?php $this->beginBody() ?>
-    <div class="<?= $this->context->module->id; ?> <?= $this->context->action->id; ?>">
+    <div class="<?= 'module-' . $this->context->module->id; ?> <?= 'action-' . $this->context->action->id; ?>">
         <?php
         NavBar::begin([
             'brandLabel' => Html::img($bundle->baseUrl . '/images/logotype-inline.svg', [
@@ -70,8 +69,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
             <div class="row" style="padding-top:72px;">
                 <div class="col-xs-12 col-sm-3 col-md-2 sidebar">
                     <?= Nav::widget([
+                        'id' => 'sidebarNav',
                         'options' => ['class' => 'nav nav-sidebar'],
                         'items' => Yii::$app->dashboard->getSidebarMenuItems(),
+                        'activateParents' => true,
+                        'dropDownCaret' => '<span class="fa fa-fw fa-angle-down"></span>',
                         'encodeLabels' => false
                     ]); ?>
                 </div>

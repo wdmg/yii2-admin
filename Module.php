@@ -131,8 +131,21 @@ class Module extends BaseModule
             'order' => 7,
         ], [
             'label' => 'Publications',
-            'icon' => 'fa-newspaper-o',
-            'items' => ['news', 'subscribers', 'newsletters'],
+            'icon' => 'fa-pencil-square-o',
+            'items' => [
+                [
+                    'label' => 'News',
+                    'icon' => 'fa-newspaper-o'
+                ],
+                [
+                    'label' => 'Subscribers',
+                    'icon' => 'fa-newspaper-o'
+                ],
+                [
+                    'label' => 'Newsletters',
+                    'icon' => 'fa-envelope'
+                ],
+            ],
             'order' => 8,
         ], [
             'label' => 'E-commerce',
