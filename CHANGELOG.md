@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.0 (2019-07-16)
+ * Added module manager, migrations
+
 ## 1.0.10 (2019-07-11)
  * Styling and managing the sidebar admin menu
  * Sidebar menu functionality

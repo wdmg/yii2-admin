@@ -10,17 +10,20 @@ namespace wdmg\admin;
 
 use yii\base\BootstrapInterface;
 use Yii;
+use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
+use yii\helpers\BaseFileHelper;
 
 
 class Bootstrap implements BootstrapInterface
 {
 
+    public $module;
 
     public function bootstrap($app)
     {
         // Get the module instance
-        $module = Yii::$app->getModule('admin');
+        $this->module = Yii::$app->getModule('admin');
 
         // Get URL path prefix if exist
         /*if (isset($module->routePrefix)) {
@@ -34,17 +37,16 @@ class Bootstrap implements BootstrapInterface
         $app->getUrlManager()->enablePrettyUrl = true;
         $app->getUrlManager()->showScriptName = false;
         $app->getUrlManager()->enableStrictParsing = true;
-
         $app->getUrlManager()->addRules(
             [
                 'admin' => 'admin/admin/index',
-                'admin/<action:(index|login|logout|restore|checkpoint)>' => 'admin/admin/<action>',
+                'admin/<action:(index|modules|login|logout|restore|checkpoint)>' => 'admin/admin/<action>',
                 [
                     'pattern' => 'admin/index',
                     'route' => 'admin/admin/index',
                     'suffix' => '',
                 ], [
-                    'pattern' => 'admin/<action:(index|login|logout|restore|checkpoint)>',
+                    'pattern' => 'admin/<action:(index|modules|login|logout|restore|checkpoint)>',
                     'route' => 'admin/admin/<action>',
                     'suffix' => '',
                 ],
@@ -89,49 +91,52 @@ class Bootstrap implements BootstrapInterface
             ]
         ]);
 
-        // Loading all support modules
-        /*$migrationLookup = [];
-        $support = $module->getSupportModules();
-        $extensions = $module->module->extensions;
-        foreach ($support as $name) {
-            if ($extensions[$name]) {
-                //var_dump($extensions[$name]);
-                $alias = array_key_first($extensions[$name]['alias']);
-                $basePath = Yii::getAlias($alias).'/Module';
-                var_dump($instance = new $basePath());
+        // Loading all child modules
+        if(Yii::$app->db->schema->getTableSchema(\wdmg\admin\models\Modules::tableName())) {
+            $migrationLookup = [];
+            $model = new \wdmg\admin\models\Modules();
+            $modules = $model::getModules(true);
+            if (is_array($modules)) {
 
-            }
-        }*/
+                foreach ($modules as $module) {
 
-        // Loading all modules
-        $migrationLookup = [];
-        $support = $module->getSupportModules();
-        foreach (Yii::$app->extensions as $extension) {
-            if (in_array($extension['name'], $support) && array_key_exists($extension['name'], $module->packages)) {
-
-                $package = (object)$module->packages[$extension['name']];
-                $module->setModule($package->moduleId, ArrayHelper::merge([
-                    //Yii::$app->setModule($package->moduleId, ArrayHelper::merge([
-                    'class' => $package->moduleClass
-                ], $package->moduleOptions));
-
-
-                $installed = Yii::$app->getModule('admin/'.$package->moduleId);
-                if ($installed) {
-
-                    // Configure dashboard
-                    $installed->layout = 'dashboard';
-                    $installed->layoutPath = '@wdmg/admin/views/layouts';
-
-                    $migrationLookup[] = $installed->getBaseAlias() . '/migrations';
-
-                    if (isset($module->routePrefix))
-                        $installed->routePrefix = $module->routePrefix;
-                    if ($installed instanceof yii\base\BootstrapInterface) {
-                        $installed->bootstrap(Yii::$app);
-                        //Yii::$app->bootstrap[] = $package->moduleClass;
+                    if (!class_exists($module['class'])) {
+                        throw new InvalidConfigException('Can\'t load module `' . $module['class'] . '`');
                     } else {
-                        Yii::$app->bootstrap[] = $package->bootstrapClass;
+
+                        // Check if this module has been loaded before
+                        if (!$app->hasModule('admin/' . $module['module'])) {
+
+                            // Install the module as a child module of `admin'
+                            Yii::$app->getModule('admin')->setModule($module['module'], ArrayHelper::merge([
+                                'class' => $module['class']
+                            ], (is_array($module['options'])) ? $module['options'] : (is_array(unserialize($module['options']))) ? unserialize($module['options']) : []));
+
+                            // Check if the module is initialized.
+                            $installed = $app->getModule('admin/' . $module['module']);
+                            if ($installed) {
+
+                                // Configure dashboard layout
+                                $installed->layout = 'dashboard';
+                                $installed->layoutPath = '@wdmg/admin/views/layouts';
+
+                                // Configure migrations lookup
+                                $migrationLookup[] = $installed->getBaseAlias() . '/migrations';
+
+                                // Configure base route prefix
+                                if (isset($module->routePrefix))
+                                    $installed->routePrefix = $module->routePrefix;
+
+                                // Check instance of BootstrapInterface
+                                if ($installed instanceof yii\base\BootstrapInterface) {
+                                    $installed->bootstrap(Yii::$app);
+                                } else if ($module['bootstrap']) {
+                                    Yii::$app->bootstrap[] = $module['bootstrap'];
+                                } else {
+                                    throw new InvalidConfigException('Module `' . $module['class'] . '` must implement BootstrapInterface interface');
+                                }
+                            }
+                        }
                     }
                 }
             }
@@ -139,6 +144,19 @@ class Bootstrap implements BootstrapInterface
 
         // Configure migrations for all modules
         if (Yii::$app instanceof \yii\console\Application) {
+
+            $migrationLookup = [];
+            $support = $this->module->getSupportModules();
+
+            foreach (Yii::$app->extensions as $key => $extension) {
+                // Limit the output of only those modules that are supported by the system.
+                if (in_array($extension['name'], $support)) {
+                    $alias = array_key_first($extension['alias']);
+                    //$migrationLookup[] = BaseFileHelper::normalizePath(Yii::getAlias($alias) . '/migrations');
+                    $migrationLookup[] = BaseFileHelper::normalizePath($extension['alias'][$alias] . '/migrations');
+                }
+            }
+
             Yii::$app->controllerMap['migrate'] = [
                 'class' => 'wdmg\admin\commands\MigrateController',
                 'migrationLookup' => $migrationLookup

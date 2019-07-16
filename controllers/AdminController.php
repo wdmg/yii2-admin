@@ -6,6 +6,10 @@ use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
+use yii\helpers\Json;
+use yii\helpers\BaseFileHelper;
+use wdmg\admin\models\Modules;
+use wdmg\admin\models\ModulesSearch;
 use wdmg\users\models\UsersSignin;
 //use wdmg\users\models\UsersSignup;
 //use wdmg\users\models\UsersPasswordRequest;
@@ -85,6 +89,253 @@ class AdminController extends Controller
             return $this->redirect(['admin/login']);
         else
             return $this->render('index');
+    }
+
+    /**
+     * Modules action
+     * @return mixed
+     */
+    public function actionModules()
+    {
+        $this->layout = 'dashboard';
+        $this->viewPath = $this->viewPath . '/modules';
+
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['admin/login']);
+        } else {
+
+            // We will receive a copy of model of modules
+            $model = new Modules();
+            $action = Yii::$app->request->get('action', null);
+
+            // Change model status (aJax request by switcher)
+            if (Yii::$app->request->isAjax) {
+                if (Yii::$app->request->get('change') == "status") {
+                    if (Yii::$app->request->post('id', null)) {
+                        $id = Yii::$app->request->post('id');
+                        $status = Yii::$app->request->post('value', 0);
+                        $model = $model->findOne(['id' => intval($id)]);
+                        if (intval($model->protected) == 0) {
+                            if ($model->updateAttributes(['status' => intval($status)]))
+                                return true;
+                            else
+                                return false;
+                        }
+                    }
+                } elseif ($action == "view") {
+                    if (Yii::$app->request->get('id', null)) {
+                        $id = Yii::$app->request->get('id');
+                        $status = Yii::$app->request->get('value', 0);
+                        $model = $model->findOne(['id' => intval($id)]);
+                        return $this->renderAjax('view', [
+                            'model' => $model
+                        ]);
+                    }
+                }
+            } else {
+                if ($action == "delete") {
+                    if (Yii::$app->request->get('id', null)) {
+                        $id = Yii::$app->request->get('id');
+                        $status = Yii::$app->request->get('value', 0);
+                        $model = $model->findOne(['id' => intval($id)]);
+                        if (intval($model->protected) == 0) {
+                            if ($model->updateAttributes(['status' => $model::MODULE_STATUS_NOT_INSTALL])) {
+                                Yii::$app->getSession()->setFlash(
+                                    'success',
+                                    Yii::t(
+                                        'app/modules/admin',
+                                        'OK! Module `{module}` successfully deleted.',
+                                        [
+                                            'module' => $model->name
+                                        ]
+                                    )
+                                );
+                            } else {
+                                Yii::$app->getSession()->setFlash(
+                                    'danger',
+                                    Yii::t(
+                                        'app/modules/admin',
+                                        'An error occurred while deleting a module `{module}`.',
+                                        [
+                                            'module' => $model->name
+                                        ]
+                                    )
+                                );
+                            }
+                        }
+                    }
+                } elseif ($action == "activate" || $action == "disable") {
+                    if (Yii::$app->request->get('id', null)) {
+                        $id = Yii::$app->request->get('id');
+
+                        if ($action == "activate")
+                            $status = $model::MODULE_STATUS_ACTIVE;
+                        else
+                            $status = $model::MODULE_STATUS_DISABLED;
+
+                        $model = $model->findOne(['id' => intval($id)]);
+                        if (intval($model->protected) == 0) {
+                            if ($model->updateAttributes(['status' => $status])) {
+                                Yii::$app->getSession()->setFlash(
+                                    'success',
+                                    Yii::t(
+                                        'app/modules/admin',
+                                        'OK! Module `{module}` properties successfully updated.',
+                                        [
+                                            'module' => $model->name
+                                        ]
+                                    )
+                                );
+                            } else {
+                                Yii::$app->getSession()->setFlash(
+                                    'danger',
+                                    Yii::t(
+                                        'app/modules/admin',
+                                        'An error occurred while updating a module `{module}` properties.',
+                                        [
+                                            'module' => $model->name
+                                        ]
+                                    )
+                                );
+                            }
+                        }
+                    }
+                }
+            }
+
+            // Get the list of supported modules
+            $support = $this->module->getSupportModules();
+
+            // Perform a sample of already installed system modules
+            $modules = $model::getModules(false);
+
+            // Let's go around the sample of available (preinstalled by the package manager) system modules
+            $extensions = $model::getExtensions($modules, $support);
+
+            // Prepare a list of system modules with subsequent filtering.
+            $searchModel = new ModulesSearch();
+            $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
+
+            // Adding a new module model
+            if ($post = Yii::$app->request->post()) {
+                if ($module_id = $post['Modules']['extensions']) {
+                    $module = Yii::$app->extensions[$module_id];
+                    $alias = array_key_first($module['alias']);
+
+                    // Read the module meta data
+                    $composer = BaseFileHelper::normalizePath(Yii::getAlias($alias) . '\composer.json');
+                    if (file_exists($composer)) {
+                        $string = file_get_contents($composer);
+
+                        // and decode them...
+                        if ($meta = Json::decode($string)) {
+
+                            // Last check before filling in the attributes of a module
+                            if ($module_id == $meta["name"]) {
+
+                                $model->setAttribute('module', substr(strstr($alias, '/'), 1, strlen($alias)));
+
+                                $model->setAttribute('name', $meta["name"]);
+                                $model->setAttribute('description', $meta["description"]);
+
+                                $model->setAttribute('class', str_replace('@', '', BaseFileHelper::normalizePath($alias . '\Module')));
+
+                                if (isset($meta["autoload"]["psr-4"])) {
+                                    $path = array_key_first($meta["autoload"]["psr-4"]);
+                                    if (!empty($meta["autoload"]["psr-4"][$path])) {
+                                        $model->setAttribute('bootstrap', $meta["autoload"]["psr-4"][$path] . '\Bootstrap');
+                                    } else {
+                                        $model->setAttribute('bootstrap', null);
+                                    }
+                                } else {
+                                    $model->setAttribute('bootstrap', null);
+                                }
+
+                                if (isset($meta["homepage"]))
+                                    $model->setAttribute('homepage', $meta["homepage"]);
+
+                                if (isset($meta["support"])) {
+                                    if (is_array($meta["support"]))
+                                        $model->setAttribute('support', $meta["support"]);
+                                    else
+                                        $model->setAttribute('support', null);
+
+                                }
+
+                                if (isset($meta["authors"])) {
+                                    if (is_array($meta["authors"]))
+                                        $model->setAttribute('authors', $meta["authors"]);
+                                    else
+                                        $model->setAttribute('authors', null);
+
+                                }
+
+                                if (isset($meta["require"])) {
+                                    if (is_array($meta["require"]))
+                                        $model->setAttribute('require', $meta["require"]);
+                                    else
+                                        $model->setAttribute('require', null);
+
+                                }
+
+                                if (isset($meta["type"]))
+                                    $model->setAttribute('type', $meta["type"]);
+
+                                if (isset($meta["license"]))
+                                    $model->setAttribute('license', $meta["license"]);
+
+                                $model->setAttribute('version', $meta["version"]);
+
+
+                                if (isset($meta["extra"]["options"])) {
+                                    if (is_array($meta["extra"]["options"]))
+                                        $model->setAttribute('options', $meta["extra"]["options"]);
+                                    else
+                                        $model->setAttribute('options', null);
+
+                                }
+
+                                $model->setAttribute('status', $model::MODULE_STATUS_DISABLED);
+
+                                // Let's go through validation and save the model in the database
+                                if ($model->validate()) {
+                                    if($model->save()) {
+                                        Yii::$app->getSession()->setFlash(
+                                            'success',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'OK! Module `{module}` successfully added.',
+                                                [
+                                                    'module' => $model->name
+                                                ]
+                                            )
+                                        );
+                                    } else {
+                                        Yii::$app->getSession()->setFlash(
+                                            'danger',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'An error occurred while adding a module `{module}`.',
+                                                [
+                                                    'module' => $model->name
+                                                ]
+                                            )
+                                        );
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+
+            return $this->render('index', [
+                'model' => $model,
+                'searchModel' => $searchModel,
+                'dataProvider' => $dataProvider,
+                'extensions' => $extensions,
+            ]);
+        }
     }
 
     /**

@@ -23,8 +23,8 @@ After configure db connection, run the following command in the console:
 `$ php yii admin/init`
 
 And select the operation you want to perform:
-  1) Apply all module migrations
-  2) Revert all module migrations
+  1) Apply all modules migrations
+  2) Revert all modules migrations
 
 # Migrations
 In any case, you can execute the migration and create the initial data, run the following command in the console:
@@ -59,6 +59,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.0 - Added module manager, migrations
 * v.1.0.10 - Styling and managing the sidebar admin menu
 * v.1.0.9 - Rebuild assets, start stylized sidebar menu
-* v.1.0.8 - Added restore and reset password functionality

@@ -7,7 +7,7 @@ namespace wdmg\admin\components;
  * Yii2 Dashboard
  *
  * @category        Component
- * @version         1.0.10
+ * @version         1.1.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -58,6 +58,8 @@ class Dashboard extends Component
     public function getSidebarMenuItems()
     {
         $items = [];
+        $model = new \wdmg\admin\models\Modules();
+        $modules = $model::getModules(true);
         $menuItems = $this->module->getMenuItems();
         uasort($menuItems, array($this, 'sortByOrder'));
         foreach ($menuItems as $menu) {
@@ -66,22 +68,22 @@ class Dashboard extends Component
             $navitems = [];
             $disabled = false;
 
-            // first, check if the menu item points to a specific module
+            // First, check if the menu item points to a specific module
             if (isset($menu['item'])) {
 
-                // check the presence of the module identifier among the available packages
-                foreach ($this->module->packages as $package) {
-                    if ($menu['item'] == $package['moduleId']) {
-                        if($module = Yii::$app->getModule('admin/'. $package['moduleId'])) {
+                // Check the presence of the module identifier among the available packages
+                foreach ($modules as $module) {
+                    if ($menu['item'] == $module['module']) {
+                        if($module = Yii::$app->getModule('admin/'. $module['module'])) {
 
-                            // call Module::dashboardNavItems() to get its native menu
+                            // Call Module::dashboardNavItems() to get its native menu
                             $navitems = $module->dashboardNavItems();
 
-                            // check if the received menu item contains a direct link
+                            // Check if the received menu item contains a direct link
                             if (isset($navitems['url']))
                                 $menu['url'] = $navitems['url'];
 
-                            // check if the received menu item contains sub-items
+                            // Check if the received menu item contains sub-items
                             if ($navitems['items']) {
                                 $menu['items'] = $navitems['items'];
                             }
@@ -92,19 +94,19 @@ class Dashboard extends Component
                 }
             }
 
-            // check if the menu item has nested sub-items
+            // Check if the menu item has nested sub-items
             if (isset($menu['items']) && is_array($menu['items'])) {
 
-                // if the nested item is not represented by an array, then this is the module identifier,
+                // If the nested item is not represented by an array, then this is the module identifier,
                 // of the module in which you need to call Module::dashboardNavItems() to get its native menu
                 if (!is_array($menu['items'][0])) {
                     $found = 0;
                     foreach ($menu['items'] as $moduleId) {
 
                         // check the presence of the module identifier among the available packages
-                        foreach ($this->module->packages as $package) {
-                            if ($moduleId == $package['moduleId']) {
-                                if($module = Yii::$app->getModule('admin/'. $package['moduleId'])) {
+                        foreach ($modules as $module) {
+                            if ($moduleId == $module['module']) {
+                                if($module = Yii::$app->getModule('admin/'. $module['module'])) {
                                     $navitems[] = $module->dashboardNavItems();
                                     $found++;
                                 }
@@ -112,7 +114,7 @@ class Dashboard extends Component
                         }
                     }
 
-                    // none of the modules were found
+                    // None of the modules were found
                     if ($found == 0) {
                         $disabled = true;
                     } else {
@@ -123,7 +125,7 @@ class Dashboard extends Component
                     }
 
                 } else {
-                    // it means a nested array and it already contains submenus of the menu
+                    // It means a nested array and it already contains submenus of the menu
                     $submenus = $menu['items'];
                     uasort($submenus, array($this, 'sortByOrder'));
                     foreach ($submenus as $submenu) {
@@ -133,16 +135,16 @@ class Dashboard extends Component
                             foreach ($submenu['items'] as $moduleId) {
 
                                 // check the presence of the module identifier among the available packages
-                                foreach ($this->module->packages as $package) {
-                                    if ($moduleId == $package['moduleId']) {
-                                        if($module = Yii::$app->getModule('admin/'. $package['moduleId']))
+                                foreach ($modules as $module) {
+                                    if ($moduleId == $module['module']) {
+                                        if($module = Yii::$app->getModule('admin/'. $module['module']))
                                             $navitems[] = $module->dashboardNavItems();
                                     }
                                 }
                             }
                         }
 
-                        // collect the final sub-menu item
+                        // Collect the final sub-menu item
                         $subitems[] = [
                             'label' => ($submenu['icon']) ? '<span class="fa-stack"><i class="fa ' . $submenu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $submenu['label']) : Yii::t('app/modules/admin', $submenu['label']),
                             'url' => ($submenu['url']) ? \yii\helpers\Url::to($submenu['url']) : '#',
@@ -156,7 +158,7 @@ class Dashboard extends Component
                     $disabled = true;
             }
 
-            // check if the icon is installed for this menu item
+            // Check if the icon is installed for this menu item
             if (count($navitems) > 0) {
                 foreach ($navitems as $nav => $item) {
                     if ($item['icon']) {
@@ -165,7 +167,7 @@ class Dashboard extends Component
                 }
             }
 
-            // collect the final parent menu item
+            // Collect the final parent menu item
             $items[] = [
                 'label' => ($menu['icon']) ? '<span class="fa-stack fa-lg"><i class="fa ' . $menu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $menu['label']) : Yii::t('app/modules/admin', $menu['label']),
                 'url' => ($menu['url']) ? \yii\helpers\Url::to($menu['url']) : '#',

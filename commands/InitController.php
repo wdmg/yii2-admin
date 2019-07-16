@@ -49,6 +49,7 @@ class InitController extends Controller
 
         if ($selected == "1") {
             Yii::$app->runAction('migrate/up', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => true]);
+            Yii::$app->runAction('admin/users/init', ['choice' => 3, 'interactive' => true]);
             Yii::$app->runAction('admin/rbac/init', ['choice' => 2, 'interactive' => true]);
         } else if($selected == "2") {
             Yii::$app->runAction('migrate/down', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => true]);

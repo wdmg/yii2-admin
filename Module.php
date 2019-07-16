@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.0.10
+ * @version         1.1.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -45,7 +45,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.0.10";
+    private $version = "1.1.0";
 
     /**
      * @var integer, priority of initialization
@@ -89,9 +89,26 @@ class Module extends BaseModule
             'url' => '/admin/index',
             'order' => 1,
         ], [
+            'label' => 'Modules',
+            'icon' => 'fa-puzzle-piece',
+            'url' => '/admin/modules',
+            'order' => 1,
+        ], [
             'label' => 'System',
             'icon' => 'fa-gears',
-            'items' => ['activity', 'api', 'options', 'services', 'forms', 'redirects'],
+            'items' => [
+                /*[
+                    'label' => 'Modules',
+                    'icon' => 'fa-check',
+                    'order' => 3
+                ],*/
+                'activity',
+                'api',
+                'options',
+                'services',
+                'forms',
+                'redirects',
+            ],
             'order' => 2,
         ], /*[
             'label' => 'Access',
@@ -180,176 +197,6 @@ class Module extends BaseModule
             'icon' => 'fa-support',
             'items' => ['tasks', 'tickets'],
             'order' => 15,
-        ]
-    ];
-
-    /**
-     * @var array of modules
-     */
-    public $packages = [
-        "wdmg/yii2-stats" => [
-            'moduleId' => 'stats',
-            'moduleClass' => 'wdmg\stats\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin',
-                'ignoreDev' => false,
-                'ignoreRoute' => [],
-                'ignoreListIp' => []
-            ],
-        ],
-        "wdmg/yii2-redirects" => [
-            'moduleId' => 'redirects',
-            'moduleClass' => 'wdmg\redirects\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'autocheck' => true,
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-activity" => [
-            'moduleId' => 'activity',
-            'moduleClass' => 'wdmg\activity\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-api" => [
-            'moduleId' => 'api',
-            'moduleClass' => 'wdmg\api\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-bookmarks" => [
-            'moduleId' => 'bookmarks',
-            'moduleClass' => 'wdmg\bookmarks\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-comments" => [
-            'moduleId' => 'comments',
-            'moduleClass' => 'wdmg\comments\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-forms" => [
-            'moduleId' => 'forms',
-            'moduleClass' => 'wdmg\forms\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-geo" => [
-            'moduleId' => 'geo',
-            'moduleClass' => 'wdmg\geo\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-likes" => [
-            'moduleId' => 'likes',
-            'moduleClass' => 'wdmg\likes\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-messages" => [
-            'moduleId' => 'messages',
-            'moduleClass' => 'wdmg\messages\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-options" => [
-            'moduleId' => 'options',
-            'moduleClass' => 'wdmg\options\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-rbac" => [
-            'moduleId' => 'rbac',
-            'moduleClass' => 'wdmg\rbac\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-reposts" => [
-            'moduleId' => 'reposts',
-            'moduleClass' => 'wdmg\reposts\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-reviews" => [
-            'moduleId' => 'reviews',
-            'moduleClass' => 'wdmg\reviews\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-services" => [
-            'moduleId' => 'services',
-            'moduleClass' => 'wdmg\services\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-tasks" => [
-            'moduleId' => 'tasks',
-            'moduleClass' => 'wdmg\tasks\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-tickets" => [
-            'moduleId' => 'tickets',
-            'moduleClass' => 'wdmg\tickets\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-users" => [
-            'moduleId' => 'users',
-            'moduleClass' => 'wdmg\users\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-views" => [
-            'moduleId' => 'views',
-            'moduleClass' => 'wdmg\views\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
-        ],
-        "wdmg/yii2-votes" => [
-            'moduleId' => 'votes',
-            'moduleClass' => 'wdmg\votes\Module',
-            'bootstrapClass' => null,
-            'moduleOptions' => [
-                'routePrefix' => 'admin'
-            ],
         ]
     ];
 
