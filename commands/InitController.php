@@ -13,6 +13,7 @@ class InitController extends Controller
      * @inheritdoc
      */
     public $choice = null;
+    public $interactive = true;
 
     /**
      * @inheritdoc
@@ -48,11 +49,15 @@ class InitController extends Controller
             $selected = trim(fgets(STDIN));
 
         if ($selected == "1") {
-            Yii::$app->runAction('migrate/up', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => true]);
-            Yii::$app->runAction('admin/users/init', ['choice' => 3, 'interactive' => true]);
-            Yii::$app->runAction('admin/rbac/init', ['choice' => 2, 'interactive' => true]);
+            Yii::$app->runAction('migrate/up', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => $this->interactive]);
+
+            if ((!$this->interactive == 0) || (!$this->interactive)) {
+                Yii::$app->runAction('admin/users/init', ['choice' => 3, 'interactive' => true]);
+                Yii::$app->runAction('admin/rbac/init', ['choice' => 2, 'interactive' => true]);
+            }
+
         } else if($selected == "2") {
-            Yii::$app->runAction('migrate/down', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => true]);
+            Yii::$app->runAction('migrate/down', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => $this->interactive]);
         } else {
             echo $this->ansiFormat("Error! Your selection has not been recognized.\n\n", Console::FG_RED);
             return ExitCode::UNSPECIFIED_ERROR;
