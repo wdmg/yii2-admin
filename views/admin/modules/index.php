@@ -101,14 +101,42 @@ $this->params['breadcrumbs'][] = $this->title;
     ]); ?>
     <hr/>
     <div class="modules-add-form">
-        <?php $form = ActiveForm::begin(); ?>
-            <?= $form->field($model, 'extensions')->label(Yii::t('app/modules/admin', 'Available modules'))->widget(SelectInput::className(), [
-                'items' => $extensions,
-                'options' => [
-                    'class' => 'form-control'
-                ]
-            ]); ?>
-            <?= Html::submitButton(Yii::t('app/modules/admin', 'Add module'), ['class' => 'btn btn-success']) ?>
+        <?php $form = ActiveForm::begin([
+            'options' => [
+                'class' => 'form form-inline'
+            ]
+        ]); ?>
+            <legend><?= Yii::t('app/modules/admin', 'Available modules'); ?></legend>
+            <div class="col-xs-6 col-sm-3 col-lg-3">
+                <?= $form->field($model, 'extensions', [
+                    'options' => [
+                        'tag' => false
+                    ]])->label(false)->widget(SelectInput::className(), [
+                    'items' => $extensions,
+                    'options' => [
+                        'class' => 'form-control'
+                    ],
+                    'pluginOptions' => [
+                        'dropdownClass' => '.dropdown .btn-block',
+                        'toggleClass' => '.btn .btn-default .dropdown-toggle .btn-block',
+                        'toggleText' => Yii::t('app/modules/admin', 'Modules')
+                    ]
+                ]); ?>
+            </div>
+            <div class="col-xs-6 col-sm-3 col-lg-3">
+                <?= $form->field($model, 'autoActivate')->checkbox([
+                    'checked' => true,
+                    'style' => 'margin-top:10px;',
+                ]); ?>
+            </div>
+            <div class="col-xs-12 col-sm-6 col-lg-3">
+                <div class="form-group field-modules-autoactivate">
+                    <?= Html::submitButton(Yii::t('app/modules/admin', 'Add module'), [
+                        'class' => 'btn btn-success',
+                        'disabled' => (count($extensions) == 0) ? true : false
+                    ]) ?>
+                </div>
+            </div>
         <?php ActiveForm::end(); ?>
     </div>
     <?php Pjax::end(); ?>

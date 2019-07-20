@@ -48,9 +48,9 @@ class m190713_234918_modules extends Migration
 
         // List of preinstall modules
         $modules = [
+            'wdmg/yii2-options',
             'wdmg/yii2-users',
             'wdmg/yii2-rbac',
-            'wdmg/yii2-options',
         ];
 
         // Each modules who what to be pre installed

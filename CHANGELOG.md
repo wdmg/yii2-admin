@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.1 (2019-07-20)
+ * Loading options from DB for installed modules, fix`s
+
 ## 1.1.0 (2019-07-16)
  * Optimize InitController for main installation script
  * Added module manager, migrations

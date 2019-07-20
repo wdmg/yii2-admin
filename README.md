@@ -59,6 +59,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.1 - Loading options from DB for installed modules, fix`s
 * v.1.1.0 - Added module manager, migrations
 * v.1.0.10 - Styling and managing the sidebar admin menu
-* v.1.0.9 - Rebuild assets, start stylized sidebar menu

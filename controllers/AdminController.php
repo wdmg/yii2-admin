@@ -8,6 +8,7 @@ use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\helpers\BaseFileHelper;
+use yii\helpers\ArrayHelper;
 use wdmg\admin\models\Modules;
 use wdmg\admin\models\ModulesSearch;
 use wdmg\users\models\UsersSignin;
@@ -222,6 +223,10 @@ class AdminController extends Controller
                     $module = Yii::$app->extensions[$module_id];
                     $alias = array_key_first($module['alias']);
 
+                    $activate = false;
+                    if (isset($post['Modules']['autoActivate']))
+                        $activate = $post['Modules']['autoActivate'];
+
                     // Read the module meta data
                     $composer = BaseFileHelper::normalizePath(Yii::getAlias($alias) . '\composer.json');
                     if (file_exists($composer)) {
@@ -295,32 +300,47 @@ class AdminController extends Controller
 
                                 }
 
-                                $model->setAttribute('status', $model::MODULE_STATUS_DISABLED);
+                                if ($activate)
+                                    $model->setAttribute('status', $model::MODULE_STATUS_ACTIVE);
+                                else
+                                    $model->setAttribute('status', $model::MODULE_STATUS_DISABLED);
 
                                 // Let's go through validation and save the model in the database
                                 if ($model->validate()) {
-                                    if($model->save()) {
-                                        Yii::$app->getSession()->setFlash(
-                                            'success',
-                                            Yii::t(
-                                                'app/modules/admin',
-                                                'OK! Module `{module}` successfully added.',
-                                                [
-                                                    'module' => $model->name
-                                                ]
-                                            )
-                                        );
-                                    } else {
-                                        Yii::$app->getSession()->setFlash(
-                                            'danger',
-                                            Yii::t(
-                                                'app/modules/admin',
-                                                'An error occurred while adding a module `{module}`.',
-                                                [
-                                                    'module' => $model->name
-                                                ]
-                                            )
-                                        );
+
+                                    Yii::$app->getModule('admin')->setModule($model->module, ArrayHelper::merge([
+                                        'class' => $model->class
+                                    ], (is_array($model->options)) ? $model->options : unserialize($model->options)));
+
+                                    $module = Yii::$app->getModule('admin/' . $model->module);
+                                    if ($module->install()) {
+                                        if($model->save()) {
+
+                                            // Remove added modules from extensions list
+                                            unset($extensions[$model->name]);
+
+                                            Yii::$app->getSession()->setFlash(
+                                                'success',
+                                                Yii::t(
+                                                    'app/modules/admin',
+                                                    'OK! Module `{module}` successfully added.',
+                                                    [
+                                                        'module' => $model->name
+                                                    ]
+                                                )
+                                            );
+                                        } else {
+                                            Yii::$app->getSession()->setFlash(
+                                                'danger',
+                                                Yii::t(
+                                                    'app/modules/admin',
+                                                    'An error occurred while adding a module `{module}`.',
+                                                    [
+                                                        'module' => $model->name
+                                                    ]
+                                                )
+                                            );
+                                        }
                                     }
                                 }
                             }

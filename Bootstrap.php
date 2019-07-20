@@ -107,12 +107,23 @@ class Bootstrap implements BootstrapInterface
                         // Check if this module has been loaded before
                         if (!$app->hasModule('admin/' . $module['module'])) {
 
-                            // Install the module as a child module of `admin'
-                            Yii::$app->getModule('admin')->setModule($module['module'], ArrayHelper::merge([
-                                'class' => $module['class']
-                            ], (is_array($module['options'])) ? $module['options'] : (is_array(unserialize($module['options']))) ? unserialize($module['options']) : []));
+                            // Get default module options
+                            $options = (is_array($module['options'])) ? $module['options'] : unserialize($module['options']);
 
-                            // Check if the module is initialized.
+                            // Prepare advanced module options from DB
+                            if (Yii::$app->getModule('admin/options') && isset(Yii::$app->options)) {
+                                foreach ($options as $option => $value) {
+                                    if (Yii::$app->options->get($module['module'] . '.' . $option))
+                                        $options[$option] = Yii::$app->options->get($module['module'] . '.' . $option);
+                                }
+                            }
+
+                            // Register the module as a child module of `admin'
+                            $app->getModule('admin')->setModule($module['module'], ArrayHelper::merge([
+                                'class' => $module['class']
+                            ], $options));
+
+                            // Check if the module is registered
                             $installed = $app->getModule('admin/' . $module['module']);
                             if ($installed) {
 

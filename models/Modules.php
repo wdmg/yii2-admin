@@ -45,6 +45,7 @@ class Modules extends \yii\db\ActiveRecord
     const MODULE_STATUS_ACTIVE = 1; // Module enabled
 
     public $extensions;
+    public $autoActivate;
 
     /**
      * {@inheritdoc}
@@ -94,6 +95,8 @@ class Modules extends \yii\db\ActiveRecord
             }],
             [['status'], 'default', 'value' => self::MODULE_STATUS_NOT_INSTALL],
             [['protected'], 'default', 'value' => 0],
+            [['autoActivate'], 'boolean'],
+            [['autoActivate'], 'default', 'value' => 1],
             [['created_at', 'updated_at'], 'safe'],
         ];
 
@@ -125,6 +128,7 @@ class Modules extends \yii\db\ActiveRecord
             'version' => Yii::t('app/modules/admin', 'Version'),
             'options' => Yii::t('app/modules/admin', 'Options'),
             'status' => Yii::t('app/modules/admin', 'Status'),
+            'autoActivate' => Yii::t('app/modules/admin', '- auto activate'),
             'protected' => Yii::t('app/modules/admin', 'Protected'),
             'created_at' => Yii::t('app/modules/admin', 'Created at'),
             'created_by' => Yii::t('app/modules/admin', 'Created by'),

@@ -53,9 +53,11 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => 'Language', 'items' => $this->params['langs']],
-                (Yii::$app->user->isGuest) ? ['label' => 'Login', 'url' => ['/admin/login']] : ['label' => 'Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']],
+                ['label' => '<span class="fa fa-fw fa-terminal"></span> Terminal', 'url' => '#'],
+                ['label' => '<span class="fa fa-fw fa-language"></span> Language', 'items' => $this->params['langs']],
+                (Yii::$app->user->isGuest) ? ['label' => '<span class="fa fa-fw fa-sign-in"></span> Login', 'url' => ['/admin/login']] : ['label' => '<span class="fa fa-fw fa-user-o"></span> Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']],
             ],
+            'encodeLabels' => false
         ]);
         NavBar::end();
         echo Progress::widget([
