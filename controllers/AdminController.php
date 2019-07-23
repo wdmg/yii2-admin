@@ -323,9 +323,10 @@ class AdminController extends Controller
                                                 'success',
                                                 Yii::t(
                                                     'app/modules/admin',
-                                                    'OK! Module `{module}` successfully added.',
+                                                    'OK! Module `{module}` successfully {status}.',
                                                     [
-                                                        'module' => $model->name
+                                                        'module' => $model->name,
+                                                        'status' => ($activate) ? Yii::t('app/modules/admin', 'added and activated') : Yii::t('app/modules/admin', 'added')
                                                     ]
                                                 )
                                             );

@@ -53,7 +53,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
             'items' => [
-                ['label' => '<span class="fa fa-fw fa-terminal"></span> Terminal', 'url' => '#'],
+                ['label' => '<span class="fa fa-fw fa-terminal"></span> Terminal', 'url' => '#terminal'],
                 ['label' => '<span class="fa fa-fw fa-language"></span> Language', 'items' => $this->params['langs']],
                 (Yii::$app->user->isGuest) ? ['label' => '<span class="fa fa-fw fa-sign-in"></span> Login', 'url' => ['/admin/login']] : ['label' => '<span class="fa fa-fw fa-user-o"></span> Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']],
             ],
@@ -120,6 +120,30 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
             
         });'
     ); ?>
+
+    <?php $this->registerJs(<<< JS
+        $('body').delegate('a[href="#terminal"]', 'click', function(event) {
+            event.preventDefault();
+            $.get(
+                '/admin/terminal',
+                function (data) {
+                    $('#terminalModal .modal-body').html($(data).remove('.modal-footer'));
+                    if ($(data).find('.modal-footer').length > 0) {
+                        $('#terminalModal').find('.modal-footer').remove();
+                        $('#terminalModal .modal-content').append($(data).find('.modal-footer'));
+                    }
+                    $('#terminalModal').modal();
+                }
+            );
+        });
+JS
+    ); ?>
+    <?php yii\bootstrap\Modal::begin([
+        'id' => 'terminalModal',
+        'header' => '<h4 class="modal-title">'.Yii::t('app/modules/admin', 'Terminal').'</h4>',
+    ]); ?>
+    <?php yii\bootstrap\Modal::end(); ?>
+
     <footer class="footer">
         <div class="container-fluid">
             <div class="row">

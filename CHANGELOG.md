@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.2 (2019-07-23)
+ * Added support of Terminal module 
+ 
 ## 1.1.1 (2019-07-20)
  * Loading options from DB for installed modules, fix`s
 

@@ -97,7 +97,10 @@ return [
     'OK! Module `{module}` successfully deleted.' => "OK! Модуль `{module}` успешно удалён.",
     'An error occurred while deleting a module `{module}`.' => "Произошла ошибка при удалении модуля `{module}`.",
 
-    'OK! Module `{module}` successfully added.' => "OK! Модуль `{module}` успешно добавлен.",
+    'OK! Module `{module}` successfully {status}.' => "OK! Модуль `{module}` успешно {status}.",
+    'added' => "добавлен",
+    'added and activated' => "добавлен и активирован",
+
     'An error occurred while adding a module `{module}`.' => "Произошла ошибка при добавлении модуля `{module}`.",
 
     'OK! Module `{module}` properties successfully updated.' => "OK! Настройки модуля `{module}` успешно обновлены.",
