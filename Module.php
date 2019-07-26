@@ -65,6 +65,7 @@ class Module extends BaseModule
         'wdmg/yii2-likes',
         'wdmg/yii2-messages',
         'wdmg/yii2-options',
+        'wdmg/yii2-pages',
         'wdmg/yii2-rbac',
         'wdmg/yii2-reposts',
         'wdmg/yii2-reviews',
@@ -139,13 +140,9 @@ class Module extends BaseModule
             'items' => ['users', 'rbac'],
             'order' => 14,
         ], [
-            'label' => 'Pages',
-            'icon' => 'fa-folder',
-            'order' => 5,
-        ], [
             'label' => 'Content',
             'icon' => 'fa-archive',
-            'items' => ['media'],
+            'items' => ['pages', 'media'],
             'order' => 7,
         ], [
             'label' => 'Publications',
