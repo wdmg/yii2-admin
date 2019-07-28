@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.3 (2019-07-29)
+ * Added priority of loading modules
+ 
 ## 1.1.2 (2019-07-23)
  * Added support of Terminal module 
  

@@ -73,6 +73,7 @@ return [
     'Options' => "Опции",
     'Status' => "Статус",
     'Protected' => "Защищено",
+    'Priority' => "Приоритет",
     'Created at' => "Создано",
     'Updated at' => "Обновлено",
     'Created by' => "Автор создания",

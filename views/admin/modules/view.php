@@ -18,8 +18,29 @@ use yii\widgets\DetailView;
             'id',
             'name:ntext',
             'description:ntext',
+
+            'class:ntext',
+            'bootstrap:ntext',
+            'require:ntext',
+            'type:ntext',
+
+            'homepage:ntext',
+            'support:ntext',
+            'authors:ntext',
+            'license:ntext',
+            'version:ntext',
+
+            'options:ntext',
+
+            'status:ntext',
+            'protected:ntext',
+            'priority:ntext',
+
             'created_at:datetime',
-            'updated_at:datetime'
+            'created_by:ntext',
+            'updated_at:datetime',
+            'updated_by:ntext',
+
         ],
     ]) ?>
     <div class="modal-footer">
@@ -28,22 +49,24 @@ use yii\widgets\DetailView;
             'data-dismiss' => 'modal'
         ]); ?>
         <?php
-            if ($model->status == $model::MODULE_STATUS_ACTIVE) {
-                echo Html::a(Yii::t('app/modules/admin', 'Disable'), Url::to(['admin/modules', 'action' => 'disable', 'id' => $model->id]), [
-                    'class' => 'btn btn-danger pull-right',
-                    'target' => '_self',
-                    'data' => [
-                        'confirm' => Yii::t('app/modules/admin', 'Are you sure you want to disable this module?'),
-                    ]
-                ]);
-            } elseif ($model->status == $model::MODULE_STATUS_DISABLED) {
-                echo Html::a(Yii::t('app/modules/admin', 'Activate'), Url::to(['admin/modules', 'action' => 'activate', 'id' => $model->id]), [
-                    'class' => 'btn btn-success pull-right',
-                    'target' => '_self',
-                    'data' => [
-                        'confirm' => Yii::t('app/modules/admin', 'Are you sure you want to activate this module?'),
-                    ]
-                ]);
+            if (!$model->protected == 1) {
+                if ($model->status == $model::MODULE_STATUS_ACTIVE) {
+                    echo Html::a(Yii::t('app/modules/admin', 'Disable'), Url::to(['admin/modules', 'action' => 'disable', 'id' => $model->id]), [
+                        'class' => 'btn btn-danger pull-right',
+                        'target' => '_self',
+                        'data' => [
+                            'confirm' => Yii::t('app/modules/admin', 'Are you sure you want to disable this module?'),
+                        ]
+                    ]);
+                } elseif ($model->status == $model::MODULE_STATUS_DISABLED) {
+                    echo Html::a(Yii::t('app/modules/admin', 'Activate'), Url::to(['admin/modules', 'action' => 'activate', 'id' => $model->id]), [
+                        'class' => 'btn btn-success pull-right',
+                        'target' => '_self',
+                        'data' => [
+                            'confirm' => Yii::t('app/modules/admin', 'Are you sure you want to activate this module?'),
+                        ]
+                    ]);
+                }
             }
         ?>
     </div>

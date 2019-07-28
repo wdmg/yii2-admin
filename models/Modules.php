@@ -30,6 +30,7 @@ use yii\behaviors\BlameableBehavior;
  * @property string $options
  * @property int $status
  * @property int $protected
+ * @property int $priority
  * @property int $created_at
  * @property int $created_by
  * @property int $updated_at
@@ -93,8 +94,10 @@ class Modules extends \yii\db\ActiveRecord
                     $this->addError($attribute,'Attribute `'.$attribute.'` is not array!');
                 }
             }],
+            [['status', 'priority'], 'integer'],
             [['status'], 'default', 'value' => self::MODULE_STATUS_NOT_INSTALL],
-            [['protected'], 'default', 'value' => 0],
+            [['protected'], 'boolean'],
+            [['protected', 'priority'], 'default', 'value' => 0],
             [['autoActivate'], 'boolean'],
             [['autoActivate'], 'default', 'value' => 1],
             [['created_at', 'updated_at'], 'safe'],
@@ -102,6 +105,7 @@ class Modules extends \yii\db\ActiveRecord
 
         if(class_exists('\wdmg\users\models\Users') && isset(Yii::$app->modules['users'])) {
             $rules[] = [['created_by', 'updated_by'], 'required'];
+            $rules[] = [['created_by', 'updated_by'], 'integer'];
         }
 
         return $rules;
@@ -130,6 +134,7 @@ class Modules extends \yii\db\ActiveRecord
             'status' => Yii::t('app/modules/admin', 'Status'),
             'autoActivate' => Yii::t('app/modules/admin', '- auto activate'),
             'protected' => Yii::t('app/modules/admin', 'Protected'),
+            'priority' => Yii::t('app/modules/admin', 'Priority'),
             'created_at' => Yii::t('app/modules/admin', 'Created at'),
             'created_by' => Yii::t('app/modules/admin', 'Created by'),
             'updated_at' => Yii::t('app/modules/admin', 'Updated at'),
@@ -176,6 +181,7 @@ class Modules extends \yii\db\ActiveRecord
             ->where($cond)
             ->asArray()
             ->indexBy('name')
+            ->orderBy(['priority' => SORT_ASC])
             ->all();
     }
 

@@ -312,8 +312,14 @@ class AdminController extends Controller
                                         'class' => $model->class
                                     ], (is_array($model->options)) ? $model->options : unserialize($model->options)));
 
+                                    // Checking accessibility of module
                                     $module = Yii::$app->getModule('admin/' . $model->module);
                                     if ($module->install()) {
+
+                                        // Setting priority of loading
+                                        $model->priority = intval($module->getPriority());
+
+                                        // Save module item
                                         if($model->save()) {
 
                                             // Remove added modules from extensions list
