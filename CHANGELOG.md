@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.4 (2019-08-06)
+ * Added Mailer and News modules to support
+
 ## 1.1.3 (2019-07-29)
  * Added priority of loading modules
  

@@ -348,11 +348,55 @@ class AdminController extends Controller
                                                 )
                                             );
                                         }
+                                    } else {
+                                        Yii::$app->getSession()->setFlash(
+                                            'danger',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'An error occurred while install a module `{module}`.',
+                                                [
+                                                    'module' => $model->name
+                                                ]
+                                            )
+                                        );
                                     }
                                 }
                             }
+                        } else {
+                            Yii::$app->getSession()->setFlash(
+                                'danger',
+                                Yii::t(
+                                    'app/modules/admin',
+                                    'An error occurred while parsing `composer.json` of module `{module}`.',
+                                    [
+                                        'module' => $model->name
+                                    ]
+                                )
+                            );
                         }
+                    } else {
+                        Yii::$app->getSession()->setFlash(
+                            'danger',
+                            Yii::t(
+                                'app/modules/admin',
+                                'Error! File `composer.json` of `{module}` module not exist.',
+                                [
+                                    'module' => $model->name
+                                ]
+                            )
+                        );
                     }
+                } else {
+                    Yii::$app->getSession()->setFlash(
+                        'danger',
+                        Yii::t(
+                            'app/modules/admin',
+                            'Error! Module `{module}` not present as extensions of application. Is install from Composer?',
+                            [
+                                'module' => $model->name
+                            ]
+                        )
+                    );
                 }
             }
 

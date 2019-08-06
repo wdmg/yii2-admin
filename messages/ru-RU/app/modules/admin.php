@@ -110,6 +110,11 @@ return [
     'Are you sure you want to disable this module?' => "Вы действительно желаете отключить данный модуль?",
     'Are you sure you want to activate this module?' => "Вы действительно желаете активировать данный модуль?",
 
+    'An error occurred while install a module `{module}`.' => "Произошла ошибка при установке модуля `{module}`.",
+    'An error occurred while parsing `composer.json` of module `{module}`.' => "Произошла ошибка при разборе `composer.json` модуля `{module}`.",
+    'Error! File `composer.json` of `{module}` module not exist.' => "Ошибка! Файл `composer.json` модуля` {module} `не существует.",
+    'Error! Module `{module}` not present as extensions of application. Is install from Composer?' => "Ошибка! Модуль `{module}` не представлен как расширение приложения. Он установлен через Composer?",
+
 
 ];
 

@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.1.3
+ * @version         1.1.4
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -45,7 +45,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.1.3";
+    private $version = "1.1.4";
 
     /**
      * @var integer, priority of initialization
@@ -64,8 +64,10 @@ class Module extends BaseModule
         'wdmg/yii2-geo',
         'wdmg/yii2-likes',
         'wdmg/yii2-messages',
+        'wdmg/yii2-mailer',
         'wdmg/yii2-options',
         'wdmg/yii2-pages',
+        'wdmg/yii2-news',
         'wdmg/yii2-rbac',
         'wdmg/yii2-reposts',
         'wdmg/yii2-reviews',
@@ -110,6 +112,7 @@ class Module extends BaseModule
                 'services',
                 'forms',
                 'redirects',
+                'mailer'
             ],
             'order' => 2,
         ], /*[
@@ -148,18 +151,15 @@ class Module extends BaseModule
             'label' => 'Publications',
             'icon' => 'fa-pencil-square-o',
             'items' => [
-                [
-                    'label' => 'News',
-                    'icon' => 'fa-newspaper-o'
-                ],
-                [
+                'news',
+                /*[
                     'label' => 'Subscribers',
                     'icon' => 'fa-newspaper-o'
                 ],
                 [
                     'label' => 'Newsletters',
                     'icon' => 'fa-envelope'
-                ],
+                ],*/
             ],
             'order' => 8,
         ], [

@@ -8,8 +8,13 @@ use wdmg\admin\AdminAsset;
 /* @var $user \wdmg\users\models\Users */
 
 $bundle = AdminAsset::register($this);
+
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl([$linkRoute, 'token' => $user->password_reset_token]);
-$logotypeLink = Url::home(true) . $bundle->baseUrl . '/images/logotype.png';
+
+if (isset(Yii::$app->params["mailer.trackingKey"]))
+    $logotypeLink = Url::to(Url::home(true) . 'mail/track?url=' . $bundle->baseUrl . '/images/logotype.png&key=' . Yii::$app->params["mailer.trackingKey"]);
+else
+    $logotypeLink = Url::to(Url::home(true) . $bundle->baseUrl . '/images/logotype.png');
 
 ?>
 <div class="password-reset">
