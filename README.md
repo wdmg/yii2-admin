@@ -5,7 +5,7 @@
 ![GitHub release](https://img.shields.io/github/release/wdmg/yii2-admin/all.svg)
 
 # Yii2 Admin Module
-Administrative panel for Butterfly.CMS
+Administrative panel for [Butterfly.CMS](https://github.com/wdmg/butterfly.cms)
 
 # Requirements 
 * PHP 5.6 or higher
