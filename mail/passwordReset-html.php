@@ -16,6 +16,9 @@ if (isset(Yii::$app->params["mailer.trackingKey"]))
 else
     $logotypeLink = Url::to(Url::home(true) . $bundle->baseUrl . '/images/logotype.png');
 
+if (isset(Yii::$app->params["mailer.webMailUrl"]))
+    $webMailUrl = Url::to(Yii::$app->params["mailer.webMailUrl"]);
+
 ?>
 <div class="password-reset">
     <p style="text-align:center;"><?= Html::a(Html::img($logotypeLink, [
@@ -29,5 +32,8 @@ else
     ]); ?></p>
     <p><?= Yii::t('app/modules/admin', 'Follow the link below to reset your password: {link}', [
         'link' => Html::a(Html::encode($resetLink), $resetLink),
+    ]); ?></p>
+    <p><?= Yii::t('app/modules/admin', 'Do not see the images? Go to the {link} of this email.', [
+        'link' => Html::a('web version', $webMailUrl),
     ]); ?></p>
 </div>
