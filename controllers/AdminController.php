@@ -68,13 +68,11 @@ class AdminController extends Controller
         return $behaviors;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function beforeAction($action)
     {
-        $this->view->params['langs'] = [
-            ['label' => 'English', 'url' => '?lang=en-US', 'active'=> (Yii::$app->language == 'en-US') ? true : false, 'options' => ['class' => (Yii::$app->language == 'en-US') ? ['class' => 'active'] : false]],
-            ['label' => 'Русский', 'url' => '?lang=ru-RU', 'active'=> (Yii::$app->language == 'ru-RU') ? true : false, 'options' => ['class' => (Yii::$app->language == 'ru-RU') ? ['class' => 'active'] : false]],
-        ];
-
         return parent::beforeAction($action);
     }
 
@@ -243,7 +241,7 @@ class AdminController extends Controller
                                 $model->setAttribute('name', $meta["name"]);
                                 $model->setAttribute('description', $meta["description"]);
 
-                                $model->setAttribute('class', str_replace('@', '', BaseFileHelper::normalizePath($alias . '\Module')));
+                                $model->setAttribute('class', str_replace('/', '\\', str_replace('@', '', BaseFileHelper::normalizePath($alias . '\Module'))));
 
                                 if (isset($meta["autoload"]["psr-4"])) {
                                     $path = array_key_first($meta["autoload"]["psr-4"]);
@@ -312,36 +310,53 @@ class AdminController extends Controller
                                         'class' => $model->class
                                     ], (is_array($model->options)) ? $model->options : unserialize($model->options)));
 
+                                    // Prepare to module check
+                                    $module_id = 'admin/' . $model->module;
+                                    $module = Yii::$app->getModule($module_id);
+
                                     // Checking accessibility of module
-                                    $module = Yii::$app->getModule('admin/' . $model->module);
-                                    if ($module->install()) {
+                                    if ($module) {
 
-                                        // Setting priority of loading
-                                        $model->priority = intval($module->getPriority());
+                                        if ($module->install()) {
 
-                                        // Save module item
-                                        if($model->save()) {
+                                            // Setting priority of loading
+                                            $model->priority = intval($module->getPriority());
 
-                                            // Remove added modules from extensions list
-                                            unset($extensions[$model->name]);
+                                            // Save module item
+                                            if($model->save()) {
 
-                                            Yii::$app->getSession()->setFlash(
-                                                'success',
-                                                Yii::t(
-                                                    'app/modules/admin',
-                                                    'OK! Module `{module}` successfully {status}.',
-                                                    [
-                                                        'module' => $model->name,
-                                                        'status' => ($activate) ? Yii::t('app/modules/admin', 'added and activated') : Yii::t('app/modules/admin', 'added')
-                                                    ]
-                                                )
-                                            );
+                                                // Remove added modules from extensions list
+                                                unset($extensions[$model->name]);
+
+                                                Yii::$app->getSession()->setFlash(
+                                                    'success',
+                                                    Yii::t(
+                                                        'app/modules/admin',
+                                                        'OK! Module `{module}` successfully {status}.',
+                                                        [
+                                                            'module' => $model->name,
+                                                            'status' => ($activate) ? Yii::t('app/modules/admin', 'added and activated') : Yii::t('app/modules/admin', 'added')
+                                                        ]
+                                                    )
+                                                );
+                                            } else {
+                                                Yii::$app->getSession()->setFlash(
+                                                    'danger',
+                                                    Yii::t(
+                                                        'app/modules/admin',
+                                                        'An error occurred while adding a module `{module}`.',
+                                                        [
+                                                            'module' => $model->name
+                                                        ]
+                                                    )
+                                                );
+                                            }
                                         } else {
                                             Yii::$app->getSession()->setFlash(
                                                 'danger',
                                                 Yii::t(
                                                     'app/modules/admin',
-                                                    'An error occurred while adding a module `{module}`.',
+                                                    'An error occurred while install a module `{module}`.',
                                                     [
                                                         'module' => $model->name
                                                     ]
@@ -353,9 +368,9 @@ class AdminController extends Controller
                                             'danger',
                                             Yii::t(
                                                 'app/modules/admin',
-                                                'An error occurred while install a module `{module}`.',
+                                                'Unable to resolve child module `{module}`.',
                                                 [
-                                                    'module' => $model->name
+                                                    'module' => $module_id
                                                 ]
                                             )
                                         );

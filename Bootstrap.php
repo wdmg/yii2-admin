@@ -72,7 +72,7 @@ class Bootstrap implements BootstrapInterface
         );
 
         // Register language of user interface
-        if(!($app instanceof \yii\console\Application)) {
+        if (!($app instanceof \yii\console\Application)) {
             $lang = $app->session->get('language', false);
             if ($app->request->get('lang', false)) {
                 $lang = $app->request->get('lang');
@@ -82,6 +82,17 @@ class Bootstrap implements BootstrapInterface
                 $lang = $app->session->get('language');
                 $app->language = $lang;
             }
+        }
+
+
+        // Configure languages menu for UI
+        if (!($app instanceof \yii\console\Application) && $this->module) {
+            \yii\base\Event::on(\yii\base\Controller::className(), \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) {
+                Yii::$app->view->params['langs'] = [
+                    ['label' => 'English', 'url' => '?lang=en-US', 'active'=> (Yii::$app->language == 'en-US') ? true : false, 'options' => ['class' => (Yii::$app->language == 'en-US') ? ['class' => 'active'] : false]],
+                    ['label' => 'Русский', 'url' => '?lang=ru-RU', 'active'=> (Yii::$app->language == 'ru-RU') ? true : false, 'options' => ['class' => (Yii::$app->language == 'ru-RU') ? ['class' => 'active'] : false]],
+                ];
+            });
         }
 
         // Configure administrative panel

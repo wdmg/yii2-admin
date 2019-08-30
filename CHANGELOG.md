@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.5 (2019-08-31)
+ * Some bugfix for migrations and views
+ 
 ## 1.1.4 (2019-08-06)
  * Added Mailer and News modules to support
 

@@ -59,6 +59,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.5 - Some bugfix for migrations and views
 * v.1.1.4 - Added Mailer and News modules to support
 * v.1.1.3 - Added priority of loading modules
-* v.1.1.2 - Added support of Terminal module
