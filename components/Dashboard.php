@@ -46,8 +46,13 @@ class Dashboard extends Component
      * @see uasort()
      */
     function sortByOrder($a, $b) {
-        if ($a['order'] === $b['order']) return 0;
-        return $a['order'] < $b['order'] ? -1 : 1;
+
+        if (isset($a['order']) && isset($b['order'])) {
+            if ($a['order'] === $b['order']) return 0;
+            return $a['order'] < $b['order'] ? -1 : 1;
+        } else {
+            return null;
+        }
     }
 
     /**
@@ -159,10 +164,12 @@ class Dashboard extends Component
             }
 
             // Check if the icon is installed for this menu item
-            if (count($navitems) > 0) {
-                foreach ($navitems as $nav => $item) {
-                    if ($item['icon']) {
-                        $navitems[$nav]['label'] = ($item['icon']) ? '<span class="fa-stack"><i class="fa ' . $item['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $item['label']) : Yii::t('app/modules/admin', $item['label']);
+            if (isset($navitems)) {
+                if (count($navitems) > 0) {
+                    foreach ($navitems as $nav => $item) {
+                        if ($item['icon']) {
+                            $navitems[$nav]['label'] = ($item['icon']) ? '<span class="fa-stack"><i class="fa ' . $item['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $item['label']) : Yii::t('app/modules/admin', $item['label']);
+                        }
                     }
                 }
             }
