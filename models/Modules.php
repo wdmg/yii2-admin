@@ -170,7 +170,7 @@ class Modules extends \yii\db\ActiveRecord
      * @param $onlyActive boolean flag, if need only active modules
      * @return array of modules
      */
-    public function getModules($onlyActive = true)
+    public static function getModules($onlyActive = true)
     {
         if ($onlyActive)
             $cond = ['status' => self::MODULE_STATUS_ACTIVE];
@@ -193,7 +193,7 @@ class Modules extends \yii\db\ActiveRecord
      * @param $support array of support modules
      * @return array of extensions
      */
-    public function getExtensions($modules = [], $support = [])
+    public static function getExtensions($modules = [], $support = [])
     {
         if (!is_array($modules) || !is_array($support))
             return [];

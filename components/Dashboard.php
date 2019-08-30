@@ -170,7 +170,7 @@ class Dashboard extends Component
             // Collect the final parent menu item
             $items[] = [
                 'label' => ($menu['icon']) ? '<span class="fa-stack fa-lg"><i class="fa ' . $menu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $menu['label']) : Yii::t('app/modules/admin', $menu['label']),
-                'url' => ($menu['url']) ? \yii\helpers\Url::to($menu['url']) : '#',
+                'url' => isset($menu['url']) ? \yii\helpers\Url::to($menu['url']) : '#',
                 'items' => ($subitems) ? $subitems : (($navitems) ? $navitems : false),
                 'active' => false,
                 'options' => ['class' => ($disabled) ? 'disabled' : ''],

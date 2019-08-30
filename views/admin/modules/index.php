@@ -92,7 +92,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 ],
                 'visibleButtons' => [
                     'update' => false,
-                    'delete' => function ($model, $key, $index) use ($hasAutoload) {
+                    'delete' => function ($model, $key, $index) {
                         return !($model->protected) && !($model->status == $model::MODULE_STATUS_NOT_INSTALL);
                     }
                 ],

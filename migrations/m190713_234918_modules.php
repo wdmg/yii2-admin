@@ -123,7 +123,7 @@ class m190713_234918_modules extends Migration
                             'module' => substr(strstr($alias, '/'), 1, strlen($alias)),
                             'name' => $meta["name"],
                             'description' => $meta["description"],
-                            'class' => str_replace('@', '', BaseFileHelper::normalizePath($alias . '\Module')),
+                            'class' => str_replace('/', '\\', str_replace('@', '', BaseFileHelper::normalizePath($alias . '\Module'))),
                             'bootstrap' => $bootstrap,
                             'homepage' => $homepage,
                             'support' => $support,
