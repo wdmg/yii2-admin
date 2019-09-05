@@ -177,12 +177,14 @@ class Modules extends \yii\db\ActiveRecord
         else
             $cond = '`status` >= ' . self::MODULE_STATUS_DISABLED;
 
-        return self::find()
+        $modules = self::find()
             ->where($cond)
             ->asArray()
             ->indexBy('name')
             ->orderBy(['priority' => SORT_ASC])
             ->all();
+
+        return $modules;
     }
 
     /**

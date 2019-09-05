@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.1.5
+ * @version         1.1.6
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -45,7 +45,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.1.5";
+    private $version = "1.1.6";
 
     /**
      * @var integer, priority of initialization
@@ -219,6 +219,15 @@ class Module extends BaseModule
             if(!isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
                 Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
         }
+
+        // Check of updates and return current version
+        $meta = $this->getMetaData();
+        $version = $this->getVersion();
+        if ($new_version = $this->checkUpdates($meta['name'], $version))
+            $this->view->params['version'] = $version . ' <label class="label label-danger">Available update to ' . $new_version . '</label>';
+        else
+            $this->view->params['version'] = $version;
+
     }
 
     /**
@@ -237,5 +246,73 @@ class Module extends BaseModule
     public function getMenuItems()
     {
         return $this->menu;
+    }
+
+
+    /**
+     * Check for available updates
+     * @return string, remote version
+     */
+    public function checkUpdates($module_name, $current_version)
+    {
+
+        if (!$module_name || !$current_version)
+            return false;
+
+        $remote_version = null;
+        $cached_version = Yii::$app->cache->get('modules.versions');
+        if (isset($cached_version[$module_name]))
+            $remote_version = $cached_version[$module_name];
+
+
+
+        if (is_null($remote_version)) {
+
+
+            $client = new \yii\httpclient\Client(['baseUrl' => 'https://api.github.com']);
+            $response = $client->get('/repos/'.$module_name.'/releases/latest', [])->setHeaders([
+                'User-Agent' => 'Butterfly.CMS',
+                'Content-Type' => 'application/json'
+            ])->send();
+
+            //var_dump($response->getStatusCode());
+            //var_dump($response->content);
+
+            if ($response->getStatusCode() == 200) {
+                $data = \json_decode($response->content);
+                $remote_version = $data->tag_name;
+
+                if (!is_null($remote_version))
+                    Yii::$app->cache->add(['modules.versions' => $module_name], $remote_version, 3600);
+
+            } else {
+
+                if ($response->getStatusCode() == 404)
+                    Yii::$app->session->setFlash(
+                        'error',
+                        Yii::t('app/modules/admin', 'An error occurred while checking for updates for `{module}`. 404 - Resource not found.',
+                            ['module' => $module_name]
+                        )
+                    );
+                elseif ($response->getStatusCode() == 403)
+                    Yii::$app->session->setFlash(
+                        'error',
+                        Yii::t('app/modules/admin', 'An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.')
+                    );
+                elseif ($response->getStatusCode() == 503)
+                    Yii::$app->session->setFlash(
+                        'error',
+                        Yii::t('app/modules/admin', 'An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.')
+                    );
+
+                return false;
+            }
+        }
+
+        if (!version_compare($remote_version, $current_version, '<='))
+            return $remote_version;
+        else
+            return false;
+
     }
 }

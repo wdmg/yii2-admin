@@ -28,7 +28,18 @@ use yii\widgets\DetailView;
             'support:ntext',
             'authors:ntext',
             'license:ntext',
-            'version:ntext',
+            [
+                'attribute' => 'version',
+                'format' => 'raw',
+                'value' => function($data) use ($module) {
+
+                    if ($new_version = $module->checkUpdates($data->name, $data->version))
+                        return $data->version . ' <label class="label label-danger">Available update to ' . $new_version . '</label>';
+                    else
+                        return $data->version;
+
+                }
+            ],
 
             'options:ntext',
 

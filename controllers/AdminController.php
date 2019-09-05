@@ -127,7 +127,8 @@ class AdminController extends Controller
                         $status = Yii::$app->request->get('value', 0);
                         $model = $model->findOne(['id' => intval($id)]);
                         return $this->renderAjax('view', [
-                            'model' => $model
+                            'model' => $model,
+                            'module' => $this->module
                         ]);
                     }
                 }
@@ -417,6 +418,7 @@ class AdminController extends Controller
 
             return $this->render('index', [
                 'model' => $model,
+                'module' => $this->module,
                 'searchModel' => $searchModel,
                 'dataProvider' => $dataProvider,
                 'extensions' => $extensions,

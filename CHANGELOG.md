@@ -2,8 +2,8 @@ Changelog
 =========
 
 ## 1.1.6 (2019-09-05)
- * Change logotype in navbar
- * Change logotype in navbar
+ * Check for updates notify for modules
+ * Customize navbar menu if some modules not installed
  * Change logotype in navbar
 
 ## 1.1.5 (2019-08-31)

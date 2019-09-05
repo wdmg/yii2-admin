@@ -116,6 +116,11 @@ return [
     'Error! File `composer.json` of `{module}` module not exist.' => "Ошибка! Файл `composer.json` модуля` {module} `не существует.",
     'Error! Module `{module}` not present as extensions of application. Is install from Composer?' => "Ошибка! Модуль `{module}` не представлен как расширение приложения. Он установлен через Composer?",
 
+    'An error occurred while checking for updates for `{module}`. 404 - Resource not found.' => "Произошла ошибка при проверке обновлений для `{module}`. 404 - Ресурс не найден.",
+    'An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 403 - Превышен лимит запросов.",
+    'An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 503 - Сервис временно недоступен.",
+
+
 
 ];
 
