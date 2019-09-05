@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.6 (2019-09-05)
+ * Added module params
  * Check for updates notify for modules
  * Customize navbar menu if some modules not installed
  * Change logotype in navbar

@@ -44,6 +44,16 @@ class Module extends BaseModule
     public $description = "Main administrative panel";
 
     /**
+     * @var boolean, the flag if updates check turn on
+     */
+    public $checkForUpdates = true;
+
+    /**
+     * @var integer, the time to expire cache
+     */
+    public $cacheExpire = 3600;
+
+    /**
      * @var string the module version
      */
     private $version = "1.1.6";
@@ -224,10 +234,10 @@ class Module extends BaseModule
         // Check of updates and return current version
         $meta = $this->getMetaData();
         $version = $this->getVersion();
-        if ($new_version = $this->checkUpdates($meta['name'], $version))
-            $this->view->params['version'] = $version . ' <label class="label label-danger">Available update to ' . $new_version . '</label>';
+        if ($new_version = $this->checkUpdates($meta['name'], $version)) // wdmg/yii2-admin
+            $this->view->params['version'] = 'v'. $version . ' <label class="label label-danger">Available update to ' . $new_version . '</label>';
         else
-            $this->view->params['version'] = $version;
+            $this->view->params['version'] = 'v'. $version;
 
     }
 
@@ -256,17 +266,46 @@ class Module extends BaseModule
      */
     public function checkUpdates($module_name, $current_version)
     {
+        $viewed = array();
+        $session = Yii::$app->session;
+
+        if(isset($session['viewed-flash']) && is_array($session['viewed-flash']))
+            $viewed = $session['viewed-flash'];
+
+        // Updates check turn on?
+        if (isset(Yii::$app->params['admin.checkForUpdates']))
+            $check_updates = intval(Yii::$app->params['admin.checkForUpdates']);
+        else
+            $check_updates = $this->checkForUpdates;
+
+        // Get time to expire cache
+        if (isset(Yii::$app->params['admin.cacheExpire']))
+            $expire = intval(Yii::$app->params['admin.cacheExpire']);
+        else
+            $expire = $this->cacheExpire;
+
+        if (!$check_updates) {
+            if(!in_array('admin-check-updates', $viewed) && is_array($viewed)) {
+                Yii::$app->getSession()->setFlash(
+                    'warning',
+                    Yii::t('app/modules/admin', 'Attention! In the system settings, the ability to check for updates is disabled.')
+                );
+                $session['viewed-flash'] = array_merge(array_unique($viewed), ['admin-check-updates']);
+            }
+            return false;
+        }
 
         if (!$module_name || !$current_version)
             return false;
 
         $remote_version = null;
         $versions = Yii::$app->cache->get('modules.versions');
+        $status = Yii::$app->cache->get('modules.updates');
 
         if (isset($versions[$module_name]))
             $remote_version = $versions[$module_name];
 
-        if (is_null($remote_version)) {
+        if (is_null($remote_version) && !$status == 'sleep') {
 
             $client = new \yii\httpclient\Client(['baseUrl' => 'https://api.github.com']);
             $response = $client->get('/repos/'.$module_name.'/releases/latest', [])->setHeaders([
@@ -279,29 +318,38 @@ class Module extends BaseModule
                 $remote_version = $data->tag_name;
 
                 if ($remote_version && $versions)
-                    Yii::$app->cache->add('modules.versions', ArrayHelper::merge($versions, [$module_name => $remote_version]), 3600);
+                    Yii::$app->cache->add('modules.versions', ArrayHelper::merge($versions, [$module_name => $remote_version]), intval($expire));
                 elseif ($remote_version)
-                    Yii::$app->cache->add('modules.versions', [$module_name => $remote_version], 3600);
+                    Yii::$app->cache->add('modules.versions', [$module_name => $remote_version], intval($expire));
 
             } else {
 
-                if ($response->getStatusCode() == 404)
+                if ($response->getStatusCode() == 404) {
                     Yii::$app->session->setFlash(
                         'error',
                         Yii::t('app/modules/admin', 'An error occurred while checking for updates for `{module}`. 404 - Resource not found.',
                             ['module' => $module_name]
                         )
                     );
-                elseif ($response->getStatusCode() == 403)
-                    Yii::$app->session->setFlash(
-                        'error',
-                        Yii::t('app/modules/admin', 'An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.')
-                    );
-                elseif ($response->getStatusCode() == 503)
-                    Yii::$app->session->setFlash(
-                        'error',
-                        Yii::t('app/modules/admin', 'An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.')
-                    );
+                } else if ($response->getStatusCode() == 403) {
+                    Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+                    if(!in_array('admin-updates-limit', $viewed) && is_array($viewed)) {
+                        Yii::$app->getSession()->setFlash(
+                            'error',
+                            Yii::t('app/modules/admin', 'An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.')
+                        );
+                        $session['viewed-flash'] = array_merge(array_unique($viewed), ['admin-updates-limit']);
+                    }
+                } else if ($response->getStatusCode() == 503) {
+                    Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+                    if(!in_array('admin-updates-unavailable', $viewed) && is_array($viewed)) {
+                        Yii::$app->getSession()->setFlash(
+                            'error',
+                            Yii::t('app/modules/admin', 'An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.')
+                        );
+                        $session['viewed-flash'] = array_merge(array_unique($viewed), ['admin-updates-unavailable']);
+                    }
+                }
 
                 return false;
             }

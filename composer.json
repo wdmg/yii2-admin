@@ -33,7 +33,9 @@
   "extra": {
     "bootstrap": "wdmg\\admin\\Bootstrap",
     "options": {
-      "routePrefix": "admin"
+      "routePrefix": "admin",
+      "checkForUpdates": true,
+      "cacheExpire": 3600
     }
   }
 }

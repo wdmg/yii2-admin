@@ -39,7 +39,9 @@ To add a module to the project, add the following data in your configuration fil
         ...
         'admin' => [
             'class' => 'wdmg\admin\Module',
-            'routePrefix' => 'admin'
+            'routePrefix' => 'admin',
+            'checkForUpdates' => true, // boolean, the flag if updates check turn on
+            'cacheExpire' => 3600 // integer, the time to expire cache
         ],
         ...
     ],
@@ -59,6 +61,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
-* v.1.1.6 - Logo fix and check for updates notify for modules
+* v.1.1.6 - Logo fix, add check for updates notify for modules
 * v.1.1.5 - Some bugfix for migrations and views
 * v.1.1.4 - Added Mailer and News modules to support
