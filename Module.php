@@ -16,6 +16,7 @@ namespace wdmg\admin;
 
 use Yii;
 use wdmg\base\BaseModule;
+use yii\helpers\ArrayHelper;
 
 /**
  * api module definition class
@@ -260,14 +261,12 @@ class Module extends BaseModule
             return false;
 
         $remote_version = null;
-        $cached_version = Yii::$app->cache->get('modules.versions');
-        if (isset($cached_version[$module_name]))
-            $remote_version = $cached_version[$module_name];
+        $versions = Yii::$app->cache->get('modules.versions');
 
-
+        if (isset($versions[$module_name]))
+            $remote_version = $versions[$module_name];
 
         if (is_null($remote_version)) {
-
 
             $client = new \yii\httpclient\Client(['baseUrl' => 'https://api.github.com']);
             $response = $client->get('/repos/'.$module_name.'/releases/latest', [])->setHeaders([
@@ -275,15 +274,14 @@ class Module extends BaseModule
                 'Content-Type' => 'application/json'
             ])->send();
 
-            //var_dump($response->getStatusCode());
-            //var_dump($response->content);
-
             if ($response->getStatusCode() == 200) {
                 $data = \json_decode($response->content);
                 $remote_version = $data->tag_name;
 
-                if (!is_null($remote_version))
-                    Yii::$app->cache->add(['modules.versions' => $module_name], $remote_version, 3600);
+                if ($remote_version && $versions)
+                    Yii::$app->cache->add('modules.versions', ArrayHelper::merge($versions, [$module_name => $remote_version]), 3600);
+                elseif ($remote_version)
+                    Yii::$app->cache->add('modules.versions', [$module_name => $remote_version], 3600);
 
             } else {
 
