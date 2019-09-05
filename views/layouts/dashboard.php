@@ -50,13 +50,40 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                 'class' => 'row',
             ]
         ]);
+
+        $items = [];
+        if (Yii::$app->getModule('admin/terminal', false))
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-terminal"></span> Terminal',
+                'url' => '#terminal'
+            ];
+
+        if (Yii::$app->getModule('admin/translations', false))
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-language"></span> Language',
+                'items' => $this->params['langs']
+            ];
+        else
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-language"></span> Language',
+                'items' => $this->params['langs']
+            ];
+
+        if (Yii::$app->user->isGuest)
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-sign-in"></span> Login',
+                'url' => ['/admin/login']
+            ];
+        else
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-user-o"></span> Logout (' . Yii::$app->user->identity->username . ')',
+                'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']
+            ];
+
+
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => [
-                ['label' => '<span class="fa fa-fw fa-terminal"></span> Terminal', 'url' => '#terminal'],
-                ['label' => '<span class="fa fa-fw fa-language"></span> Language', 'items' => $this->params['langs']],
-                (Yii::$app->user->isGuest) ? ['label' => '<span class="fa fa-fw fa-sign-in"></span> Login', 'url' => ['/admin/login']] : ['label' => '<span class="fa fa-fw fa-user-o"></span> Logout (' . Yii::$app->user->identity->username . ')', 'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']],
-            ],
+            'items' => $items,
             'encodeLabels' => false
         ]);
         NavBar::end();
@@ -148,7 +175,10 @@ JS
         <div class="container-fluid">
             <div class="row">
                 <div class="col-xs-12 col-md-6 text-left">
-                    <p>&copy; <?= date('Y') ?>, <?= Html::a('Butterfly.CMS', 'http://butterflycms.com/', ['target' => "_blank"]) ?></p>
+                    <p>
+                        &copy; <?= date('Y') ?>, <?= Html::a('Butterfly.CMS', 'http://butterflycms.com/', ['target' => "_blank"]) ?>
+                        <?= $this->params['version']; ?>
+                    </p>
                 </div>
                 <div class="col-xs-12 col-md-6 text-right">
                     <p>Created by <?= Html::a('W.D.M.Group, Ukraine', 'http://wdmg.com.ua/', ['target' => "_blank"]) ?></p>

@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 1.1.6 (2019-09-05)
+ * Change logotype in navbar
+ * Change logotype in navbar
+ * Change logotype in navbar
+
 ## 1.1.5 (2019-08-31)
  * Some bugfix for migrations and views
  
