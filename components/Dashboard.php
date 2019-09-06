@@ -7,7 +7,7 @@ namespace wdmg\admin\components;
  * Yii2 Dashboard
  *
  * @category        Component
- * @version         1.1.6
+ * @version         1.1.7
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -185,6 +185,19 @@ class Dashboard extends Component
         }
 
         return $items;
+    }
+
+    /**
+     * Return app version
+     *
+     * @return mixed
+     */
+    public function getAppVersion()
+    {
+        if (in_array(Yii::$app->id, ['butterfly-cms', 'butterfly-cms-console', 'butterfly-cms-tests']))
+            return 'v'.Yii::$app->getVersion();
+        else
+            return false;
     }
 }
 

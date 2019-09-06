@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.1.6
+ * @version         1.1.7
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -56,7 +56,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.1.6";
+    private $version = "1.1.7";
 
     /**
      * @var integer, priority of initialization
@@ -268,15 +268,10 @@ class Module extends BaseModule
     {
         $viewed = array();
         $session = Yii::$app->session;
+        $check_updates = $this->getOption('admin.checkForUpdates');
 
         if(isset($session['viewed-flash']) && is_array($session['viewed-flash']))
             $viewed = $session['viewed-flash'];
-
-        // Updates check turn on?
-        if (isset(Yii::$app->params['admin.checkForUpdates']))
-            $check_updates = intval(Yii::$app->params['admin.checkForUpdates']);
-        else
-            $check_updates = $this->checkForUpdates;
 
         // Get time to expire cache
         if (isset(Yii::$app->params['admin.cacheExpire']))
@@ -285,6 +280,7 @@ class Module extends BaseModule
             $expire = $this->cacheExpire;
 
         if (!$check_updates) {
+            Yii::warning('Attention! In the system settings, the ability to check for updates is disabled.', __METHOD__);
             if(!in_array('admin-check-updates', $viewed) && is_array($viewed)) {
                 Yii::$app->getSession()->setFlash(
                     'warning',
@@ -295,7 +291,7 @@ class Module extends BaseModule
             return false;
         }
 
-        if (!$module_name || !$current_version)
+        if (Yii::$app->user->isGuest || !$module_name || !$current_version)
             return false;
 
         $remote_version = null;
@@ -325,6 +321,7 @@ class Module extends BaseModule
             } else {
 
                 if ($response->getStatusCode() == 404) {
+                    Yii::error('An error occurred while checking for updates for `'.$module_name.'`. 404 - Resource not found.', __METHOD__);
                     Yii::$app->session->setFlash(
                         'error',
                         Yii::t('app/modules/admin', 'An error occurred while checking for updates for `{module}`. 404 - Resource not found.',
@@ -333,6 +330,7 @@ class Module extends BaseModule
                     );
                 } else if ($response->getStatusCode() == 403) {
                     Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+                    Yii::error('An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.', __METHOD__);
                     if(!in_array('admin-updates-limit', $viewed) && is_array($viewed)) {
                         Yii::$app->getSession()->setFlash(
                             'error',
@@ -342,6 +340,7 @@ class Module extends BaseModule
                     }
                 } else if ($response->getStatusCode() == 503) {
                     Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+                    Yii::error('An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.', __METHOD__);
                     if(!in_array('admin-updates-unavailable', $viewed) && is_array($viewed)) {
                         Yii::$app->getSession()->setFlash(
                             'error',
@@ -361,4 +360,5 @@ class Module extends BaseModule
             return false;
 
     }
+
 }

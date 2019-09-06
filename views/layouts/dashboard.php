@@ -176,12 +176,12 @@ JS
             <div class="row">
                 <div class="col-xs-12 col-md-6 text-left">
                     <p>
-                        &copy; <?= date('Y') ?>, <?= Html::a('Butterfly.CMS', 'http://butterflycms.com/', ['target' => "_blank"]) ?>
-                        <?= $this->params['version']; ?>
+                        &copy; <?= date('Y') ?>, <?= Html::a('Butterfly.CMS', 'https://butterflycms.com/', ['target' => "_blank"]) ?>
+                        <?= Yii::$app->dashboard->getAppVersion(); ?>
                     </p>
                 </div>
                 <div class="col-xs-12 col-md-6 text-right">
-                    <p>Created by <?= Html::a('W.D.M.Group, Ukraine', 'http://wdmg.com.ua/', ['target' => "_blank"]) ?></p>
+                    <p>Created by <?= Html::a('W.D.M.Group, Ukraine', 'https://wdmg.com.ua/', ['target' => "_blank"]) ?></p>
                 </div>
             </div>
         </div>

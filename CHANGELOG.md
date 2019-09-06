@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.7 (2019-09-07)
+ * Fix check updates for modules. Add method getAppVersion() for layout. Update dependencies.
+ 
 ## 1.1.6 (2019-09-05)
  * Added module params
  * Check for updates notify for modules
