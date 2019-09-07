@@ -121,7 +121,7 @@ return [
     'An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 403 - Превышен лимит запросов.",
     'An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 503 - Сервис временно недоступен.",
 
-    'Bug report from {appname}' => "Отчёт об ошибке {appname}",
+    'Bug report from {appname}' => "Отчёт об ошибке в {appname}",
     'Report a bug' => "Сообщить об ошибке",
     'Bug Report' => "Сообщение об ошибке",
     'Your name' => "Ваше имя",

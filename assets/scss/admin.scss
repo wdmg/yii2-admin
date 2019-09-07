@@ -1130,6 +1130,23 @@ body {
     }
   }
 
+  .popover {
+
+    &.nav-popover {
+      .popover-content {
+        padding: 4px 4px;
+        .nav > li {
+          border-bottom: 1px solid $gray-lighter;
+          & > a {
+            padding: 8px 8px;
+          }
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
 
   .sidebar {
     display: none;

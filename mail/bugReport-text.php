@@ -9,6 +9,6 @@ Butterfly.CMS
 
 <?= Yii::t('app/modules/admin', 'Hi!'); ?>
 
-Name:</b> <?= $name ?>
-E-mail:</b> <?= $email ?>
-Message:</b> <?= $message ?>
+Name: <?= $name ?>
+E-mail: <?= $email ?>
+Message: <?= $message ?>

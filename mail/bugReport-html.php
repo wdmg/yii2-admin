@@ -22,5 +22,5 @@ else
     <h3><?= Html::encode(Yii::t('app/modules/admin', 'Hi!')); ?></h3>
     <p><b>Name:</b> <?= $name ?></p>
     <p><b>E-mail:</b> <?= $email ?></p>
-    <p<b>Message:</b> <?= $message ?></p>
+    <p><b>Message:</b> <?= $message ?></p>
 </div>

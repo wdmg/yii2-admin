@@ -120,12 +120,14 @@ $(document).ready(function() {
         $sidebarNav.find('.dropdown-submenu > a').each(function() {
             var $this = $(this);
             $this.popover({
-                placement: 'right',
+                placement: 'auto right',
                 trigger: 'click',
                 container: 'body',
+                title: false,
                 html: true,
+                template: '<div class="popover nav-popover" role="tooltip"><div class="arrow"></div><div class="popover-content"></div></div>',
                 content: function() {
-                    return $this.parent('.dropdown-submenu').find('ul').outerHtml();
+                    return $this.parent('.dropdown-submenu').find('ul').addClass('nav').outerHtml();
                 }
             });
         });
