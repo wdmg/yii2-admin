@@ -33,7 +33,4 @@ if (isset(Yii::$app->params["mailer.webMailUrl"]))
     <p><?= Yii::t('app/modules/admin', 'Follow the link below to reset your password: {link}', [
         'link' => Html::a(Html::encode($resetLink), $resetLink),
     ]); ?></p>
-    <p><?= Yii::t('app/modules/admin', 'Do not see the images? Go to the {link} of this email.', [
-        'link' => Html::a('web version', $webMailUrl),
-    ]); ?></p>
 </div>

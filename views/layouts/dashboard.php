@@ -174,18 +174,53 @@ JS
     <footer class="footer">
         <div class="container-fluid">
             <div class="row">
-                <div class="col-xs-12 col-md-6 text-left">
+                <div class="col-xs-12 col-md-4 text-left">
                     <p>
                         &copy; <?= date('Y') ?>, <?= Html::a('Butterfly.CMS', 'https://butterflycms.com/', ['target' => "_blank"]) ?>
                         <?= Yii::$app->dashboard->getAppVersion(); ?>
                     </p>
                 </div>
-                <div class="col-xs-12 col-md-6 text-right">
+                <div class="col-xs-12 col-md-4 text-center">
+                    <p>
+                        <?= Html::a(
+                            Html::tag('span', '', ['class' => 'fa fa-fw fa-bug']) .
+                            Yii::t('app/modules/admin', 'Report a bug'),
+                            '#bugreport',
+                            ['class' => 'text-danger']
+                        ) ?>
+
+                    </p>
+                </div>
+                <div class="col-xs-12 col-md-4 text-right">
                     <p>Created by <?= Html::a('W.D.M.Group, Ukraine', 'https://wdmg.com.ua/', ['target' => "_blank"]) ?></p>
                 </div>
             </div>
         </div>
     </footer>
+
+    <?php $this->registerJs(<<< JS
+        $('body').delegate('a[href="#bugreport"]', 'click', function(event) {
+            event.preventDefault();
+            $.get(
+                '/admin/bugreport',
+                function (data) {
+                    $('#bugreportModal .modal-body').html($(data).remove('.modal-footer'));
+                    if ($(data).find('.modal-footer').length > 0) {
+                        $('#bugreportModal').find('.modal-footer').remove();
+                        $('#bugreportModal .modal-content').append($(data).find('.modal-footer'));
+                    }
+                    $('#bugreportModal').modal();
+                }
+            );
+        });
+JS
+    ); ?>
+    <?php yii\bootstrap\Modal::begin([
+        'id' => 'bugreportModal',
+        'header' => '<h4 class="modal-title">'.Yii::t('app/modules/admin', 'Bug Report').'</h4>',
+    ]); ?>
+    <?php yii\bootstrap\Modal::end(); ?>
+
 <?php $this->endBody() ?>
 </body>
 </html>

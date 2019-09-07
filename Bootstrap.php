@@ -40,13 +40,13 @@ class Bootstrap implements BootstrapInterface
         $app->getUrlManager()->addRules(
             [
                 'admin' => 'admin/admin/index',
-                'admin/<action:(index|modules|login|logout|restore|checkpoint)>' => 'admin/admin/<action>',
+                'admin/<action:(index|modules|login|logout|restore|checkpoint|bugreport)>' => 'admin/admin/<action>',
                 [
                     'pattern' => 'admin/index',
                     'route' => 'admin/admin/index',
                     'suffix' => '',
                 ], [
-                    'pattern' => 'admin/<action:(index|modules|login|logout|restore|checkpoint)>',
+                    'pattern' => 'admin/<action:(index|modules|login|logout|restore|checkpoint|bugreport)>',
                     'route' => 'admin/admin/<action>',
                     'suffix' => '',
                 ],

@@ -121,7 +121,20 @@ return [
     'An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 403 - Превышен лимит запросов.",
     'An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 503 - Сервис временно недоступен.",
 
-
+    'Bug report from {appname}' => "Отчёт об ошибке {appname}",
+    'Report a bug' => "Сообщить об ошибке",
+    'Bug Report' => "Сообщение об ошибке",
+    'Your name' => "Ваше имя",
+    'E-mail' => "Эл. почта",
+    'Screenshots' => "Скриншоты",
+    'Information to be transmitted in the report' => "Информация, которая будет передана в отчёте",
+    'Message' => "Сообщение",
+    'Cancel' => "Отмена",
+    'Send' => "Отправить",
+    'Describe your problem or suggestion for optimization here...' => "Опишите вашу проблему или предложение по оптимизации...",
+    'Your bug report is sent successfully!' => "Ваш отчет об ошибке успешно отправлен!",
+    'Failed to send error report.' => "Не удалось отправить отчёт об ошибке.",
+    '* - passwords and/or authorization data will not be transferred in this report!' => "* - пароли и/или данные авторизации не будут переданы в данном отчёте!",
 
 ];
 

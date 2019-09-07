@@ -563,4 +563,131 @@ class AdminController extends Controller
         else
             return ['loggedin' => false];
     }
+
+    /**
+     * Bugreport action.
+     * @return mixed
+     */
+    public function actionBugreport()
+    {
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['admin/login']);
+        } else {
+            $model = new \yii\base\DynamicModel(['name', 'email', 'message', 'screenshots', 'report']);
+            $model->addRule(['name'], 'string', ['max' => 64]);
+            $model->addRule(['email'], 'email');
+            $model->addRule(['message'], 'string', ['max' => 255]);
+            $model->addRule(['screenshots'], 'file', ['skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 3, 'maxSize' => (1024 * 1024 * 2)]);
+
+            $data = [
+                'phpVersion' => PHP_VERSION,
+                'yiiVersion' => Yii::getVersion(),
+                'application' => [
+                    'id' => Yii::$app->id,
+                    'name' => Yii::$app->name,
+                    'version' => Yii::$app->version,
+                    'host' => \yii\helpers\Url::base(true),
+                    'language' => Yii::$app->language,
+                    'sourceLanguage' => Yii::$app->sourceLanguage,
+                    'charset' => Yii::$app->charset,
+                    'env' => YII_ENV,
+                    'debug' => YII_DEBUG,
+                ],
+                'php' => [
+                    'version' => PHP_VERSION,
+                    'xdebug' => extension_loaded('xdebug'),
+                    'apc' => extension_loaded('apc'),
+                    'memcache' => extension_loaded('memcache'),
+                    'memcached' => extension_loaded('memcached'),
+                ],
+            ];
+
+            $model->report = json_encode(ArrayHelper::merge($data, [
+                'extensions' => Yii::$app->extensions,
+                'components' => Yii::$app->getComponents(),
+                'params' => Yii::$app->params
+            ]));
+
+            if (Yii::$app->request->isPost && $model->validate()) {
+
+                $uploadDir = Yii::getAlias('@webroot/uploads/attachments');
+                if(!is_dir($uploadDir))
+                    yii\helpers\FileHelper::createDirectory($uploadDir);
+
+
+                // Attach report file
+                $reports = null;
+                if (Yii::$app->request->isPost) {
+                    $jsonfile = $uploadDir .'/report-'.time().'-'.uniqid($model->name).'.json';
+                    $fp = fopen($jsonfile, 'w+');
+                    if (fwrite($fp, $model->report)) {
+                        $reports[] = $jsonfile;
+                    }
+                    fclose($fp);
+                }
+
+                // Attach screenshots
+                $screenshots = null;
+                if (Yii::$app->request->isPost) {
+                    $model->screenshots = \yii\web\UploadedFile::getInstances($model, 'screenshots');
+                    if ($model->screenshots) {
+                        foreach ($model->screenshots as $screenshot) {
+                            $screenshotfile = $uploadDir .'/'. $screenshot->baseName . '.' . $screenshot->extension;
+                            if($screenshot->saveAs($screenshotfile, false)) {
+                                $screenshots[] = $screenshotfile;
+                                Yii::warning('Attach screenshots '.'uploads/' . $screenshot->baseName . '.' . $screenshot->extension);
+                            }
+                        }
+                    }
+                }
+
+                if ($model->load(Yii::$app->request->post(), 'DynamicModel')) {
+
+                    $message = Yii::$app->mailer
+                        ->compose([
+                            'html' => '@vendor/wdmg/yii2-admin/mail/bugReport-html',
+                            'text' => '@vendor/wdmg/yii2-admin/mail/bugReport-text',
+                        ], [
+                            'name' => $model->name,
+                            'email' => $model->email,
+                            'message' => $model->message,
+                        ])
+                        ->setFrom([$model->email => $model->name])
+                        ->setTo('butterflycms.com@gmail.com')
+                        ->setSubject(Yii::t('app/modules/admin', 'Bug report from {appname}', [
+                            'appname' => Yii::$app->name,
+                        ]));
+
+                    $attachments = \yii\helpers\ArrayHelper::merge(
+                        (is_array($reports) ? $reports : []),
+                        (is_array($screenshots) ? $screenshots : [])
+                    );
+
+                    foreach ($attachments as $attachment) {
+                        if (!empty($attachment))
+                            $message->attach($attachment);
+                    }
+
+                    if ($message->send()) {
+                        Yii::warning('our bug report is sent successfully!');
+                        Yii::$app->session->setFlash('success', Yii::t('app/modules/admin','Your bug report is sent successfully!'));
+                    } else {
+                        Yii::warning('Failed to send error report');
+                        Yii::$app->session->setFlash('error', Yii::t('app/modules/admin','Failed to send error report.'));
+                    }
+
+                    return $this->redirect(['admin/index']);
+                }
+            }
+
+            if (Yii::$app->request->isAjax) {
+                return $this->renderAjax('_bugreport', [
+                    'model' => $model
+                ]);
+            } else {
+                die();
+                return $this->redirect(['admin/index']);
+            }
+        }
+    }
 }
