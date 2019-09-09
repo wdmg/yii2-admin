@@ -61,6 +61,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
-* v.1.1.8 - Styling sidebar submenu
+* v.1.1.8 - Fix console, styling sidebar submenu
 * v.1.1.7 - Added bug report functionality, fix check updates for modules. Update dependencies
 * v.1.1.6 - Logo fix, add check for updates notify for modules

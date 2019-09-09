@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.1.8 (2019-09-08)
+## 1.1.8 (2019-09-09)
+ * Fix console
  * Styling sidebar submenu
 
 ## 1.1.7 (2019-09-07)

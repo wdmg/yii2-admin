@@ -188,13 +188,13 @@ class Module extends BaseModule
             'items' => ['messages', 'likes', 'bookmarks', 'reposts', 'views', 'votes'],
             'order' => 11,
         ], [
+            'label' => 'Security',
+            'icon' => 'fa-shield',
+            'order' => 12,
+        ], [
             'label' => 'Common',
             'icon' => 'fa-wrench',
             'items' => ['geo', 'translations'],
-            'order' => 12,
-        ], [
-            'label' => 'Security',
-            'icon' => 'fa-shield',
             'order' => 13,
         ], [
             'label' => 'Stats',
@@ -229,16 +229,16 @@ class Module extends BaseModule
             // Set assets bundle, if not loaded
             if(!isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
                 Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
+
+            // Check of updates and return current version
+            $meta = $this->getMetaData();
+            $version = $this->getVersion();
+            if ($new_version = $this->checkUpdates($meta['name'], $version)) // wdmg/yii2-admin
+                $this->view->params['version'] = 'v'. $version . ' <label class="label label-danger">Available update to ' . $new_version . '</label>';
+            else
+                $this->view->params['version'] = 'v'. $version;
+
         }
-
-        // Check of updates and return current version
-        $meta = $this->getMetaData();
-        $version = $this->getVersion();
-        if ($new_version = $this->checkUpdates($meta['name'], $version)) // wdmg/yii2-admin
-            $this->view->params['version'] = 'v'. $version . ' <label class="label label-danger">Available update to ' . $new_version . '</label>';
-        else
-            $this->view->params['version'] = 'v'. $version;
-
     }
 
     /**
