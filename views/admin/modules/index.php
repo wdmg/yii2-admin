@@ -125,7 +125,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     ]])->label(false)->widget(SelectInput::className(), [
                     'items' => $extensions,
                     'options' => [
-                        'class' => 'form-control'
+                        'class' => 'form-control',
+                        'disabled' => (count($extensions) == 0) ? true : false
                     ],
                     'pluginOptions' => [
                         'dropdownClass' => '.dropdown .btn-block',
@@ -138,6 +139,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'autoActivate')->checkbox([
                     'checked' => true,
                     'style' => 'margin-top:10px;',
+                    'disabled' => (count($extensions) == 0) ? true : false
                 ]); ?>
             </div>
             <div class="col-xs-12 col-sm-6 col-lg-3">

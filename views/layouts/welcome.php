@@ -57,7 +57,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                         'class' => 'dropdown-menu-right'
                     ],
                     'items' => $this->params['langs'],
-                ],
+                    'encodeLabels' => false
+                ]
             ]); ?>
             <?= Alert::widget() ?>
             <?= $content ?>

@@ -210,6 +210,14 @@ class Module extends BaseModule
     ];
 
     /**
+     * @var array, support system languages
+     */
+    private $locales = [
+        'en-US' => 'English',
+        'ru-RU' => 'Русский',
+    ];
+
+    /**
      * {@inheritdoc}
      */
     public function init()
@@ -248,6 +256,15 @@ class Module extends BaseModule
     public function getSupportModules()
     {
         return $this->support;
+    }
+
+    /**
+     * Return list of support languages
+     * @return array of locales
+     */
+    public function getSupportLanguages()
+    {
+        return $this->locales;
     }
 
     /**

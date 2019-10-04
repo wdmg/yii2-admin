@@ -88,10 +88,42 @@ class Bootstrap implements BootstrapInterface
         // Configure languages menu for UI
         if (!($app instanceof \yii\console\Application) && $this->module) {
             \yii\base\Event::on(\yii\base\Controller::className(), \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) {
-                Yii::$app->view->params['langs'] = [
-                    ['label' => 'English', 'url' => '?lang=en-US', 'active'=> (Yii::$app->language == 'en-US') ? true : false, 'options' => ['class' => (Yii::$app->language == 'en-US') ? ['class' => 'active'] : false]],
-                    ['label' => 'Русский', 'url' => '?lang=ru-RU', 'active'=> (Yii::$app->language == 'ru-RU') ? true : false, 'options' => ['class' => (Yii::$app->language == 'ru-RU') ? ['class' => 'active'] : false]],
-                ];
+
+                $langs = [];
+                $locales = $this->module->getSupportLanguages();
+                if ($translations = Yii::$app->getModule('admin/translations')) {
+
+                    $bundle = \wdmg\translations\FlagsAsset::register(Yii::$app->view);
+                    foreach ($locales as $locale => $name) {
+
+                        $locale = $translations->parseLocale($locale, Yii::$app->language);
+                        if (!($country = $locale['domain']))
+                            $country = '_unknown';
+
+                        $flag = \yii\helpers\Html::img($bundle->baseUrl . '/flags-iso/flat/24/'.$country.'.png');
+
+                        $langs[] = [
+                            'label' => $flag . '&nbsp;' . $locale['name'],
+                            'url' => '?lang='.$locale['locale'],
+                            'active'=> (Yii::$app->language == $locale['locale']) ? true : false,
+                            'options' => [
+                                'class' => (Yii::$app->language == $locale['locale']) ? 'active' : false
+                            ]
+                        ];
+                    }
+                } else {
+                    foreach ($locales as $locale => $name) {
+                        $langs[] = [
+                            'label' => $name,
+                            'url' => '?lang='.$locale,
+                            'active'=> (Yii::$app->language == $locale) ? true : false,
+                            'options' => [
+                                'class' => (Yii::$app->language == $locale) ? 'active' : false
+                            ]
+                        ];
+                    }
+                }
+                Yii::$app->view->params['langs'] = $langs;
             });
         }
 
