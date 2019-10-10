@@ -20,7 +20,7 @@ use yii\widgets\DetailView;
             'description:ntext',
 
             'class:ntext',
-            'bootstrap:ntext',
+            // 'bootstrap:ntext',
             'require:ntext',
             'type:ntext',
 

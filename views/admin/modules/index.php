@@ -34,7 +34,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'class',
-            'bootstrap',
+            // 'bootstrap',
             [
                 'attribute' => 'version',
                 'format' => 'raw',
