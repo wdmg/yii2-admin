@@ -18,18 +18,18 @@ $bootstrap-sass-asset-helper: false !default;
 //## Gray and brand colors for use across Bootstrap.
 
 $gray-base:              #000 !default;
-$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
-$gray-dark:              lighten($gray-base, 20%) !default;   // #333
-$gray:                   lighten($gray-base, 33.5%) !default; // #555
-$gray-light:             lighten($gray-base, 46.7%) !default; // #777
-$gray-lighter:           #ddd !default;
+$gray-darker:            #222222 !default; // #222
+$gray-dark:              #333333 !default;   // #333
+$gray:                   #555555 !default; // #555
+$gray-light:             #777777 !default; // #777
+$gray-lighter:           #F7F7F7 !default;
 
 //$brand-primary:         darken(#428bca, 6.5%) !default; // #337ab7
 $brand-primary:         #1786DB !default; // #337ab7
 //$brand-success:         #5cb85c !default;
 //$brand-success:         #28ca41 !default;
 $brand-success:         #42c14f !default;
-$brand-info:            #5bc0de !default;
+$brand-info:            #34A0E8 !default;
 //$brand-warning:         #f0ad4e !default;
 //$brand-warning:         #ffbd2e !default;
 $brand-warning:         #f7b53e !default;
@@ -931,6 +931,14 @@ $hr-border:                   $gray-lighter !default;
 @import "bootstrap/responsive-utilities";
 
 
+/* Extend components */
+.label {
+  &[disabled] {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+}
+
 body {
   //-webkit-font-smoothing: subpixel-antialiased;
   //transform: translate3d( 0, 0, 0);
@@ -1150,6 +1158,8 @@ body {
 
   .sidebar {
     display: none;
+    background-color: $gray-lighter;
+    background-image: linear-gradient(90deg, rgba($gray-base, 0.00) 95%, rgba($gray-base, 0.12) 100%), linear-gradient(-90deg, $gray-lighter 0%, #F0F0F0 100%);
     .nav-sidebar {
       margin-right: -($padding-base-horizontal + 1px); /* + 1px border */
       margin-bottom: $padding-base-horizontal;
@@ -1160,12 +1170,24 @@ body {
         width: 100%;
         & > a {
           padding: ($padding-base-vertical/2) $padding-base-horizontal;
+          &:hover,
+          &:focus {
+            color: $brand-primary;
+            background-color: transparent;
+            background-image: linear-gradient(90deg, rgba($body-bg, 0.80) 0%, rgba($gray-lighter, 0.00) 100%);
+          }
+        }
+        &.disabled > a,
+        &.disabled > a:hover,
+        &.disabled > a:focus {
+          color: $gray-light;
         }
         &.active > a,
         &.active > a:hover,
         &.active > a:focus {
           color: $body-bg;
           background-color: $brand-primary;
+          background-image: linear-gradient(90deg, rgba($gray-base, 0.00) 95%, rgba($gray-base, 0.18) 100%), linear-gradient(-90deg, $brand-info 0%, $brand-primary 100%);
         }
         &.dropdown {
           & > .dropdown-toggle {
@@ -1195,6 +1217,8 @@ body {
             position: relative;
             width: 100%;
             border: 0;
+            border-radius: 0;
+            background-image: linear-gradient(90deg, rgba($gray-base, 0.00) 95%, rgba($gray-base, 0.12) 100%);
             & > li {
               & > a {
                 padding: 0;
@@ -1253,8 +1277,15 @@ body {
     margin: 0;
     height: 42px;
     padding: ($padding-base-vertical*2) $padding-base-horizontal;
-    border-top: 1px solid $gray-lighter;
-    background-color: $gray-bg;
+    border-top: 1px solid #dcdcdc;
+    //background: linear-gradient(to bottom, $body-bg 0%, $gray-lighter 100%);
+    background: $gray-lighter;
+    background: -moz-linear-gradient(top, $gray-lighter 0%, #e0e0e0 100%);
+    background: -webkit-linear-gradient(top, $gray-lighter 0%, #e0e0e0 100%);
+    background: linear-gradient(to bottom, $gray-lighter 0%, #e0e0e0 100%);
+    filter: #{"progid:DXImageTransform.Microsoft.gradient(startColorstr="$gray-lighter", endColorstr="#e0e0e0", GradientType=0)"};
+
+
     p {
       margin-bottom: 0 !important;
     }
@@ -1301,6 +1332,12 @@ body {
         margin-top: 0;
       }
     }
+  }
+}
+@media (max-width: $screen-sm-max) {
+  .navbar .navbar-collapse {
+    height: 100vh;
+    max-height: 100vh;
   }
 }
 @media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {

@@ -58,18 +58,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                 'url' => '#terminal'
             ];
 
-        /*if (Yii::$app->getModule('admin/translations', false))
-            $items[] = [
-                'label' => '<span class="fa fa-fw fa-language"></span> Language',
-                'items' => $this->params['langs']
-            ];
-        else
-            $items[] = [
-                'label' => '<span class="fa fa-fw fa-language"></span> Language',
-                'items' => $this->params['langs']
-            ];
-*/
-
         $items[] = [
             'label' => '<span class="fa fa-fw fa-language"></span> Language',
             'items' => $this->params['langs']
@@ -88,7 +76,10 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
 
 
         echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
+            'options' => [
+                'id' => 'mainNav',
+                'class' => 'navbar-nav navbar-right'
+            ],
             'items' => $items,
             'encodeLabels' => false
         ]);

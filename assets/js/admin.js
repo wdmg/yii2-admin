@@ -6,7 +6,15 @@ $(document).ready(function() {
     var $welcomeScreen = $('body.welcome');
     var $requestProgress = $dashboard.find('#requestProgress');
     var $sidebar = $dashboard.find('.sidebar');
+    var $mainNav = $dashboard.find('#mainNav');
     var $sidebarNav = $sidebar.find('#sidebarNav');
+    var viewport = $(window).viewport();
+    var breakpoints = {
+        xs: 480,
+        sm: 768,
+        md: 992,
+        lg: 1200
+    };
 
     // Language selector of admin interface
     if ($welcomeScreen.find('#languageSelector')) {
@@ -132,6 +140,17 @@ $(document).ready(function() {
             });
         });
 
+        // Add sidebar nav to main navbar for sm and xs displays
+        if (viewport.width <= breakpoints.sm) {
+            var $sidebar = $sidebarNav.clone();
+            $sidebar.attr('class', 'nav navbar-nav hidden-md hidden-lg');
+            $sidebar.find('li').each(function() {
+                $(this).find('.fa-stack').removeClass('fa-stack').removeClass('fa-lg');
+                $(this).find('.fa').removeClass('fa-stack-1x');
+            });
+            $items = $sidebar.outerHtml();
+            $mainNav.before($items);
+        }
     }
 
 });
