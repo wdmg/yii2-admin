@@ -8,6 +8,7 @@ namespace wdmg\admin;
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  */
 
+use wdmg\base\BaseModule;
 use yii\base\BootstrapInterface;
 use Yii;
 use yii\base\InvalidConfigException;
@@ -25,13 +26,8 @@ class Bootstrap implements BootstrapInterface
         // Get the module instance
         $this->module = Yii::$app->getModule('admin');
 
-        // Get URL path prefix if exist
-        /*if (isset($module->routePrefix)) {
-            $app->getUrlManager()->enableStrictParsing = true;
-            $prefix = $module->routePrefix . '/';
-        } else {
-            $prefix = '';
-        }*/
+        // Get translations module
+        $translations = Yii::$app->getModule('admin/translations');
 
         // Add module URL rules
         $app->getUrlManager()->enablePrettyUrl = true;
@@ -87,11 +83,14 @@ class Bootstrap implements BootstrapInterface
 
         // Configure languages menu for UI
         if (!($app instanceof \yii\console\Application) && $this->module) {
-            \yii\base\Event::on(\yii\base\Controller::className(), \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) {
+            \yii\base\Event::on(\yii\base\Controller::className(), \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
 
                 $langs = [];
                 $locales = $this->module->getSupportLanguages();
-                if ($translations = Yii::$app->getModule('admin/translations')) {
+                if ($translations) {
+
+                    // Register translations for admin module
+                    $translations->registerTranslations($this->module, true);
 
                     $bundle = \wdmg\translations\FlagsAsset::register(Yii::$app->view);
                     foreach ($locales as $locale => $name) {
@@ -112,6 +111,10 @@ class Bootstrap implements BootstrapInterface
                         ];
                     }
                 } else {
+
+                    // Register translations for admin module
+                    $this->module->registerTranslations($this->module);
+
                     foreach ($locales as $locale => $name) {
                         $langs[] = [
                             'label' => $name,
@@ -134,13 +137,14 @@ class Bootstrap implements BootstrapInterface
             ]
         ]);
 
+
         // Loading all child modules
         if(Yii::$app->db->schema->getTableSchema(\wdmg\admin\models\Modules::tableName())) {
             $migrationLookup = [];
             $model = new \wdmg\admin\models\Modules();
             $modules = $model::getModules(true);
             if (is_array($modules)) {
-
+                
                 foreach ($modules as $module) {
 
                     if (!class_exists($module['class'])) {
@@ -170,6 +174,14 @@ class Bootstrap implements BootstrapInterface
                             $installed = $app->getModule('admin/' . $module['module']);
                             if ($installed) {
 
+                                // Register translations for loading module
+                                if (!($app instanceof \yii\console\Application) && $this->module) {
+                                    if ($translations = Yii::$app->getModule('admin/translations'))
+                                        $translations->registerTranslations($installed, true);
+                                    else
+                                        $this->module->registerTranslations($installed);
+                                }
+
                                 // Configure dashboard layout
                                 $installed->layout = 'dashboard';
                                 $installed->layoutPath = '@wdmg/admin/views/layouts';
@@ -189,6 +201,7 @@ class Bootstrap implements BootstrapInterface
                                 } else {
                                     throw new InvalidConfigException('Module `' . $module['class'] . '` must implement BootstrapInterface interface');
                                 }
+
                             }
                         }
                     }

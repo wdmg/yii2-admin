@@ -1,7 +1,7 @@
 <?php
 
 return [
-    'Dashboard' => "Приборная панель",
+    'Dashboard' => "Панель приборов",
     'Main' => "Главная",
     'Main administrative panel' => "Главная административная панель",
 

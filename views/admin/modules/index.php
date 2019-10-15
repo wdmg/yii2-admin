@@ -34,7 +34,6 @@ $this->params['breadcrumbs'][] = $this->title;
             'name',
             'description',
             'class',
-            // 'bootstrap',
             [
                 'attribute' => 'version',
                 'format' => 'raw',
@@ -46,8 +45,16 @@ $this->params['breadcrumbs'][] = $this->title;
                         return $data->version;
 
                 }
-            ],
-            [
+            ], [
+                'attribute' => 'priority',
+                'format' => 'raw',
+                'headerOptions' => [
+                    'class' => 'text-center'
+                ],
+                'contentOptions' => [
+                    'class' => 'text-center'
+                ],
+            ], [
                 'attribute' => 'status',
                 'format' => 'raw',
                 'headerOptions' => [
@@ -78,8 +85,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         }
                     }
                 }
-            ],
-            [
+            ], [
                 'class' => 'yii\grid\ActionColumn',
                 'header' => Yii::t('app/modules/admin', 'Actions'),
                 'buttons'=> [

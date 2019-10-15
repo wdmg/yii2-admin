@@ -73,6 +73,8 @@ class ModulesSearch extends Modules
         if($this->status !== "*")
             $query->andFilterWhere(['like', 'status', $this->status]);
 
+        $query->orderBy(['priority' => SORT_ASC]);
+
         return $dataProvider;
     }
 

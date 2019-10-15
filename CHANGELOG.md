@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.1.9 (2019-10-15)
+ * Add support for translations module
+ * Sidebar stylesheets, adaptive nav menu and fix syntax
+ 
 ## 1.1.8 (2019-09-09)
  * Fix console
  * Styling sidebar submenu
