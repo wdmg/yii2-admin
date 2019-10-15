@@ -61,7 +61,7 @@ class Module extends BaseModule
     /**
      * @var integer, priority of initialization
      */
-    private $priority = 1;
+    private $priority = 0;
 
     /**
      * @var array of support modules
@@ -247,6 +247,7 @@ class Module extends BaseModule
                 $this->view->params['version'] = 'v'. $version;
 
         }
+
     }
 
     /**
@@ -275,7 +276,6 @@ class Module extends BaseModule
     {
         return $this->menu;
     }
-
 
     /**
      * Check for available updates
