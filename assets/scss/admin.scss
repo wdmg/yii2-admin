@@ -1139,7 +1139,6 @@ body {
   }
 
   .popover {
-
     &.nav-popover {
       .popover-content {
         padding: 4px 4px;
@@ -1147,7 +1146,32 @@ body {
           border-bottom: 1px solid $gray-lighter;
           & > a {
             padding: 8px 8px;
+            &:hover,
+            &:focus {
+              background-color: rgba($brand-primary, 0.1);
+            }
           }
+          &:last-child {
+            border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  .panel-widget {
+    @extend .panel-primary;
+    .panel-heading {
+      background-color: $brand-primary;
+      background-image: linear-gradient(-90deg, $brand-info 0%, $brand-primary 100%);
+    }
+    .panel-body {
+      &.list-group {
+        & > li {
+          display: inline-block;
+          padding-left: 0;
+          padding-right: 0;
+          width: 100%;
           &:last-child {
             border-bottom: none;
           }
@@ -1225,6 +1249,10 @@ body {
                 padding-left: 22px;
                 line-height: 38px;
                 height: 38px;
+                &:hover,
+                &:focus {
+                  background-color: rgba($brand-primary, 0.1);
+                }
               }
               &.dropdown-submenu {
                 position: relative;

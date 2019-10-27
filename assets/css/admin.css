@@ -9228,22 +9228,22 @@ button.list-group-item-danger.active:focus {
   border-bottom-color: #F7F7F7;
 }
 
-.panel-primary {
+.panel-primary, .dashboard .panel-widget {
   border-color: #1786DB;
 }
-.panel-primary > .panel-heading {
+.panel-primary > .panel-heading, .dashboard .panel-widget > .panel-heading {
   color: #fff;
   background-color: #1786DB;
   border-color: #1786DB;
 }
-.panel-primary > .panel-heading + .panel-collapse > .panel-body {
+.panel-primary > .panel-heading + .panel-collapse > .panel-body, .dashboard .panel-widget > .panel-heading + .panel-collapse > .panel-body {
   border-top-color: #1786DB;
 }
-.panel-primary > .panel-heading .badge {
+.panel-primary > .panel-heading .badge, .dashboard .panel-widget > .panel-heading .badge {
   color: #1786DB;
   background-color: #fff;
 }
-.panel-primary > .panel-footer + .panel-collapse > .panel-body {
+.panel-primary > .panel-footer + .panel-collapse > .panel-body, .dashboard .panel-widget > .panel-footer + .panel-collapse > .panel-body {
   border-bottom-color: #1786DB;
 }
 
@@ -10517,7 +10517,23 @@ td.visible-print {
 .dashboard .popover.nav-popover .popover-content .nav > li > a {
   padding: 8px 8px;
 }
+.dashboard .popover.nav-popover .popover-content .nav > li > a:hover, .dashboard .popover.nav-popover .popover-content .nav > li > a:focus {
+  background-color: rgba(23, 134, 219, 0.1);
+}
 .dashboard .popover.nav-popover .popover-content .nav > li:last-child {
+  border-bottom: none;
+}
+.dashboard .panel-widget .panel-heading {
+  background-color: #1786DB;
+  background-image: linear-gradient(-90deg, #34A0E8 0%, #1786DB 100%);
+}
+.dashboard .panel-widget .panel-body.list-group > li {
+  display: inline-block;
+  padding-left: 0;
+  padding-right: 0;
+  width: 100%;
+}
+.dashboard .panel-widget .panel-body.list-group > li:last-child {
   border-bottom: none;
 }
 .dashboard .sidebar {
@@ -10578,6 +10594,9 @@ td.visible-print {
   padding-left: 22px;
   line-height: 38px;
   height: 38px;
+}
+.dashboard .sidebar .nav-sidebar > li.dropdown > .dropdown-menu > li > a:hover, .dashboard .sidebar .nav-sidebar > li.dropdown > .dropdown-menu > li > a:focus {
+  background-color: rgba(23, 134, 219, 0.1);
 }
 .dashboard .sidebar .nav-sidebar > li.dropdown > .dropdown-menu > li.dropdown-submenu {
   position: relative;

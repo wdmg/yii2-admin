@@ -84,10 +84,27 @@ class AdminController extends Controller
     {
         $this->layout = 'dashboard';
 
-        if (Yii::$app->user->isGuest)
+        if (Yii::$app->user->isGuest) {
             return $this->redirect(['admin/login']);
-        else
-            return $this->render('index');
+        } else {
+
+            if ($this->module->moduleLoaded('admin/pages'))
+                $widgets['recentPages'] = $this->getRecentPages();
+
+            if ($this->module->moduleLoaded('admin/news'))
+                $widgets['recentNews'] = $this->getRecentNews();
+
+            if ($this->module->moduleLoaded('admin/users'))
+                $widgets['lastUsers'] = $this->getLastUsers();
+
+            if ($this->module->moduleLoaded('admin/stats'))
+                $widgets['recentStats'] = $this->getRecentStats();
+
+            return $this->render('index', [
+                'module' => $this->module,
+                'widgets' => (isset($widgets)) ? $widgets : []
+            ]);
+        }
     }
 
     /**
@@ -689,5 +706,110 @@ class AdminController extends Controller
                 return $this->redirect(['admin/index']);
             }
         }
+    }
+
+
+
+
+
+    public function getRecentPages($limit = 5) {
+        $model = new \wdmg\pages\models\Pages();
+        if (class_exists('\wdmg\users\models\Users')) {
+            $users = new \wdmg\users\models\Users();
+            return $model::find()->select([$model::tableName() . '.id', $model::tableName() . '.name', $model::tableName() . '.created_by', $model::tableName() . '.updated_at'])
+                ->joinWith(['user' => function ($query) use ($users) {
+                    $query->select([$users::tableName() . '.id', $users::tableName() . '.username']);
+                }])->asArray()->limit(intval($limit))
+                ->orderBy([$model::tableName() . '.updated_at' => SORT_DESC])->all();
+        } else {
+            return $model::find()->select('id, name, created_by, updated_at')->where(['status' => true])->asArray()->limit(intval($limit))->orderBy(['updated_at' => SORT_DESC])->all();
+        }
+    }
+
+    public function getRecentNews($limit = 5) {
+        $model = new \wdmg\news\models\News();
+        if (class_exists('\wdmg\users\models\Users')) {
+            $users = new \wdmg\users\models\Users();
+            return $model::find()->select([$model::tableName() . '.id', $model::tableName() . '.name', $model::tableName() . '.created_by', $model::tableName() . '.updated_at'])
+                ->joinWith(['user' => function ($query) use ($users) {
+                    $query->select([$users::tableName() . '.id', $users::tableName() . '.username']);
+                }])->asArray()->limit(intval($limit))
+                ->orderBy([$model::tableName() . '.updated_at' => SORT_DESC])->all();
+        } else {
+            return $model::find()->select('id, name, created_by, updated_at')->where(['status' => true])->asArray()->limit(intval($limit))->orderBy(['updated_at' => SORT_DESC])->all();
+        }
+    }
+
+    public function getLastUsers($limit = 5) {
+        $model = new \wdmg\users\models\Users();
+        return $model::find()->select('id, username, created_at')->where(['or', 'status' => $model::USR_STATUS_ACTIVE, 'status' => $model::USR_STATUS_WAITING])->asArray()->limit(intval($limit))->orderBy(['created_at' => SORT_DESC])->all();
+    }
+
+    public function getRecentStats() {
+        $model = new \wdmg\stats\models\VisitorsSearch();
+        $dataProvider = $model->search(['period' => 'week']);
+        $visitors = $dataProvider->query->all();
+
+        $dateTime = new \DateTime('00:00:00');
+        $timestamp = $dateTime->modify('+1 day')->getTimestamp();
+
+        $format = 'd M';
+        $metrik = 'days';
+        $iterations = 7;
+
+        foreach ($visitors as $visitor) {
+            for ($i = 1; $i <= $iterations; $i++) {
+
+                if($visitor->datetime <= strtotime('-'.$i.' '.$metrik, $timestamp) && $visitor->datetime > strtotime('-'.($i + 1).' '.$metrik, $timestamp))
+                    $output1[$i][] = $visitor->datetime;
+
+                if($visitor->unique == 1 && $visitor->datetime <= strtotime('-'.$i.' '.$metrik, $timestamp) && $visitor->datetime > strtotime('-'.($i + 1).' '.$metrik, $timestamp))
+                    $output2[$i][] = $visitor->datetime;
+
+            }
+        }
+
+        for ($i = 1; $i <= $iterations; $i++) {
+
+            $labels[] = date($format, strtotime('-'.($i+1).' '.$metrik, $timestamp));
+
+            if(isset($output1[$i]))
+                $all_visitors[] = count($output1[$i]);
+            else
+                $all_visitors[] = 0;
+
+            if(isset($output2[$i]))
+                $unique_visitors[] = count($output2[$i]);
+            else
+                $unique_visitors[] = 0;
+        }
+
+        return [
+            'labels' => array_reverse($labels),
+            'datasets' => [
+                [
+                    'label'=> Yii::t('app/modules/stats', 'Views'),
+                    'data' => array_values(array_reverse($all_visitors)),
+                    'backgroundColor' => [
+                        'rgba(54, 162, 235, 0.2)'
+                    ],
+                    'borderColor' => [
+                        'rgba(54, 162, 235, 1)'
+                    ],
+                    'borderWidth' => 1
+                ],
+                [
+                    'label'=> Yii::t('app/modules/stats', 'Visitors'),
+                    'data' => array_values(array_reverse($unique_visitors)),
+                    'backgroundColor' => [
+                        'rgba(255, 99, 132, 0.2)'
+                    ],
+                    'borderColor' => [
+                        'rgba(255,99,132,1)'
+                    ],
+                    'borderWidth' => 1
+                ]
+            ]
+        ];
     }
 }

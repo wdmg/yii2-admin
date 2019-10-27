@@ -77,6 +77,19 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
 
         echo Nav::widget([
             'options' => [
+                'class' => 'navbar-nav navbar-left',
+            ],
+            'items' => [
+                [
+                    'label' => '<span class="fa fa-fw fa-globe"></span> '.Yii::$app->name,
+                    'url' => Url::base(true),
+                    'linkOptions' => ['target' => '_blank']
+                ],
+            ],
+            'encodeLabels' => false
+        ]);
+        echo Nav::widget([
+            'options' => [
                 'id' => 'mainNav',
                 'class' => 'navbar-nav navbar-right'
             ],

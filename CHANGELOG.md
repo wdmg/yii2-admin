@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.10 (2019-10-28)
+ * Added widgets to main dashboard, navigation to main page of site
+ 
 ## 1.1.9 (2019-10-15)
  * Add support for translations module
  * Sidebar stylesheets, adaptive nav menu and fix syntax

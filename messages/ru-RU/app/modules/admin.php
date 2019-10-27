@@ -95,6 +95,8 @@ return [
     'Available modules' => "Доступные модули",
     'Add module' => "Добавить модуль",
 
+    'View all' => "Смотреть всё",
+
     'OK! Module `{module}` successfully deleted.' => "OK! Модуль `{module}` успешно удалён.",
     'An error occurred while deleting a module `{module}`.' => "Произошла ошибка при удалении модуля `{module}`.",
 
