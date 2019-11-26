@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.11 (2019-11-26)
+ * Added Newsletters, Subscribers and Guard modules support
+ 
 ## 1.1.10 (2019-10-28)
  * Added widgets to main dashboard, navigation to main page of site
  

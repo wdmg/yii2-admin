@@ -177,6 +177,10 @@ JS
     ); ?>
     <?php yii\bootstrap\Modal::begin([
         'id' => 'terminalModal',
+        'size' => 'modal-lg',
+        'options' => [
+            'class' => 'modal terminal-modal',
+        ],
         'header' => '<h4 class="modal-title">'.Yii::t('app/modules/admin', 'Terminal').'</h4>',
     ]); ?>
     <?php yii\bootstrap\Modal::end(); ?>
