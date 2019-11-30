@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.12 (2019-11-30)
+ * Added permanently remove module and clear all module options
+ 
 ## 1.1.11 (2019-11-26)
  * Added Newsletters, Subscribers and Guard modules support
  

@@ -106,13 +106,39 @@ $this->params['breadcrumbs'][] = $this->title;
                             'data-pjax' => '0'
                         ]);
                     },
+                    'clear' => function($url, $data, $key) {
+                        return Html::a(
+                            '<span class="glyphicon glyphicon-trash"></span> ' . Yii::t('app/modules/admin', 'Clear'),
+                            Url::to(['admin/modules', 'action' => 'clear', 'id' => $data['id']]),
+                            [
+                                'title' => Yii::t('app/modules/admin', 'Clear data'),
+                                'class' => 'text-danger',
+                                'data-id' => $key,
+                                'data-pjax' => '0',
+                                'data' => [
+                                    'confirm' => Yii::t(
+                                        'app/modules/admin',
+                                        'Are you sure you want to permanently remove the `{module}` module and clear all its options?',
+                                        ['module' => $data->module]),
+                                    'method' => 'post',
+                                ]
+                            ]
+                        );
+                    },
                 ],
                 'visibleButtons' => [
                     'update' => false,
                     'delete' => function ($model, $key, $index) {
                         return !($model->protected) && !($model->status == $model::MODULE_STATUS_NOT_INSTALL);
+                    },
+                    'view' => function ($model, $key, $index) {
+                        return !(!($model->protected) && ($model->status == $model::MODULE_STATUS_NOT_INSTALL));
+                    },
+                    'clear' => function ($model, $key, $index) {
+                        return !($model->protected) && ($model->status == $model::MODULE_STATUS_NOT_INSTALL);
                     }
                 ],
+                'template' => '{view} {update} {delete} {clear}'
             ]
         ],
     ]); ?>

@@ -217,6 +217,53 @@ class AdminController extends Controller
                             }
                         }
                     }
+                } elseif ($action == "clear") {
+                    if (Yii::$app->request->get('id', null)) {
+                        $id = Yii::$app->request->get('id');
+                        $model = $model->findOne(['id' => intval($id)]);
+                        if (intval($model->protected) == 0) {
+
+                            // Errors flag
+                            $errors = false;
+
+                            // Delete all module options from DB
+                            if (isset(Yii::$app->options) && !is_null($model->module)) {
+
+                                if (!Yii::$app->options->deleteAll($model->module))
+                                    $errors = true;
+
+                                Yii::$app->options->clearCache();
+                            }
+
+                            // Delete module entry from DB
+                            if ($model->delete() && !$errors) {
+                                Yii::$app->getSession()->setFlash(
+                                    'success',
+                                    Yii::t(
+                                        'app/modules/admin',
+                                        'OK! Module `{module}` date successfully cleared.',
+                                        [
+                                            'module' => $model->name
+                                        ]
+                                    )
+                                );
+                            } else {
+                                Yii::$app->getSession()->setFlash(
+                                    'danger',
+                                    Yii::t(
+                                        'app/modules/admin',
+                                        'An error occurred while clearing a module `{module}` data.',
+                                        [
+                                            'module' => $model->name
+                                        ]
+                                    )
+                                );
+                            }
+
+
+
+                        }
+                    }
                 }
             }
 

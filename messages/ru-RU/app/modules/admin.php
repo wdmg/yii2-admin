@@ -123,6 +123,10 @@ return [
     'An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 403 - Превышен лимит запросов.",
     'An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.' => "Произошла ошибка при проверке обновлений одного или нескольких модулей. 503 - Сервис временно недоступен.",
 
+    'OK! Module `{module}` date successfully cleared.' => "OK! Данные модуля `{module}` успешно удалены.",
+    'An error occurred while clearing a module `{module}` data.' => "Произошла ошибка при удалении данных модуля `{module}`.",
+    'Are you sure you want to permanently remove the `{module}` module and clear all its options?' => "Вы уверены, что желаете безвозвратно удалить `{module}` модуль и очистить все его опции?",
+
     'Bug report from {appname}' => "Отчёт об ошибке в {appname}",
     'Report a bug' => "Сообщить об ошибке",
     'Bug Report' => "Сообщение об ошибке",
