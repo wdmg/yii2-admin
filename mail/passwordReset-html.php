@@ -7,14 +7,18 @@ use wdmg\admin\AdminAsset;
 /* @var $this yii\web\View */
 /* @var $user \wdmg\users\models\Users */
 
+use wdmg\admin\AdminAsset;
+
 $bundle = AdminAsset::register($this);
+$bundle->js = null;
+$bundle->css = null;
+
+if (isset(Yii::$app->mails))
+    $logotypeLink = Yii::$app->mails->getTrackingUrl($bundle->baseUrl . '/images/logotype.png');
+else
+    $logotypeLink = $bundle->baseUrl . '/images/logotype.png';
 
 $resetLink = Yii::$app->urlManager->createAbsoluteUrl([$linkRoute, 'token' => $user->password_reset_token]);
-
-if (isset(Yii::$app->params["mailer.trackingKey"]))
-    $logotypeLink = Url::to(Url::home(true) . 'mail/track?url=' . $bundle->baseUrl . '/images/logotype.png&key=' . Yii::$app->params["mailer.trackingKey"]);
-else
-    $logotypeLink = Url::to(Url::home(true) . $bundle->baseUrl . '/images/logotype.png');
 
 if (isset(Yii::$app->params["mailer.webMailUrl"]))
     $webMailUrl = Url::to(Yii::$app->params["mailer.webMailUrl"]);
@@ -34,3 +38,13 @@ if (isset(Yii::$app->params["mailer.webMailUrl"]))
         'link' => Html::a(Html::encode($resetLink), $resetLink),
     ]); ?></p>
 </div>
+    <hr/>
+<?php
+if (isset(Yii::$app->mails)) {
+    if ($webversion_url = Yii::$app->mails->getWebversionUrl()) {
+        echo Yii::t('app/modules/admin', 'Do not see the images? Go to the {link} of this email.', [
+            'link' => Html::a('web-version', $webversion_url),
+        ]);
+    }
+}
+?>

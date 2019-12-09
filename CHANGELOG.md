@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.13 (2019-12-09)
+ * Added some module options and fixing password reset email
+ 
 ## 1.1.12 (2019-11-30)
  * Added permanently remove module and clear all module options
  

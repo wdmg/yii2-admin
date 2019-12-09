@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-admin", "dashboard", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.1.12",
+  "version": "1.1.13",
   "homepage": "https://github.com/wdmg/yii2-admin",
   "support": {
     "source": "https://github.com/wdmg/yii2-admin",
@@ -35,7 +35,10 @@
     "options": {
       "routePrefix": "admin",
       "checkForUpdates": true,
-      "cacheExpire": 3600
+      "cacheExpire": 3600,
+      "rememberDuration": 86400,
+      "resetTokenExpire": 3600,
+      "supportEmail": "noreply@example.com"
     }
   }
 }

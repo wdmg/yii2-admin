@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.1.12
+ * @version         1.1.13
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -52,11 +52,14 @@ class Module extends BaseModule
      * @var integer, the time to expire cache
      */
     public $cacheExpire = 3600;
+    public $rememberDuration = 86400;
+    public $resetTokenExpire = 3600;
+    public $supportEmail = 'noreply@example.com';
 
     /**
      * @var string the module version
      */
-    private $version = "1.1.12";
+    private $version = "1.1.13";
 
     /**
      * @var integer, priority of initialization

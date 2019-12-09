@@ -512,9 +512,22 @@ class AdminController extends Controller
             });
 
             try {
-                if ($model->login()) {
-                    return $this->redirect(['admin/index']);
+
+                // Set remember duration
+                if (isset(Yii::$app->params['admin.rememberDuration'])) {
+
+                    if (Yii::$app->hasModule('admin/users'))
+                        $module = Yii::$app->getModule('admin/users');
+                    else
+                        $module = Yii::$app->getModule('users');
+
+                    $rememberDuration = Yii::$app->params['admin.rememberDuration'];
+                    $module->rememberDuration = $rememberDuration;
                 }
+
+                if ($model->login())
+                    return $this->redirect(['admin/index']);
+
             } catch (\DomainException $error) {
                 Yii::$app->session->setFlash('error', $error->getMessage());
                 return $this->redirect(['admin/login']);
@@ -583,12 +596,13 @@ class AdminController extends Controller
                 $module = Yii::$app->getModule('users');
 
             $resetTokenExpire = $module->passwordReset['resetTokenExpire'];
-            if(isset(Yii::$app->params['resetTokenExpire']))
-                $resetTokenExpire = Yii::$app->params['resetTokenExpire'];
+            if (isset(Yii::$app->params['admin.resetTokenExpire']))
+                $resetTokenExpire = Yii::$app->params['admin.resetTokenExpire'];
 
             $supportEmail = $module->passwordReset['supportEmail'];
-            if(isset(Yii::$app->params['supportEmail']))
-                $supportEmail = Yii::$app->params['supportEmail'];
+            if (isset(Yii::$app->params['admin.supportEmail']))
+                $supportEmail = Yii::$app->params['admin.supportEmail'];
+
 
             $module->passwordReset = [
                 'resetTokenExpire' => $resetTokenExpire,
