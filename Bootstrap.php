@@ -82,7 +82,7 @@ class Bootstrap implements BootstrapInterface
 
         // Configure languages menu for UI
         if (!($app instanceof \yii\console\Application) && $this->module) {
-            \yii\base\Event::on(\yii\base\Controller::className(), \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
+            \yii\base\Event::on(\yii\base\Controller::class, \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
 
                 $langs = [];
                 $locales = $this->module->getSupportLanguages();

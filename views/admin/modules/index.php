@@ -154,7 +154,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 <?= $form->field($model, 'extensions', [
                     'options' => [
                         'tag' => false
-                    ]])->label(false)->widget(SelectInput::className(), [
+                    ]])->label(false)->widget(SelectInput::class, [
                     'items' => $extensions,
                     'options' => [
                         'class' => 'form-control',

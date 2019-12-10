@@ -1,6 +1,6 @@
 {
   "name": "yii2-admin-assets",
-  "version": "1.1.13",
+  "version": "1.1.14",
   "description": "Admin Module Assets",
   "main": "Gruntfile.js",
   "scripts": {

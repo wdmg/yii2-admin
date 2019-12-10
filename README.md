@@ -61,6 +61,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.14 - Fixed deprecated class declaration
 * v.1.1.13 - Added some module options and fixing password reset email
 * v.1.1.12 - Added permanently remove module and clear all module options
-* v.1.1.11 - Added Newsletters, Subscribers and Guard modules support

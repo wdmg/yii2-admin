@@ -31,7 +31,7 @@ class AdminController extends Controller
     {
         $behaviors = [
             'verbs' => [
-                'class' => VerbFilter::className(),
+                'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['GET', 'POST'],
                     'restore' => ['GET', 'POST'],
@@ -40,7 +40,7 @@ class AdminController extends Controller
                 ],
             ],
             'access' => [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'except' => ['login', 'checkpoint', 'restore'],
                 'rules' => [
                     [
@@ -54,7 +54,7 @@ class AdminController extends Controller
         // If auth manager not configured use default access control
         if(!Yii::$app->authManager) {
             $behaviors['access'] = [
-                'class' => AccessControl::className(),
+                'class' => AccessControl::class,
                 'except' => ['login', 'checkpoint', 'restore'],
                 'rules' => [
                     [

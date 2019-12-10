@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.14 (2019-12-10)
+ * Fixed deprecated class declaration
+
 ## 1.1.13 (2019-12-09)
  * Added some module options and fixing password reset email
  
