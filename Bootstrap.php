@@ -69,14 +69,20 @@ class Bootstrap implements BootstrapInterface
 
         // Register language of user interface
         if (!($app instanceof \yii\console\Application)) {
-            $lang = $app->session->get('language', false);
-            if ($app->request->get('lang', false)) {
-                $lang = $app->request->get('lang');
-                $app->session->set('language', $lang);
+            if ($lang = $app->request->get('lang', false)) {
+                $app->session->set('lang', $lang);
                 $app->language = $lang;
-            } else if (isset($lang)) {
-                $lang = $app->session->get('language');
-                $app->language = $lang;
+                $app->response->cookies->add(new \yii\web\Cookie([
+                    'name' => 'lang',
+                    'value' => $lang,
+                    'expire' => time() + 604800
+                ]));
+            } else {
+                if ($lang = $app->session->get('lang', false)) {
+                    $app->language = $lang;
+                } else if ($lang = Yii::$app->request->cookies->getValue('lang', (isset($_COOKIE['lang'])) ? $_COOKIE['lang'] : false)) {
+                    $app->language = $lang;
+                }
             }
         }
 
