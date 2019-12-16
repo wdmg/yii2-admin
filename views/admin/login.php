@@ -6,13 +6,10 @@
 
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
+use wdmg\admin\AdminAsset;
 
 $this->title = Yii::t('app/modules/admin', 'SignIn');
 $this->params['breadcrumbs'][] = $this->title;
-//use app\assets\AppAsset;
-use wdmg\admin\AdminAsset;
-
-//AppAsset::register($this);
 $bundle = AdminAsset::register($this);
 ?>
 <div class="admin-login">

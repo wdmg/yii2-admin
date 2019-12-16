@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.1.15 (2019-12-16)
+ * Show/hide main navbar/sidebar menu by hover
+ * Storage UI language in cookie
+ 
 ## 1.1.14 (2019-12-10)
  * Fixed deprecated class declaration
 

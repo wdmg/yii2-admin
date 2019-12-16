@@ -1140,12 +1140,15 @@ body {
 
   .popover {
     &.nav-popover {
+      margin-left: -1px;
+      border-bottom-left-radius: 0;
+      border-top-left-radius: 0;
       .popover-content {
-        padding: 4px 4px;
+        padding: 6px 4px;
         .nav > li {
           border-bottom: 1px solid $gray-lighter;
           & > a {
-            padding: 8px 8px;
+            padding: 8px 15px;
             &:hover,
             &:focus {
               background-color: rgba($brand-primary, 0.1);
@@ -1181,24 +1184,37 @@ body {
   }
 
   .sidebar {
+    position: relative;
     display: none;
     background-color: $gray-lighter;
-    background-image: linear-gradient(90deg, rgba($gray-base, 0.00) 95%, rgba($gray-base, 0.12) 100%), linear-gradient(-90deg, $gray-lighter 0%, #F0F0F0 100%);
+    &:after {
+      position: absolute;
+      display: block;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      content: "";
+      width: 25px;
+      opacity: 0.5;
+      background-image: linear-gradient(90deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.06) 100%), linear-gradient(90deg, rgba(0,0,0,0.00) 40%, rgba(0,0,0,0.08) 97%), linear-gradient(90deg, rgba(0,0,0,0.00) 67%, rgba(0,0,0,0.14) 98%);
+      z-index: 2;
+    }
     .nav-sidebar {
       margin-right: -($padding-base-horizontal + 1px); /* + 1px border */
       margin-bottom: $padding-base-horizontal;
       margin-left: -$padding-base-horizontal;
+      z-index: 1;
       & > li {
         display: inline-block;
         white-space: nowrap;
         width: 100%;
         & > a {
           padding: ($padding-base-vertical/2) $padding-base-horizontal;
+          border: 0;
           &:hover,
           &:focus {
             color: $brand-primary;
             background-color: transparent;
-            background-image: linear-gradient(90deg, rgba($body-bg, 0.80) 0%, rgba($gray-lighter, 0.00) 100%);
           }
         }
         &.disabled > a,
@@ -1215,34 +1231,55 @@ body {
         }
         &.dropdown {
           & > .dropdown-toggle {
-            span.caret {
-              @extend .fa;
+            display: inline-block;
+            width: 100%;
+            span.caret,
+            span.fa-fw {
+              //@extend .fa;
               display: inline-block;
               float: right;
               border: none;
               width: 16px;
               height: 16px;
               line-height: 34px;
-              &:before {
+              margin-right: 10px;
+              /*&:before {
                 content: "\f107";
-              }
+              }*/
             }
           }
-          &.open {
+          /*&.open {
             & > .dropdown-toggle {
-              span.caret {
+              span.caret,
+              span.fa-fw {
                 &:before {
                   content: "\f106";
                 }
               }
             }
-          }
+          }*/
           & > .dropdown-menu {
             position: relative;
             width: 100%;
             border: 0;
             border-radius: 0;
-            background-image: linear-gradient(90deg, rgba($gray-base, 0.00) 95%, rgba($gray-base, 0.12) 100%);
+            box-shadow: none;
+            margin-top: 0;
+            margin-bottom: 0;
+            padding-top: 12px;
+            padding-bottom: 12px;
+            box-shadow: inset -6px 6px 12px 0 rgba(0,0,0,0.16);
+            z-index: 3;
+            &:before {
+              position: absolute;
+              display: block;
+              left: 0;
+              right: 0;
+              bottom: 0;
+              content: "";
+              height: 6px;
+              background-image: linear-gradient(-180deg, rgba(0,0,0,0.00) 0%, rgba(0,0,0,0.06) 100%);
+            }
             & > li {
               & > a {
                 padding: 0;
@@ -1253,6 +1290,12 @@ body {
                 &:focus {
                   background-color: rgba($brand-primary, 0.1);
                 }
+              }
+              &.active > a:hover,
+              &.active > a:focus {
+                color: $body-bg;
+                background-color: $brand-primary;
+                background-image: linear-gradient(90deg, rgba($gray-base, 0.00) 95%, rgba($gray-base, 0.18) 100%), linear-gradient(-90deg, $brand-info 0%, $brand-primary 100%);
               }
               &.dropdown-submenu {
                 position: relative;
@@ -1266,9 +1309,20 @@ body {
                     border: none;
                     width: 16px;
                     height: 16px;
+                    margin-right: 15px;
                     line-height: 38px;
                     content: "\f105";
                   }
+                  &[aria-describedby] {
+                    background-color: rgba($brand-primary, 0.1);
+                  }
+                }
+                &.active > a,
+                &.active > a:hover,
+                &.active > a:focus {
+                  color: $body-bg;
+                  background-color: $brand-primary;
+                  background-image: linear-gradient(90deg, rgba($gray-base, 0.00) 95%, rgba($gray-base, 0.18) 100%), linear-gradient(-90deg, $brand-info 0%, $brand-primary 100%);
                 }
                 & > ul {
                   position: relative;
@@ -1312,8 +1366,7 @@ body {
     background: -webkit-linear-gradient(top, $gray-lighter 0%, #e0e0e0 100%);
     background: linear-gradient(to bottom, $gray-lighter 0%, #e0e0e0 100%);
     filter: #{"progid:DXImageTransform.Microsoft.gradient(startColorstr="$gray-lighter", endColorstr="#e0e0e0", GradientType=0)"};
-
-
+    z-index: 3;
     p {
       margin-bottom: 0 !important;
     }
@@ -1322,6 +1375,60 @@ body {
     .footer {
       right: 96px !important;
     }
+  }
+}
+
+// Loading spinner
+[data-pjax-container] {
+  &[data-pjax-state="send"] {
+    opacity: 0.72;
+    .spinner {
+      display: block;
+    }
+  }
+  &[data-pjax-state="complete"] {
+    opacity: 1;
+    .spinner {
+      display: none;
+    }
+  }
+}
+
+.spinner {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  margin: -25px 0 0 -25px;
+  width: 50px;
+  height: 50px;
+  animation: spinner-rotate 2s linear infinite;
+  z-index: 2;
+  & > .path {
+    stroke: hsl(210, 70, 75);
+    stroke-linecap: round;
+    animation: spinner-dash 1.5s ease-in-out infinite;
+  }
+}
+
+/* Animation */
+@keyframes spinner-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes spinner-dash {
+  0% {
+    stroke-dasharray: 1, 150;
+    stroke-dashoffset: 0;
+  }
+  50% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -35;
+  }
+  100% {
+    stroke-dasharray: 90, 150;
+    stroke-dashoffset: -124;
   }
 }
 
@@ -1337,6 +1444,13 @@ body {
 
 // Small grid
 // Columns, offsets, pushes, and pulls for the small device range, from phones to tablets.
+/*@media only screen and (min-width: $screen-sm-min) {
+  .dropdown:hover {
+    .dropdown-menu {
+      display: block;
+    }
+  }
+}*/
 @media (min-width: $screen-sm-min) {
   .dashboard {
     .sidebar {
@@ -1389,3 +1503,5 @@ body {
     width: 320px;
   }
 }
+
+

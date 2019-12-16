@@ -1,5 +1,19 @@
 $(document).ready(function() {
 
+    // Configuration
+    var config = {
+        mainnav: {
+            expandOnHover: true
+        },
+        sidebar: {
+            expandOnHover: true
+        },
+        ajaxFade: true,
+        ajaxProgress: true,
+        spinner: false,
+        debug: false
+    };
+
     // Definition of variables and elements
     var $body = $('body');
     var $dashboard = $('body.dashboard');
@@ -8,6 +22,7 @@ $(document).ready(function() {
     var $sidebar = $dashboard.find('.sidebar');
     var $mainNav = $dashboard.find('#mainNav');
     var $sidebarNav = $sidebar.find('#sidebarNav');
+    var $spinner = $('<svg class="spinner" viewBox="0 0 50 50"><circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="5"></circle></svg>');
     var viewport = $(window).viewport();
     var breakpoints = {
         xs: 480,
@@ -17,8 +32,8 @@ $(document).ready(function() {
     };
 
     // Language selector of admin interface
-    if ($welcomeScreen.find('#languageSelector')) {
-        var $languageSelector = $welcomeScreen.find('#languageSelector');
+    if ($welcomeScreen.find('#languageSelector').length > 0 || $dashboard.find('#languageSelector').length > 0) {
+        var $languageSelector = $('#languageSelector');
         if ($languageSelector.find('.dropdown-menu > li.active').length > 0) {
             var label = $languageSelector.find('.dropdown-menu > li.active > a').first().text();
             $languageSelector.find('.dropdown-toggle').html(label + ' <span class="caret"></span>');
@@ -27,6 +42,10 @@ $(document).ready(function() {
             var label = $(this).text();
             $languageSelector.find('.dropdown-toggle').html(label + ' <span class="caret"></span>');
         });
+
+        if (config.debug)
+            console.log('Dashboard: click by `#languageSelector`');
+
     }
 
     // Changing the visibility/hiding of typed password
@@ -87,27 +106,94 @@ $(document).ready(function() {
 
     // Tracking page loading events with pAjax
     $(document).on({
-        'pjax:start': function(e) {
-            setProgress($requestProgress, 0);
-            $requestProgress.show();
+        'pjax:start': function (event) {
+
+            if (config.ajaxProgress) {
+                setProgress($requestProgress, 0);
+                $requestProgress.show();
+            }
+
+            if (config.debug)
+                console.log('Dashboard: pjax change state to `start`');
+
         },
-        'pjax:beforeSend': function(e){
-            setProgress($requestProgress, 15);
+        'pjax:beforeSend': function (event) {
+
+            if (config.ajaxProgress)
+                setProgress($requestProgress, 15);
+
+            if (config.debug)
+                console.log('Dashboard: pjax change state to `beforeSend`');
+
         },
-        'pjax:send': function(e) {
-            setProgress($requestProgress, 35);
+        'pjax:send': function (event) {
+
+            if (config.ajaxFade)
+                $(this).attr('data-pjax-state', "send");
+
+            if (config.spinner)
+                $(this).append($spinner);
+
+            if (config.ajaxProgress)
+                setProgress($requestProgress, 35);
+
+            if (config.debug)
+                console.log('Dashboard: pjax change state to `send`');
+
         },
-        'pjax:beforeReplace': function(e) {
-            setProgress($requestProgress, 75);
+        'pjax:beforeReplace': function (event) {
+
+            if (config.ajaxProgress)
+                setProgress($requestProgress, 75);
+
+            if (config.debug)
+                console.log('Dashboard: pjax change state to `beforeReplace`');
+
         },
-        'pjax:complete': function(e) {
-            setProgress($requestProgress, 100);
-            setTimeout(function() {
-                $requestProgress.hide();
-            }, 1200);
+        'pjax:complete': function (event) {
+
+            if (config.ajaxFade)
+                $(this).attr('data-pjax-state', "complete");
+
+            if (config.ajaxProgress) {
+                setProgress($requestProgress, 100);
+                setTimeout(function () {
+                    $requestProgress.hide();
+                }, 1200);
+            }
+
+            if (config.debug)
+                console.log('Dashboard: pjax change state to `complete`');
+
         }
     });
 
+
+    // Show/hide dropdown in mainnav on hover
+    if (config.mainnav.expandOnHover) {
+        $mainNav.find(".dropdown").each(function () {
+            var $this = $(this);
+            $this.hover(function () {
+                var $dropdown = $(this);
+                if (!$dropdown.find('.dropdown-menu').is(':visible')) {
+                    $dropdown.find('.dropdown-menu').stop(true, true).delay(100).slideToggle("fast");
+                }
+
+                if (config.debug)
+                    console.log('Dashboard: dropdown in mainnav is visible by hover');
+
+            }, function () {
+                var $dropdown = $(this);
+                if ($dropdown.find('.dropdown-menu').is(':visible')) {
+                    $dropdown.find('.dropdown-menu').stop(true, true).delay(100).slideUp("fast");
+
+                    if (config.debug)
+                        console.log('Dashboard: dropdown in mainnav is hidding by hover');
+
+                }
+            });
+        });
+    }
 
     // Admin sidebar menu management
     if ($sidebarNav.length > 0) {
@@ -116,20 +202,74 @@ $(document).ready(function() {
         $sidebarNav.find('.dropdown-menu > li > a[href="#"]').on('click', function (event) {
             event.preventDefault();
             event.stopPropagation();
+
+            if (config.debug)
+                console.log('Dashboard: click by `.dropdown-menu > li > a[href="#"]` in sidebar');
+
         });
 
         // Disable click on popover element
         $sidebarNav.find('.dropdown-submenu > a').on('click', function (event) {
             event.preventDefault();
             event.stopPropagation();
+
+            if (config.debug)
+                console.log('Dashboard: click by `.dropdown-submenu > a` in sidebar');
+
         });
 
-        // Init popover menu
+        // Show/hide dropdown in sidebar on hover
+        if (config.sidebar.expandOnHover) {
+            $sidebarNav.find(".dropdown").each(function () {
+                var $this = $(this);
+                $this.hover(function () {
+                    var $dropdown = $(this);
+                    if (!$dropdown.find('.dropdown-menu').is(':visible')) {
+                        $dropdown.find('.dropdown-menu').stop(true, true).delay(500).slideToggle("fast");
+                        setTimeout(function() {
+                            $dropdown.find('.dropdown-toggle .fa-angle-down').removeClass('fa-angle-down').addClass('fa-angle-up');
+                        }, 200);
+                    }
+
+                    if (config.debug)
+                        console.log('Dashboard: dropdown in sidebar is visible by hover');
+
+                }, function () {
+                    var $dropdown = $(this);
+                    if (!$dropdown.hasClass('popover-show')) {
+                        $dropdown.find('.dropdown-menu').stop(true, true).delay(100).slideUp("fast");
+                        setTimeout(function() {
+                            $dropdown.find('.dropdown-toggle .fa-angle-up').removeClass('fa-angle-up').addClass('fa-angle-down');
+                        }, 200);
+
+                        if (config.debug)
+                            console.log('Dashboard: dropdown in sidebar is hidding by hover');
+
+                    }
+                });
+            });
+            $sidebarNav.find(".dropdown.active").find('.dropdown-toggle .fa-angle-down').toggleClass('fa-angle-down fa-angle-up');
+            $sidebarNav.find(".dropdown.active .dropdown-toggle").click();
+        } else {
+            $sidebarNav.find(".dropdown").on('shown.bs.dropdown', function(event) {
+                $(event.target).find('.dropdown-toggle .fa-angle-down').toggleClass('fa-angle-down fa-angle-up');
+            }).on('hidden.bs.dropdown', function(event) {
+                $(event.target).find('.dropdown-toggle .fa-angle-up').toggleClass('fa-angle-up fa-angle-down');
+            });
+        }
+
+        // Init popover menu in sidebar
         $sidebarNav.find('.dropdown-submenu > a').each(function() {
             var $this = $(this);
+            var $dropdown = $(this).parents('.dropdown');
+
+            var trigger = 'click';
+            if (config.sidebar.expandOnHover)
+                trigger = 'manual';
+
             $this.popover({
                 placement: 'auto right',
-                trigger: 'click',
+                trigger: trigger,
                 container: 'body',
                 title: false,
                 html: true,
@@ -138,6 +278,44 @@ $(document).ready(function() {
                     return $this.parent('.dropdown-submenu').find('ul').addClass('nav').outerHtml();
                 }
             });
+
+            if (config.sidebar.expandOnHover) {
+                $this.on("mouseenter", function () {
+                    var _this = this;
+                    $(this).popover("show");
+                    $dropdown.addClass('popover-show');
+
+                    $(".nav-popover").on("mouseleave", function () {
+                        $(_this).popover('hide');
+                        $dropdown.removeClass('popover-show');
+
+                        if (config.debug)
+                            console.log('Dashboard: sidebar popover is hidding by mouseleave');
+
+                    }).on("mousedown", function () {
+                        $(_this).popover('hide');
+                        $dropdown.removeClass('popover-show');
+
+                        if (config.debug)
+                            console.log('Dashboard: sidebar popover is hidding by mousedown');
+                    });
+
+                    if (config.debug)
+                        console.log('Dashboard: sidebar popover is visible by mouseenter');
+
+                }).on("mouseleave", function () {
+                    var _this = this;
+                    setTimeout(function () {
+                        if (!$(".nav-popover:hover").length) {
+                            $(_this).popover('hide');
+                            $dropdown.removeClass('popover-show');
+
+                            if (config.debug)
+                                console.log('Dashboard: sidebar popover is hidding by mouseleave and timeout');
+                        }
+                    }, 200);
+                });
+            }
         });
 
         // Add sidebar nav to main navbar for sm and xs displays
@@ -150,7 +328,23 @@ $(document).ready(function() {
             });
             $items = $sidebar.outerHtml();
             $mainNav.before($items);
+
+            if (config.debug)
+                console.log('Dashboard: added sidebar nav to main navbar for sm and xs displays');
         }
     }
 
+    // Dropdown`s
+    $('.dropdown-toggle').click(function(event) {
+        if ($(document).width() > breakpoints.sm) {
+            event.preventDefault();
+            var url = $(this).attr('href');
+            if (url !== '#')
+                window.location.href = url;
+        }
+
+        if (config.debug)
+            console.log('Dashboard: click on .dropdown-toggle');
+
+    });
 });
