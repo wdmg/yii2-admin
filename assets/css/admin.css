@@ -10716,6 +10716,49 @@ td.visible-print {
   right: 96px !important;
 }
 
+.btn.loading {
+  background-image: url("../images/spinner.gif");
+  background-image: url("../images/spinner.svg"), none;
+  background-position: calc(100% - 5px) 50%;
+  background-size: 24px 24px;
+  padding-right: 32px;
+  background-repeat: no-repeat;
+}
+
+body.loading-bg {
+  position: relative;
+  overflow: hidden;
+}
+body.loading-bg:before {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  background: rgba(0, 0, 0, 0.5);
+  z-index: 998;
+}
+body.loading {
+  position: relative;
+  overflow: hidden;
+}
+body.loading:after {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  content: "";
+  background-image: url("../images/spinner.gif");
+  background-image: url("../images/spinner.svg"), none;
+  background-position: center center;
+  background-size: 24px 24px;
+  padding-right: 32px;
+  background-repeat: no-repeat;
+  z-index: 999;
+}
+
 [data-pjax-container][data-pjax-state=send] {
   opacity: 0.72;
 }

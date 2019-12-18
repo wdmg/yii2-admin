@@ -7,11 +7,7 @@ use wdmg\admin\AdminAsset;
 /* @var $this yii\web\View */
 /* @var $user \wdmg\users\models\Users */
 
-use wdmg\admin\AdminAsset;
-
 $bundle = AdminAsset::register($this);
-$bundle->js = null;
-$bundle->css = null;
 
 if (isset(Yii::$app->mails))
     $logotypeLink = Yii::$app->mails->getTrackingUrl($bundle->baseUrl . '/images/logotype.png');

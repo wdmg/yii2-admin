@@ -655,6 +655,7 @@ class AdminController extends Controller
             $model->addRule(['name'], 'string', ['max' => 64]);
             $model->addRule(['email'], 'email');
             $model->addRule(['message'], 'string', ['max' => 255]);
+            $model->addRule(['message', 'email'], 'required');
             $model->addRule(['screenshots'], 'file', ['skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 3, 'maxSize' => (1024 * 1024 * 2)]);
 
             $data = [

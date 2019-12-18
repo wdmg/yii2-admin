@@ -1378,6 +1378,55 @@ body {
   }
 }
 
+// Buttans state
+.btn {
+  &.loading {
+    background-image: url('../images/spinner.gif');
+    background-image: url('../images/spinner.svg'), none;
+    background-position: #{"calc(100% - 5px) 50%"};
+    background-size: 24px 24px;
+    padding-right: 32px;
+    background-repeat: no-repeat;
+  }
+}
+
+// Loading state
+body {
+  &.loading-bg {
+    position: relative;
+    overflow: hidden;
+    &:before {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      content: "";
+      background: rgba($modal-backdrop-bg, $modal-backdrop-opacity);
+      z-index: 998;
+    }
+  }
+  &.loading {
+    position: relative;
+    overflow: hidden;
+    &:after {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      content: "";
+      background-image: url('../images/spinner.gif');
+      background-image: url('../images/spinner.svg'), none;
+      background-position: center center;
+      background-size: 24px 24px;
+      padding-right: 32px;
+      background-repeat: no-repeat;
+      z-index: 999;
+    }
+  }
+}
+
 // Loading spinner
 [data-pjax-container] {
   &[data-pjax-state="send"] {

@@ -51,7 +51,12 @@ use yii\widgets\ActiveForm;
 <hr/>
 <div class="form-group">
     <?= Html::button(Yii::t('app/modules/admin', 'Cancel'), ['class' => 'btn btn-default', 'data-dismiss' => 'modal']); ?>
-    <?= Html::submitButton(Yii::t('app/modules/admin', 'Send'), ['class' => 'btn btn-primary pull-right']); ?>
+    <?= Html::submitButton(Yii::t('app/modules/admin', 'Send'), [
+        'class' => 'btn btn-primary pull-right',
+        'data' => [
+            'loading-text' => Yii::t('app/modules/admin', 'Send...')
+        ]
+    ]); ?>
 </div>
 
 <?php ActiveForm::end(); ?>

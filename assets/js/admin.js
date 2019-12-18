@@ -347,4 +347,48 @@ $(document).ready(function() {
             console.log('Dashboard: click on .dropdown-toggle');
 
     });
+
+    // Modals and buttons loading state
+    $('body').delegate('a, button', 'click', function(event) {
+        if ($(this).data('toggle') == "modal") {
+            $('body').addClass('loading');
+        } else if ($(this).data('loading-text')) {
+
+            var hasErrors = false;
+
+            var $form = $(event.target).parents('form:first');
+            $form.find('input[aria-required]').each(function () {
+                if ($(this).val().length == 0) {
+                    hasErrors = true;
+                }
+            });
+
+            $form.find('[aria-invalid]').each(function () {
+                if ($(this).attr('aria-invalid') == "true") {
+                    hasErrors = true;
+                }
+            });
+
+            if (!hasErrors) {
+                $(this).addClass('loading');
+                $(this).button('loading');
+            } else {
+                $(this).removeClass('loading');
+                $(this).button('reset');
+            }
+        }
+    });
+    $('body').delegate('.modal', 'show.bs.modal', function() {
+        $('body').addClass('loading');
+    });
+    $('body').delegate('.modal', 'shown.bs.modal', function() {
+        $('body').removeClass('loading');
+    });
+    $('body').delegate('.modal', 'hide.bs.modal', function() {
+        $('body').removeClass('loading');
+    });
+    $('body').delegate('.modal', 'loaded.bs.modal', function() {
+        $('body').removeClass('loading');
+    });
+
 });
