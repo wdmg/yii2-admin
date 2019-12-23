@@ -940,8 +940,9 @@ $hr-border:                   $gray-lighter !default;
 }
 
 body {
-  //-webkit-font-smoothing: subpixel-antialiased;
-  //transform: translate3d( 0, 0, 0);
+  -webkit-font-smoothing: antialiased;
+  //-webkit-font-smoothing: antialiased;
+  transform: translate3d( 0, 0, 0);
 }
 
 // Admin dashboard welcome

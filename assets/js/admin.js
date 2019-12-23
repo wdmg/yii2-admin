@@ -173,10 +173,24 @@ $(document).ready(function() {
     if (config.mainnav.expandOnHover) {
         $mainNav.find(".dropdown").each(function () {
             var $this = $(this);
+            $this.click(function () {
+                if (!$(this).find('.dropdown-menu').is(':visible')) {
+                    $(this).find('.dropdown-menu').stop(true, true).slideToggle("fast");
+
+                    if (config.debug)
+                        console.log('Dashboard: dropdown in mainnav is visible by click');
+
+                } else {
+                    $(this).find('.dropdown-menu').stop(true, true).slideUp("fast");
+
+                    if (config.debug)
+                        console.log('Dashboard: dropdown in mainnav is hidding by click');
+                }
+            });
             $this.hover(function () {
                 var $dropdown = $(this);
                 if (!$dropdown.find('.dropdown-menu').is(':visible')) {
-                    $dropdown.find('.dropdown-menu').stop(true, true).delay(100).slideToggle("fast");
+                    $dropdown.find('.dropdown-menu').stop(true, true).delay(300).slideToggle("fast");
                 }
 
                 if (config.debug)
@@ -222,6 +236,23 @@ $(document).ready(function() {
         if (config.sidebar.expandOnHover) {
             $sidebarNav.find(".dropdown").each(function () {
                 var $this = $(this);
+                $this.click(function () {
+                    if (!$(this).find('.dropdown-menu').is(':visible')) {
+                        $(this).find('.dropdown-menu').stop(true, true).slideToggle("fast");
+                        $(this).find('.dropdown-toggle .fa-angle-down').removeClass('fa-angle-down').addClass('fa-angle-up');
+
+                        if (config.debug)
+                            console.log('Dashboard: dropdown in sidebar is visible by click');
+
+                    } else {
+                        $(this).find('.dropdown-menu').stop(true, true).slideUp("fast");
+                        $(this).find('.dropdown-toggle .fa-angle-up').removeClass('fa-angle-up').addClass('fa-angle-down');
+
+                        if (config.debug)
+                            console.log('Dashboard: dropdown in sidebar is hidding by click');
+                    }
+                    $sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
+                });
                 $this.hover(function () {
                     var $dropdown = $(this);
                     if (!$dropdown.find('.dropdown-menu').is(':visible')) {
@@ -230,6 +261,7 @@ $(document).ready(function() {
                             $dropdown.find('.dropdown-toggle .fa-angle-down').removeClass('fa-angle-down').addClass('fa-angle-up');
                         }, 200);
                     }
+                    $sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
 
                     if (config.debug)
                         console.log('Dashboard: dropdown in sidebar is visible by hover');
@@ -246,6 +278,7 @@ $(document).ready(function() {
                             console.log('Dashboard: dropdown in sidebar is hidding by hover');
 
                     }
+                    $sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
                 });
             });
             $sidebarNav.find(".dropdown.active").find('.dropdown-toggle .fa-angle-down').toggleClass('fa-angle-down fa-angle-up');
@@ -256,6 +289,8 @@ $(document).ready(function() {
             }).on('hidden.bs.dropdown', function(event) {
                 $(event.target).find('.dropdown-toggle .fa-angle-up').toggleClass('fa-angle-up fa-angle-down');
             });
+            //$sidebarNav.find(".dropdown.active").dropdown('toggle');
+            $sidebarNav.find(".dropdown.active .dropdown-toggle").click();
         }
 
         // Init popover menu in sidebar
@@ -316,6 +351,7 @@ $(document).ready(function() {
                     }, 200);
                 });
             }
+
         });
 
         // Add sidebar nav to main navbar for sm and xs displays
@@ -335,7 +371,7 @@ $(document).ready(function() {
     }
 
     // Dropdown`s
-    $('.dropdown-toggle').click(function(event) {
+    $('a.dropdown-toggle').click(function(event) {
         if ($(document).width() > breakpoints.sm) {
             event.preventDefault();
             var url = $(this).attr('href');
@@ -344,7 +380,7 @@ $(document).ready(function() {
         }
 
         if (config.debug)
-            console.log('Dashboard: click on .dropdown-toggle');
+            console.log('Dashboard: click on a.dropdown-toggle');
 
     });
 

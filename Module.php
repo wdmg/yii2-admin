@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.1.15
+ * @version         1.1.16
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -59,7 +59,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.1.15";
+    private $version = "1.1.16";
 
     /**
      * @var integer, priority of initialization
@@ -79,6 +79,7 @@ class Module extends BaseModule
         'wdmg/yii2-likes',
         'wdmg/yii2-messages',
         'wdmg/yii2-mailer',
+        'wdmg/yii2-content',
         'wdmg/yii2-options',
         'wdmg/yii2-pages',
         'wdmg/yii2-news',
@@ -88,9 +89,11 @@ class Module extends BaseModule
         'wdmg/yii2-services',
         'wdmg/yii2-stats',
         'wdmg/yii2-guard',
+        'wdmg/yii2-media',
         'wdmg/yii2-redirects',
         'wdmg/yii2-tasks',
         'wdmg/yii2-tickets',
+        'wdmg/yii2-sitemap',
         'wdmg/yii2-translations',
         'wdmg/yii2-subscribers',
         'wdmg/yii2-newsletters',
@@ -162,7 +165,7 @@ class Module extends BaseModule
         ], [
             'label' => 'Content',
             'icon' => 'fa-archive',
-            'items' => ['pages', 'media'],
+            'items' => ['pages', 'media', 'content'],
             'order' => 7,
         ], [
             'label' => 'Publications',
@@ -194,7 +197,7 @@ class Module extends BaseModule
         ], [
             'label' => 'Common',
             'icon' => 'fa-wrench',
-            'items' => ['geo', 'translations'],
+            'items' => ['geo', 'translations', 'sitemap'],
             'order' => 13,
         ], [
             'label' => 'Stats',

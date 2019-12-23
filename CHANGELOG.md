@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.16 (2019-12-24)
+ * Antialiasing and show/hide main navbar/sidebar menu by click
+ 
 ## 1.1.15 (2019-12-16)
  * Show/hide main navbar/sidebar menu by hover
  * Storage UI language in cookie

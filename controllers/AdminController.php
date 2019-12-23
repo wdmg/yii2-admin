@@ -17,7 +17,7 @@ use wdmg\users\models\UsersSignin;
 //use wdmg\users\models\UsersResetPassword;
 
 /**
- * AdminController implements the CRUD actions for API model.
+ * AdminController implements the CRUD actions.
  */
 class AdminController extends Controller
 {

@@ -10342,6 +10342,11 @@ td.visible-print {
   cursor: not-allowed;
 }
 
+body {
+  -webkit-font-smoothing: antialiased;
+  transform: translate3d(0, 0, 0);
+}
+
 .welcome {
   /*display: flex;
   align-content: center;
