@@ -10234,13 +10234,9 @@ td.visible-print {
 
 body {
   -webkit-font-smoothing: antialiased;
-  transform: translate3d(0, 0, 0);
 }
 
 .welcome {
-  /*display: flex;
-  align-content: center;
-  flex-direction: column;*/
   width: 100vw;
   height: 100vh;
   background: #00171F;
@@ -10268,7 +10264,6 @@ body {
 }
 .welcome .admin-login .logotype {
   display: inline-block;
-  /*padding: 0 30px 15px 30px;*/
 }
 .welcome .admin-login form {
   margin-top: 15px;
@@ -10309,10 +10304,6 @@ body {
   position: absolute;
   top: 15px;
   right: 15px;
-  /*& > .dropdown-menu {
-    color: $body-bg;
-    background: rgba($body-bg, 0.42);
-  }*/
 }
 .welcome .lang-select > .dropdown-toggle {
   color: #fff;
@@ -10454,7 +10445,6 @@ body {
 }
 .dashboard .sidebar .nav-sidebar {
   margin-right: -13px;
-  /* + 1px border */
   margin-bottom: 12px;
   margin-left: -12px;
   z-index: 1;
@@ -10480,18 +10470,6 @@ body {
   background-color: #1786DB;
   background-image: linear-gradient(90deg, rgba(0, 0, 0, 0) 95%, rgba(0, 0, 0, 0.18) 100%), linear-gradient(-90deg, #34A0E8 0%, #1786DB 100%);
 }
-.dashboard .sidebar .nav-sidebar > li.dropdown {
-  /*&.open {
-    & > .dropdown-toggle {
-      span.caret,
-      span.fa-fw {
-        &:before {
-          content: "\f106";
-        }
-      }
-    }
-  }*/
-}
 .dashboard .sidebar .nav-sidebar > li.dropdown > .dropdown-toggle {
   display: inline-block;
   width: 100%;
@@ -10505,9 +10483,6 @@ body {
   height: 16px;
   line-height: 34px;
   margin-right: 10px;
-  /*&:before {
-    content: "\f107";
-  }*/
 }
 .dashboard .sidebar .nav-sidebar > li.dropdown > .dropdown-menu {
   position: relative;
@@ -10706,13 +10681,6 @@ body.loading:after {
     width: calc(80% - 60px);
   }
 }
-/*@media only screen and (min-width: $screen-sm-min) {
-  .dropdown:hover {
-    .dropdown-menu {
-      display: block;
-    }
-  }
-}*/
 @media (min-width: 768px) {
   .dashboard .sidebar {
     position: fixed;
