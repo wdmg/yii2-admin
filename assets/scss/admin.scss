@@ -941,15 +941,10 @@ $hr-border:                   $gray-lighter !default;
 
 body {
   -webkit-font-smoothing: antialiased;
-  //-webkit-font-smoothing: antialiased;
-  transform: translate3d( 0, 0, 0);
 }
 
 // Admin dashboard welcome
 .welcome {
-  /*display: flex;
-  align-content: center;
-  flex-direction: column;*/
   width: 100vw;
   height: 100vh;
   background: #00171F;
@@ -975,7 +970,6 @@ body {
     transform: translate(-50%, -50%);
     .logotype {
       display: inline-block;
-      /*padding: 0 30px 15px 30px;*/
     }
     form {
       margin-top: 15px;
@@ -1023,10 +1017,6 @@ body {
       color: $body-bg;
       background: rgba($body-bg, 0.42);
     }
-    /*& > .dropdown-menu {
-      color: $body-bg;
-      background: rgba($body-bg, 0.42);
-    }*/
   }
   .alert {
     position: absolute;
@@ -1201,7 +1191,7 @@ body {
       z-index: 2;
     }
     .nav-sidebar {
-      margin-right: -($padding-base-horizontal + 1px); /* + 1px border */
+      margin-right: -($padding-base-horizontal + 1px);
       margin-bottom: $padding-base-horizontal;
       margin-left: -$padding-base-horizontal;
       z-index: 1;
@@ -1236,7 +1226,6 @@ body {
             width: 100%;
             span.caret,
             span.fa-fw {
-              //@extend .fa;
               display: inline-block;
               float: right;
               border: none;
@@ -1244,21 +1233,8 @@ body {
               height: 16px;
               line-height: 34px;
               margin-right: 10px;
-              /*&:before {
-                content: "\f107";
-              }*/
             }
           }
-          /*&.open {
-            & > .dropdown-toggle {
-              span.caret,
-              span.fa-fw {
-                &:before {
-                  content: "\f106";
-                }
-              }
-            }
-          }*/
           & > .dropdown-menu {
             position: relative;
             width: 100%;
@@ -1361,7 +1337,6 @@ body {
     height: 42px;
     padding: ($padding-base-vertical*2) $padding-base-horizontal;
     border-top: 1px solid #dcdcdc;
-    //background: linear-gradient(to bottom, $body-bg 0%, $gray-lighter 100%);
     background: $gray-lighter;
     background: -moz-linear-gradient(top, $gray-lighter 0%, #e0e0e0 100%);
     background: -webkit-linear-gradient(top, $gray-lighter 0%, #e0e0e0 100%);
@@ -1494,13 +1469,6 @@ body {
 
 // Small grid
 // Columns, offsets, pushes, and pulls for the small device range, from phones to tablets.
-/*@media only screen and (min-width: $screen-sm-min) {
-  .dropdown:hover {
-    .dropdown-menu {
-      display: block;
-    }
-  }
-}*/
 @media (min-width: $screen-sm-min) {
   .dashboard {
     .sidebar {
