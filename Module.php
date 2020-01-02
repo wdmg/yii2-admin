@@ -238,7 +238,7 @@ class Module extends BaseModule
             Yii::$app->user->loginUrl = ['/admin/login'];
 
             // Set assets bundle, if not loaded
-            if(!isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
+            if ($this->isBackend() && !$this->isConsole() && !isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
                 Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
 
             // Check of updates and return current version

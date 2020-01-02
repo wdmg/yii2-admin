@@ -156,7 +156,7 @@ $table-bg-hover:                $gray-bg !default;
 $table-bg-active:               $table-bg-hover !default;
 
 //** Border color for table and cell borders.
-$table-border-color:            $gray-lighter !default;
+$table-border-color:            #e7e7e7 !default;
 
 
 //== Buttons
@@ -883,13 +883,13 @@ $blockquote-font-size:        ($font-size-base * 1.25) !default;
 //** Blockquote border color
 $blockquote-border-color:     $gray-lighter !default;
 //** Page header border color
-$page-header-border-color:    $gray-lighter !default;
+$page-header-border-color:    #dcdcdc !default;
 //** Width of horizontal description list titles
 $dl-horizontal-offset:        $component-offset-horizontal !default;
 //** Point at which .dl-horizontal becomes horizontal
 $dl-horizontal-breakpoint:    $grid-float-breakpoint !default;
 //** Horizontal line color.
-$hr-border:                   $gray-lighter !default;
+$hr-border:                   #dcdcdc !default;
 
 @import "bootstrap/mixins";
 @import "bootstrap/normalize";
