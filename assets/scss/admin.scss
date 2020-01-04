@@ -1050,8 +1050,19 @@ body {
 // Admin dashboard
 .dashboard {
   margin-bottom: (42px + ($padding-base-vertical*2));
-
   .navbar {
+    &:before {
+      position: absolute;
+      display: block;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: $navbar-height;
+      content: "";
+      border: 0;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.42);
+      z-index: -1;
+    }
     .navbar-brand {
       display: inline-block;
       overflow: hidden;

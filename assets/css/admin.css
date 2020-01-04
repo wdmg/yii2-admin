@@ -10448,6 +10448,18 @@ body {
 .dashboard {
   margin-bottom: 54px;
 }
+.dashboard .navbar:before {
+  position: absolute;
+  display: block;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 50px;
+  content: "";
+  border: 0;
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.42);
+  z-index: -1;
+}
 .dashboard .navbar .navbar-brand {
   display: inline-block;
   overflow: hidden;

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.1.17 (2020-01-04)
+ * Added shadow in main navbar
+ * Load admin assets only for dashboard
+ 
 ## 1.1.16 (2019-12-24)
  * Antialiasing and show/hide main navbar/sidebar menu by click
  
