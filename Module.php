@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.1.17
+ * @version         1.1.18
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -59,7 +59,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.1.17";
+    private $version = "1.1.18";
 
     /**
      * @var integer, priority of initialization
@@ -94,6 +94,9 @@ class Module extends BaseModule
         'wdmg/yii2-tasks',
         'wdmg/yii2-tickets',
         'wdmg/yii2-sitemap',
+        'wdmg/yii2-rss',
+        'wdmg/yii2-turbo',
+        'wdmg/yii2-amp',
         'wdmg/yii2-translations',
         'wdmg/yii2-subscribers',
         'wdmg/yii2-newsletters',
@@ -197,7 +200,7 @@ class Module extends BaseModule
         ], [
             'label' => 'Common',
             'icon' => 'fa-wrench',
-            'items' => ['geo', 'translations', 'sitemap'],
+            'items' => ['geo', 'translations', 'rss', 'turbo', 'amp', 'sitemap'],
             'order' => 13,
         ], [
             'label' => 'Stats',

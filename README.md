@@ -61,6 +61,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.18 - Added support for RSS, Yandex.Turbo and Google AMP modules
 * v.1.1.17 - Added shadow in main navbar, load admin assets only for dashboard
 * v.1.1.16 - Antialiasing and show/hide main navbar/sidebar menu by click
-* v.1.1.15 - Show/hide main navbar/sidebar menu by hover, UI language in cookie

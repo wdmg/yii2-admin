@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.18 (2020-01-20)
+ * Added support for RSS, Yandex.Turbo and Google AMP modules
+ 
 ## 1.1.17 (2020-01-04)
  * Added shadow in main navbar
  * Load admin assets only for dashboard
