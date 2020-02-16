@@ -86,6 +86,7 @@ class Bootstrap implements BootstrapInterface
             }
         }
 
+
         // Configure languages menu for UI
         if (!($app instanceof \yii\console\Application) && $this->module) {
             \yii\base\Event::on(\yii\base\Controller::class, \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
@@ -142,9 +143,8 @@ class Bootstrap implements BootstrapInterface
             ]
         ]);
 
-
         // Loading all child modules
-        if(Yii::$app->db->schema->getTableSchema(\wdmg\admin\models\Modules::tableName())) {
+        if (Yii::$app->db->schema->getTableSchema(\wdmg\admin\models\Modules::tableName())) {
             $migrationLookup = [];
             $model = new \wdmg\admin\models\Modules();
             $modules = $model::getModules(true);
@@ -214,12 +214,13 @@ class Bootstrap implements BootstrapInterface
             }
         }
 
-        // Configure migrations for all modules
+        // For console only
         if (Yii::$app instanceof \yii\console\Application) {
 
             $migrationLookup = [];
             $support = $this->module->getSupportModules();
 
+            // Configure migrations for all modules
             foreach (Yii::$app->extensions as $key => $extension) {
                 // Limit the output of only those modules that are supported by the system.
                 if (in_array($extension['name'], $support)) {
@@ -233,6 +234,24 @@ class Bootstrap implements BootstrapInterface
                 'class' => 'wdmg\admin\commands\MigrateController',
                 'migrationLookup' => $migrationLookup
             ];
+
+
+            // Configure urlManager
+            if (Yii::$app->getModule('admin/options') && isset(Yii::$app->options)) {
+
+                if (Yii::$app->options->get('urlManager.hostInfo')) {
+                    $hostInfo = Yii::$app->options->get('urlManager.hostInfo');
+                    $app->getUrlManager()->hostInfo = $hostInfo;
+                    $_SERVER['SERVER_NAME'] = $hostInfo;
+                }
+
+                if (Yii::$app->options->get('urlManager.baseUrl')) {
+                    $baseUrl = Yii::$app->options->get('urlManager.baseUrl');
+                    $app->getUrlManager()->baseUrl = $baseUrl;
+                    $_SERVER['HTTP_HOST'] = $baseUrl;
+                }
+
+            }
         }
     }
 }

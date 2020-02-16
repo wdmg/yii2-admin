@@ -92,6 +92,7 @@ class Module extends BaseModule
         'wdmg/yii2-media',
         'wdmg/yii2-redirects',
         'wdmg/yii2-tasks',
+        'wdmg/yii2-search',
         'wdmg/yii2-tickets',
         'wdmg/yii2-sitemap',
         'wdmg/yii2-rss',
@@ -200,7 +201,7 @@ class Module extends BaseModule
         ], [
             'label' => 'Common',
             'icon' => 'fa-wrench',
-            'items' => ['geo', 'translations', 'rss', 'turbo', 'amp', 'sitemap'],
+            'items' => ['search', 'geo', 'translations', 'rss', 'turbo', 'amp', 'sitemap'],
             'order' => 13,
         ], [
             'label' => 'Stats',
@@ -324,9 +325,10 @@ class Module extends BaseModule
         if (isset($versions[$module_name]))
             $remote_version = $versions[$module_name];
 
-        if (is_null($remote_version) && !$status == 'sleep') {
+        $update_server = 'https://api.github.com';
+        if (is_null($remote_version) && !$status == 'sleep' && @get_headers($update_server)) {
 
-            $client = new \yii\httpclient\Client(['baseUrl' => 'https://api.github.com']);
+            $client = new \yii\httpclient\Client(['baseUrl' => $update_server]);
             $response = $client->get('/repos/'.$module_name.'/releases/latest', [])->setHeaders([
                 'User-Agent' => 'Butterfly.CMS',
                 'Content-Type' => 'application/json'
