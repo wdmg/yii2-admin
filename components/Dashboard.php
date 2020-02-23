@@ -18,12 +18,15 @@ namespace wdmg\admin\components;
 use Yii;
 use yii\base\Component;
 use yii\helpers\ArrayHelper;
+use wdmg\search\models\LiveSearch;
 
 class Dashboard extends Component
 {
 
     protected $module;
     protected $model;
+
+    public $search = null;
 
     /**
      * Initialize the component
@@ -33,6 +36,34 @@ class Dashboard extends Component
     public function init()
     {
         $this->module = Yii::$app->getModule('admin');
+
+        if ($search = $this->module->getModule('search')) {
+
+            if (isset($search->supportModels['news'])) {
+                $search->supportModels['news']['options']['conditions'] = [];
+                $search->supportModels['news']['options']['url'] = function ($model) {
+                    return [
+                        'view' => \yii\helpers\Url::toRoute(['news/news/view', 'id' => $model->id]),
+                        'update' => \yii\helpers\Url::toRoute(['news/news/update', 'id' => $model->id]),
+                        'public' => $model->url,
+                    ];
+                };
+            }
+
+            if (isset($search->supportModels['pages'])) {
+                $search->supportModels['pages']['options']['conditions'] = [];
+                $search->supportModels['pages']['options']['url'] = function ($model) {
+                    return [
+                        'view' => "/admin/pages/pages/view/?id=" . $model->id,
+                        'update' => "/admin/pages/pages/update/?id=" . $model->id,
+                        'public' => $model->url,
+                    ];
+                };
+            }
+
+            $this->search = new LiveSearch();
+        }
+
         parent::init();
     }
 

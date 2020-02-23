@@ -37,6 +37,7 @@ class AdminController extends Controller
                     'restore' => ['GET', 'POST'],
                     'logout' => ['POST'],
                     'checkpoint' => ['POST'],
+                    'search' => ['POST'],
                 ],
             ],
             'access' => [
@@ -627,6 +628,7 @@ class AdminController extends Controller
         ]);
     }
 
+
     /**
      * Check of user still auth.
      *
@@ -640,6 +642,21 @@ class AdminController extends Controller
             return ['loggedin' => true];
         else
             return ['loggedin' => false];
+    }
+
+
+    public function actionSearch()
+    {
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+
+        $results = [];
+        if (!is_null($model = \Yii::$app->dashboard->search)) {
+            if ($query = \Yii::$app->request->post('query')) {
+                $results = $model->search($query, true);
+            }
+        }
+
+        return ['results' => $results];
     }
 
     /**
@@ -771,9 +788,6 @@ class AdminController extends Controller
     }
 
 
-
-
-
     public function getRecentPages($limit = 5) {
         $model = new \wdmg\pages\models\Pages();
         if (class_exists('\wdmg\users\models\Users')) {
@@ -787,6 +801,7 @@ class AdminController extends Controller
             return $model::find()->select('id, name, created_by, updated_at')->where(['status' => true])->asArray()->limit(intval($limit))->orderBy(['updated_at' => SORT_DESC])->all();
         }
     }
+
 
     public function getRecentNews($limit = 5) {
         $model = new \wdmg\news\models\News();

@@ -3,7 +3,7 @@ $(document).ready(function() {
     // Configuration
     var config = {
         mainnav: {
-            expandOnHover: true
+            expandOnHover: false
         },
         sidebar: {
             expandOnHover: true

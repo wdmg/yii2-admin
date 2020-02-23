@@ -3,17 +3,12 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
-use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\helpers\Url;
-use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
-use yii\bootstrap\Dropdown;
 use yii\bootstrap\ButtonDropdown;
-//use app\assets\AppAsset;
 use wdmg\admin\AdminAsset;
 
-//AppAsset::register($this);
 $bundle = AdminAsset::register($this);
 $this->registerLinkTag(['rel' => 'shortcut icon', 'type' => 'image/x-icon', 'href' => Url::to($bundle->baseUrl . '/favicon.ico')]);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to($bundle->baseUrl . '/favicon.png')]);
@@ -60,7 +55,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                     'encodeLabels' => false
                 ]
             ]); ?>
-            <?= Alert::widget() ?>
             <?= $content ?>
             <?php Pjax::end(); ?>
         </div>

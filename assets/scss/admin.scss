@@ -1096,6 +1096,134 @@ body {
         }
       }
     }
+    .navbar-search {
+      .form-group {
+        &.has-success {
+          .form-control,
+          .input-group-addon {
+            color: $text-color !important;
+          }
+        }
+        &.has-error {
+          .form-control,
+          .input-group-addon {
+            color: $brand-danger !important;
+          }
+        }
+      }
+      .input-group {
+        .form-control {
+          box-shadow: none;
+          border-radius: 18px 0 0 18px;
+          /*&:focus {
+            width: 100%;
+          }*/
+        }
+        .input-group-addon {
+          border-color: $gray-lighter;
+          border-right: none;
+          color: $text-muted;
+          border-radius: 18px 0 0 18px;
+          background: $body-bg !important;
+          & + .form-control {
+            padding-left: 0;
+            border-left: none;
+            border-radius: 0 18px 18px 0;
+          }
+        }
+        .form-control {
+          border-color: $gray-lighter;
+          background: $body-bg !important;
+          & + .input-group-addon {
+            border-color: $gray-lighter;
+            border-left: none;
+            border-radius: 0 18px 18px 0;
+            background: $body-bg !important;
+          }
+        }
+      }
+      .search-box {
+        display: none;
+        position: absolute;
+        padding: 15px;
+        background: #fff;
+        border: 1px solid $gray-lighter;
+        border-radius: 0 0 $border-radius-base $border-radius-base;
+        max-height: 380px;
+        max-width: 460px;
+        width: 100%;
+        box-shadow: 0 3px 12px rgba(0, 0, 0, .16);
+        margin-top: 1px;
+        overflow-x: auto;
+        & > ul {
+          & > li.list-item {
+            display: inline-block;
+            border-bottom: 1px solid $gray-lighter;
+            padding-bottom: 10px;
+            width: 100%;
+            & > .item-header {
+              display: inline-block;
+              font-weight: bold;
+              font-size: 1.5rem;
+              line-height: 1.75rem;
+              width: 100%;
+              text-overflow: ellipsis;
+              overflow: hidden;
+              white-space: nowrap;
+              height: 20px;
+              margin-bottom: 5px;
+              clear: both;
+              .label {
+                margin-left: 0px;
+                margin-right: 10px;
+              }
+            }
+            & > a {
+              display: inline-block;
+              width: 100%;
+            }
+            & > .item-snippet {
+              color: $gray;
+              font-size: 1.25rem;
+              line-height: 1.5rem;
+            }
+            & > .btn-group {
+              float: right;
+              & > .btn-link {
+                color: $link-color;
+              }
+            }
+            &:last-child {
+              border-bottom: none;
+            }
+          }
+        }
+        & > ul,
+        .no-search-results {
+          display: none;
+        }
+        .no-search-results {
+          .alert {
+            margin-bottom: 0px;
+          }
+        }
+        &.show {
+          display: block;
+        }
+        &.loading {
+          min-height: 44px;
+          background-image: url('../images/spinner.gif');
+          background-image: url('../images/spinner.svg'), none;
+          background-position: center center;
+          background-size: 24px 24px;
+          background-repeat: no-repeat;
+          & > ul,
+          .no-search-results {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
   }
 
   table {
@@ -1166,6 +1294,7 @@ body {
 
   .panel-widget {
     @extend .panel-primary;
+    border-radius: 6px !important;
     .panel-heading {
       background-color: $brand-primary;
       background-image: linear-gradient(-90deg, $brand-info 0%, $brand-primary 100%);
@@ -1337,6 +1466,13 @@ body {
 
   .main {
     padding: $padding-base-vertical $padding-base-horizontal;
+    &.bg {
+      background-image: url('../images/main-bg.png');
+      background-position: center bottom;
+      background-size: 100%;
+      background-repeat: no-repeat;
+      background-attachment: fixed;
+    }
   }
 
   .footer {
