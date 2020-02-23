@@ -36,13 +36,13 @@ class Bootstrap implements BootstrapInterface
         $app->getUrlManager()->addRules(
             [
                 'admin' => 'admin/admin/index',
-                'admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport)>' => 'admin/admin/<action>',
+                'admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|error)>' => 'admin/admin/<action>',
                 [
                     'pattern' => 'admin/index',
                     'route' => 'admin/admin/index',
                     'suffix' => '',
                 ], [
-                    'pattern' => 'admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport)>',
+                    'pattern' => 'admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|error)>',
                     'route' => 'admin/admin/<action>',
                     'suffix' => '',
                 ],
@@ -66,6 +66,10 @@ class Bootstrap implements BootstrapInterface
             ],
             true
         );
+
+        // Set the error handler page
+        $errorHandler = Yii::$app->getErrorHandler();
+        $errorHandler->errorAction = 'admin/admin/error';
 
         // Register language of user interface
         if (!($app instanceof \yii\console\Application)) {

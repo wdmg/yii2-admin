@@ -889,4 +889,32 @@ class AdminController extends Controller
             ]
         ];
     }
+
+    public function actionError()
+    {
+        $type = 'default';
+        $exception = Yii::$app->errorHandler->exception;
+        $response = Yii::$app->getResponse();
+        $statuses = $response::$httpStatuses;
+        $this->view->params['main']['options']['class'] = 'main bg';
+
+        if (!$response->getIsInvalid()) {
+            if ($response->getIsClientError() && $response->getIsServerError() && $response->getIsForbidden() && $response->getIsNotFound()) {
+                $type = 'danger';
+            } else if ($response->getIsInformational()) {
+                $type = 'info';
+            } else if ($response->getIsSuccessful() && $response->getIsOk()) {
+                $type = 'success';
+            } else if ($response->getIsRedirection() && $response->getIsEmpty()) {
+                $type = 'warning';
+            }
+        }
+
+        if (!Yii::$app->user->isGuest)
+            $this->layout = 'dashboard';
+
+        if ($exception !== null) {
+            return $this->render('error', ['type' => $type, 'statuses' => $statuses, 'code' => $exception->statusCode, 'message' => $exception->getMessage()]);
+        }
+    }
 }

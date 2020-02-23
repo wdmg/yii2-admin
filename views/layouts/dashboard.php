@@ -148,7 +148,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
     ?>
         <div class="container-fluid">
             <div class="row" style="padding-top:72px;">
-                <div class="col-xs-12 col-sm-3 col-md-2 sidebar">
+                <div class="col-xs-12 col-sm-3 col-md-2 <?= (isset($this->params['sidebar']['options']['class'])) ? $this->params['sidebar']['options']['class'] : "sidebar" ?>">
                     <?= Nav::widget([
                         'id' => 'sidebarNav',
                         'options' => ['class' => 'nav nav-sidebar'],
@@ -158,7 +158,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                         'encodeLabels' => false
                     ]); ?>
                 </div>
-                <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div class="col-xs-12 col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 <?= (isset($this->params['main']['options']['class'])) ? $this->params['main']['options']['class'] : "main" ?>">
                     <?php Pjax::begin([
                         'id' => 'dashboardAjax',
                         'timeout' => 10000
@@ -177,6 +177,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
             </div>
         </div>
     </div>
+
     <?php $this->registerJs(<<< JS
         $(document).ready(function() {
         
@@ -337,6 +338,7 @@ JS
         });
 JS
     ); ?>
+
     <?php yii\bootstrap\Modal::begin([
         'id' => 'terminalModal',
         'size' => 'modal-lg',

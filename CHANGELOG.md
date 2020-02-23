@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.19 (2020-02-23)
+ * Added support for Search module, error handler for dashboard
+ 
 ## 1.1.18 (2020-01-20)
  * Added support for RSS, Yandex.Turbo and Google AMP modules
  
