@@ -181,7 +181,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
     <?php $this->registerJs(<<< JS
         $(document).ready(function() {
         
-            var eee = setInterval(function() {
+            setInterval(function() {
                 $.ajax({
                     type: "POST",
                     url: "/admin/checkpoint",
@@ -195,8 +195,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                         window.location.href = "/admin/login";
                     }
                 });
-            }, 5000);
-            
+            }, 10000);
             
             if ($("#adminSearchForm").length) {
             
@@ -204,7 +203,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                 var query = "";
                 var searchForm = $("#adminSearchForm");
                 
-                $(document).on("keyup", searchForm.find("input"), function(event) {
+                searchForm.find("input").on("keyup", function(event) {
                     query = $(event.target).val();
                     if (query.length >= 3) {
                         clearTimeout(timeout);

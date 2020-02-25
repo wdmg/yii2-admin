@@ -67,12 +67,13 @@ class Bootstrap implements BootstrapInterface
             true
         );
 
-        // Set the error handler page
-        $errorHandler = Yii::$app->getErrorHandler();
-        $errorHandler->errorAction = 'admin/admin/error';
-
         // Register language of user interface
         if (!($app instanceof \yii\console\Application)) {
+
+            // Set the error handler page
+            $errorHandler = Yii::$app->getErrorHandler();
+            $errorHandler->errorAction = 'admin/admin/error';
+
             if ($lang = $app->request->get('lang', false)) {
                 $app->session->set('lang', $lang);
                 $app->language = $lang;
