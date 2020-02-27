@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.1.19
+ * @version         1.1.20
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -59,7 +59,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.1.19";
+    private $version = "1.1.20";
 
     /**
      * @var integer, priority of initialization
@@ -125,18 +125,19 @@ class Module extends BaseModule
             'label' => 'System',
             'icon' => 'fa-gears',
             'items' => [
-                /*[
-                    'label' => 'Modules',
-                    'icon' => 'fa-check',
-                    'order' => 3
-                ],*/
                 'activity',
                 'api',
                 'options',
                 'services',
                 'forms',
                 'redirects',
-                'mailer'
+                'mailer',
+                [
+                    'label' => 'Information',
+                    'icon' => 'fa-info-circle',
+                    'url' => '/admin/info',
+                    'order' => 99,
+                ],
             ],
             'order' => 2,
         ], /*[

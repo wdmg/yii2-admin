@@ -7,7 +7,7 @@ namespace wdmg\admin\components;
  * Yii2 Dashboard
  *
  * @category        Component
- * @version         1.1.19
+ * @version         1.1.20
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
@@ -98,6 +98,7 @@ class Dashboard extends Component
         $modules = $model::getModules(true);
         $menuItems = $this->module->getMenuItems();
         uasort($menuItems, array($this, 'sortByOrder'));
+
         foreach ($menuItems as $menu) {
 
             $subitems = [];
@@ -139,12 +140,24 @@ class Dashboard extends Component
                     $found = 0;
                     foreach ($menu['items'] as $moduleId) {
 
-                        // check the presence of the module identifier among the available packages
-                        foreach ($modules as $module) {
-                            if ($moduleId == $module['module']) {
-                                if($module = Yii::$app->getModule('admin/'. $module['module'])) {
-                                    $navitems[] = $module->dashboardNavItems();
-                                    $found++;
+                        // add custom link for dashboard page
+                        if (is_array($moduleId)) {
+                            if (
+                                array_key_exists('label', $moduleId) &&
+                                array_key_exists('icon', $moduleId) &&
+                                array_key_exists('url', $moduleId)
+                            ) {
+                                $navitems[] = $moduleId;
+                                $found++;
+                            }
+                        } else {
+                            // check the presence of the module identifier among the available packages
+                            foreach ($modules as $module) {
+                                if ($moduleId == $module['module']) {
+                                    if ($module = Yii::$app->getModule('admin/'. $module['module'])) {
+                                        $navitems[] = $module->dashboardNavItems();
+                                        $found++;
+                                    }
                                 }
                             }
                         }
@@ -161,10 +174,13 @@ class Dashboard extends Component
                     }
 
                 } else {
+
                     // It means a nested array and it already contains submenus of the menu
                     $submenus = $menu['items'];
                     uasort($submenus, array($this, 'sortByOrder'));
                     foreach ($submenus as $submenu) {
+
+
 
                         $navitems = [];
                         if (isset($submenu['items']) && is_array($submenu['items'])) {

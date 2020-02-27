@@ -38,6 +38,7 @@ class AdminController extends Controller
                     'logout' => ['POST'],
                     'checkpoint' => ['POST'],
                     'search' => ['POST'],
+                    'info' => ['GET'],
                 ],
             ],
             'access' => [
@@ -674,36 +675,7 @@ class AdminController extends Controller
             $model->addRule(['message'], 'string', ['max' => 255]);
             $model->addRule(['message', 'email'], 'required');
             $model->addRule(['screenshots'], 'file', ['skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 3, 'maxSize' => (1024 * 1024 * 2)]);
-
-            $data = [
-                'phpVersion' => PHP_VERSION,
-                'yiiVersion' => Yii::getVersion(),
-                'application' => [
-                    'id' => Yii::$app->id,
-                    'name' => Yii::$app->name,
-                    'version' => Yii::$app->version,
-                    'host' => \yii\helpers\Url::base(true),
-                    'language' => Yii::$app->language,
-                    'sourceLanguage' => Yii::$app->sourceLanguage,
-                    'charset' => Yii::$app->charset,
-                    'env' => YII_ENV,
-                    'debug' => YII_DEBUG,
-                ],
-                'php' => [
-                    'version' => PHP_VERSION,
-                    'xdebug' => extension_loaded('xdebug'),
-                    'apc' => extension_loaded('apc'),
-                    'memcache' => extension_loaded('memcache'),
-                    'memcached' => extension_loaded('memcached'),
-                ],
-            ];
-
-            $model->report = json_encode(ArrayHelper::merge($data, [
-                'extensions' => Yii::$app->extensions,
-                'components' => Yii::$app->getComponents(),
-                'params' => Yii::$app->params
-            ]));
-
+            $model->report = json_encode($this->getSystemData());
             if (Yii::$app->request->isPost && $model->validate()) {
 
                 $uploadDir = Yii::getAlias('@webroot/uploads/attachments');
@@ -787,7 +759,6 @@ class AdminController extends Controller
         }
     }
 
-
     public function getRecentPages($limit = 5) {
         $model = new \wdmg\pages\models\Pages();
         if (class_exists('\wdmg\users\models\Users')) {
@@ -801,7 +772,6 @@ class AdminController extends Controller
             return $model::find()->select('id, name, created_by, updated_at')->where(['status' => true])->asArray()->limit(intval($limit))->orderBy(['updated_at' => SORT_DESC])->all();
         }
     }
-
 
     public function getRecentNews($limit = 5) {
         $model = new \wdmg\news\models\News();
@@ -890,6 +860,18 @@ class AdminController extends Controller
         ];
     }
 
+    public function actionInfo()
+    {
+        $this->layout = 'dashboard';
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['admin/login']);
+        } else {
+            return $this->render('info', [
+                'data' => $this->getSystemData()
+            ]);
+        }
+    }
+
     public function actionError()
     {
         $type = 'default';
@@ -916,5 +898,149 @@ class AdminController extends Controller
         if ($exception !== null) {
             return $this->render('error', ['type' => $type, 'statuses' => $statuses, 'code' => $exception->statusCode, 'message' => $exception->getMessage()]);
         }
+    }
+
+    private function getUptime() {
+        if (!$times = posix_times()) {
+            return null;
+        } else {
+            $now = $times['ticks'];
+            $days = intval($now / (60*60*24*100));
+
+            $remainder = $now % (60*60*24*100);
+            $hours = intval($remainder / (60*60*100));
+
+            $remainder = $remainder % (60*60*100);
+            $minutes = intval($remainder / (60*100));
+
+            $remainder = $remainder % (60*100);
+            $seconds = intval($remainder / (100));
+
+            if ($days == 1)
+                $writeDays = "day";
+            else
+                $writeDays = "days";
+
+            if ($hours == 1)
+                $writeHours = "hour";
+            else
+                $writeHours = "hours";
+
+            if ($minutes == 1)
+                $writeMins = "minute";
+            else
+                $writeMins = "minutes";
+
+            if ($seconds == 1)
+                $writeSecs = "second";
+            else
+                $writeSecs = "seconds";
+
+            return [
+                'days' => $days,
+                'hours' => $hours,
+                'minutes' => $minutes,
+                'seconds' => $seconds
+            ];
+        }
+    }
+
+    private function getDbVersion() {
+        if ($db = Yii::$app->getDb()) {
+            return [
+                'type' => Yii::$app->getDb()->driverName,
+                'version' => Yii::$app->getDb()->serverVersion
+            ];
+        } else {
+            return null;
+        }
+    }
+
+    private function getSystemData() {
+        $data = [
+            'phpVersion' => PHP_VERSION,
+            'yiiVersion' => Yii::getVersion(),
+            'application' => [
+                'id' => Yii::$app->id,
+                'name' => Yii::$app->name,
+                'version' => Yii::$app->version,
+                'host' => \yii\helpers\Url::base(true),
+                'language' => Yii::$app->language,
+                'sourceLanguage' => Yii::$app->sourceLanguage,
+                'charset' => Yii::$app->charset,
+                'env' => YII_ENV,
+                'debug' => YII_DEBUG,
+            ],
+            'php' => [
+                'version' => PHP_VERSION,
+
+                'openssl' => extension_loaded('openssl'),
+                'curl' => extension_loaded('curl'),
+                'imap' => extension_loaded('imap'),
+                'simplexml' => extension_loaded('simplexml'),
+
+                'ftp' => extension_loaded('ftp'),
+                'ssh2' => extension_loaded('lib'),
+                'exif' => extension_loaded('exif'),
+
+                'soap' => extension_loaded('soap'),
+                'sockets' => extension_loaded('sockets'),
+
+                'zip' => extension_loaded('zip'),
+                'zlib' => extension_loaded('zlib'),
+                'pdflib' => extension_loaded('pdflib'),
+
+                'xdebug' => extension_loaded('xdebug'),
+
+                'apc' => extension_loaded('apc'),
+                'apcu' => extension_loaded('apcu'),
+                'memcache' => extension_loaded('memcache'),
+                'memcached' => extension_loaded('memcached'),
+                'opcache' => extension_loaded('opcache'),
+
+                'iconv' => extension_loaded('iconv'),
+                'intl' => extension_loaded('intl'),
+                'geoip' => extension_loaded('geoip'),
+
+                'imagick' => extension_loaded('imagick'),
+                'gd' => extension_loaded('gd'),
+                'smtp' => strlen(ini_get('SMTP')) > 0,
+
+                'expose_php' => (empty(ini_get('expose_php'))),
+                'allow_url_include' => (empty(ini_get('allow_url_include'))),
+
+            ],
+
+            'server' => Yii::$app->getRequest()->getServerName(),
+            'host' => \yii\helpers\Url::base(true),
+
+            'ip' => (isset($_SERVER['SERVER_ADDR'])) ? $_SERVER['SERVER_ADDR'] : null,
+            'port' => Yii::$app->getRequest()->getServerPort() . "/" . Yii::$app->getRequest()->getSecurePort(),
+
+            'memory_limit' => ini_get('memory_limit'),
+            'upload_max_filesize' => ini_get('upload_max_filesize'),
+            'post_max_size' => ini_get('post_max_size'),
+
+            'max_input_time' => ini_get('max_input_time'),
+            'max_execution_time' => ini_get('max_execution_time'),
+
+            'client' => Yii::$app->getRequest()->getUserIP() .
+                ((Yii::$app->getRequest()->getUserHost()) ? " (" . Yii::$app->getRequest()->getUserHost() . ") " : "") .
+                ((Yii::$app->getRequest()->getUserAgent()) ? ", " . Yii::$app->getRequest()->getUserAgent() : ""),
+
+            'protocol' => Yii::$app->getResponse()->version,
+
+            'charset' => Yii::$app->getResponse()->charset,
+            'language' => ((isset(Yii::$app->sourceLanguage)) ? Yii::$app->sourceLanguage : "") . ((isset(Yii::$app->language)) ? "/" .Yii::$app->language : ""),
+
+            'engine' => isset($_SERVER['SERVER_SOFTWARE']) ? $_SERVER['SERVER_SOFTWARE'] : '',
+            'dbVersion' => $this->getDbVersion(),
+            'extensions' => Yii::$app->extensions,
+            'components' => Yii::$app->getComponents(),
+            'uptime' => $this->getUptime(),
+            'params' => Yii::$app->params
+        ];
+
+        return $data;
     }
 }
