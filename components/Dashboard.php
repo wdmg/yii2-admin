@@ -169,7 +169,7 @@ class Dashboard extends Component
                     } else {
                         foreach ($navitems as $navitem) {
                             if ($navitem['icon'])
-                                $navitem['label'] = ($navitem['icon']) ? '<span class="fa-stack"><i class="fa ' . $navitem['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $navitem['label']) : Yii::t('app/modules/admin', $navitem['label']);
+                                $navitem['label'] = ($navitem['icon']) ? '<span class="icon"><i class="' . $navitem['icon'] . '"></i></span> ' . Yii::t('app/modules/admin', $navitem['label']) : Yii::t('app/modules/admin', $navitem['label']);
                         }
                     }
 
@@ -198,7 +198,7 @@ class Dashboard extends Component
 
                         // Collect the final sub-menu item
                         $subitems[] = [
-                            'label' => ($submenu['icon']) ? '<span class="fa-stack"><i class="fa ' . $submenu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $submenu['label']) : Yii::t('app/modules/admin', $submenu['label']),
+                            'label' => ($submenu['icon']) ? '<span class="icon"><i class="' . $submenu['icon'] . '"></i></span> ' . Yii::t('app/modules/admin', $submenu['label']) : Yii::t('app/modules/admin', $submenu['label']),
                             'url' => ($submenu['url']) ? \yii\helpers\Url::to($submenu['url']) : '#',
                             'items' => ($navitems) ? $navitems : false
                         ];
@@ -215,7 +215,7 @@ class Dashboard extends Component
                 if (count($navitems) > 0) {
                     foreach ($navitems as $nav => $item) {
                         if ($item['icon']) {
-                            $navitems[$nav]['label'] = ($item['icon']) ? '<span class="fa-stack"><i class="fa ' . $item['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $item['label']) : Yii::t('app/modules/admin', $item['label']);
+                            $navitems[$nav]['label'] = ($item['icon']) ? '<span class="icon"><i class="' . $item['icon'] . '"></i></span> ' . Yii::t('app/modules/admin', $item['label']) : Yii::t('app/modules/admin', $item['label']);
                         }
                     }
                 }
@@ -223,7 +223,7 @@ class Dashboard extends Component
 
             // Collect the final parent menu item
             $items[] = [
-                'label' => ($menu['icon']) ? '<span class="fa-stack fa-lg"><i class="fa ' . $menu['icon'] . ' fa-stack-1x"></i></span> ' . Yii::t('app/modules/admin', $menu['label']) : Yii::t('app/modules/admin', $menu['label']),
+                'label' => ($menu['icon']) ? '<span class="icon"><i class="' . $menu['icon'] . '"></i></span> ' . Yii::t('app/modules/admin', $menu['label']) : Yii::t('app/modules/admin', $menu['label']),
                 'url' => isset($menu['url']) ? \yii\helpers\Url::to($menu['url']) : '#',
                 'items' => ($subitems) ? $subitems : (($navitems) ? $navitems : false),
                 'active' => false,

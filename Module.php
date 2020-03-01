@@ -83,6 +83,7 @@ class Module extends BaseModule
         'wdmg/yii2-options',
         'wdmg/yii2-pages',
         'wdmg/yii2-news',
+        'wdmg/yii2-blog',
         'wdmg/yii2-rbac',
         'wdmg/yii2-reposts',
         'wdmg/yii2-reviews',
@@ -113,17 +114,17 @@ class Module extends BaseModule
     private $menu = [
         [
             'label' => 'Dashboard',
-            'icon' => 'fa-dashboard',
+            'icon' => 'fa fa-fw fa-tachometer-alt',
             'url' => '/admin/index',
             'order' => 1,
         ], [
             'label' => 'Modules',
-            'icon' => 'fa-puzzle-piece',
+            'icon' => 'fa fa-fw fa-puzzle-piece',
             'url' => '/admin/modules',
             'order' => 1,
         ], [
             'label' => 'System',
-            'icon' => 'fa-gears',
+            'icon' => 'fa fa-fw fa-cogs',
             'items' => [
                 'activity',
                 'api',
@@ -134,7 +135,7 @@ class Module extends BaseModule
                 'mailer',
                 [
                     'label' => 'Information',
-                    'icon' => 'fa-info-circle',
+                    'icon' => 'fa fa-fw fa-info-circle',
                     'url' => '/admin/info',
                     'order' => 99,
                 ],
@@ -164,54 +165,55 @@ class Module extends BaseModule
             ],
         ],*/ [
             'label' => 'Users',
-            'icon' => 'fa-users',
+            'icon' => 'fa fa-fw fa-users',
             'items' => ['users', 'rbac'],
             'order' => 14,
         ], [
             'label' => 'Content',
-            'icon' => 'fa-archive',
+            'icon' => 'fa fa-fw fa-archive',
             'items' => ['pages', 'media', 'content'],
             'order' => 7,
         ], [
             'label' => 'Publications',
-            'icon' => 'fa-pencil-square-o',
+            'icon' => 'fa fa-fw fa-pencil-alt',
             'items' => [
                 'news',
+                'blog',
                 'subscribers',
                 'newsletters'
             ],
             'order' => 8,
         ], [
             'label' => 'E-commerce',
-            'icon' => 'fa-shopping-bag',
+            'icon' => 'fa fa-fw fa-shopping-bag',
             'order' => 9,
         ], [
             'label' => 'Feedbacks',
-            'icon' => 'fa-comments',
+            'icon' => 'fa fa-fw fa-comments',
             'items' => ['reviews', 'comments'],
             'order' => 10,
         ], [
             'label' => 'Socials',
-            'icon' => 'fa-share-alt',
+            'icon' => 'fa fa-fw fa-share-alt',
             'items' => ['messages', 'likes', 'bookmarks', 'reposts', 'views', 'votes'],
             'order' => 11,
         ], [
             'label' => 'Security',
-            'icon' => 'fa-shield',
+            'icon' => 'fa fa-fw fa-shield-alt',
             'order' => 12,
         ], [
             'label' => 'Common',
-            'icon' => 'fa-wrench',
+            'icon' => 'fa fa-fw fa-wrench',
             'items' => ['search', 'geo', 'translations', 'rss', 'turbo', 'amp', 'sitemap'],
             'order' => 13,
         ], [
             'label' => 'Stats',
-            'icon' => 'fa-pie-chart',
+            'icon' => 'fa fa-fw fa-chart-pie',
             'item' => 'stats',
             'order' => 14,
         ], [
             'label' => 'Support',
-            'icon' => 'fa-support',
+            'icon' => 'fa fa-fw fa-life-ring',
             'items' => ['tasks', 'tickets'],
             'order' => 15,
         ]
@@ -243,8 +245,10 @@ class Module extends BaseModule
             Yii::$app->user->loginUrl = ['/admin/login'];
 
             // Set assets bundle, if not loaded
-            if ($this->isBackend() && !$this->isConsole() && !isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
+            if ($this->isBackend() && !$this->isConsole() && !isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'])) {
                 Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
+                Yii::$app->assetManager->bundles['wdmg\admin\FontAwesomeAssets'] = \wdmg\admin\FontAwesomeAssets::register(Yii::$app->view);
+            }
 
             // Check of updates and return current version
             $meta = $this->getMetaData();

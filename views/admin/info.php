@@ -20,26 +20,24 @@ $this->params['breadcrumbs'][] = $this->title;
     <?= DetailView::widget([
         'model' => $data,
         'attributes' => [
-            'server' => [
-                'label' => Yii::t('app/modules/admin', "Server, host"),
+            'hosr' => [
+                'label' => Yii::t('app/modules/admin', "IP, host"),
                 'value' => function ($data) {
                     return $data['server'] . " (". $data['ip'] .":". $data['port'] .")" . ((isset($data['host'])) ? ", " . $data['host'] : "");
                 }
             ],
-
+            'server' => [
+                'label' => Yii::t('app/modules/admin', "Protocol, server"),
+                'value' => function ($data) {
+                    return "HTTP " . $data['protocol'] . ((isset($data['engine'])) ? ", " . $data['engine'] : "");
+                }
+            ],
             'charset' => [
                 'label' => Yii::t('app/modules/admin', "Charset and language"),
                 'value' => function ($data) {
                     return $data['charset'] . ", " . $data['language'];
                 }
             ],
-            'protocol' => [
-                'label' => Yii::t('app/modules/admin', "HTTP protocol"),
-                'value' => function ($data) {
-                    return $data['protocol'];
-                }
-            ],
-
 
             'memory_limit' => [
                 'label' => Yii::t('app/modules/admin', "Memory limit"),
@@ -92,12 +90,6 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data['dbVersion']['type'] . ", ". $data['dbVersion']['version'];
                 }
             ],
-            'engine' => [
-                'label' => Yii::t('app/modules/admin', "Engine"),
-                'value' => function ($data) {
-                    return $data['engine'];
-                }
-            ],
             'yiiVersion' => [
                 'label' => Yii::t('app/modules/admin', "Yii-framework version"),
                 'value' => function ($data) {
@@ -108,6 +100,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 'label' => Yii::t('app/modules/admin', "Butterfly.CMS version"),
                 'value' => function ($data) {
                     return $data['application']['version'];
+                }
+            ],
+            'datetime' => [
+                'label' => Yii::t('app/modules/admin', "Server time"),
+                'value' => function ($data) {
+                    return $data['datetime']['datetime'] . ((isset($data['datetime']['timezone'])) ? " (". $data['datetime']['timezone'] . ")" : "");
                 }
             ],
             'uptime' => [
@@ -203,6 +201,28 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'raw',
                             'value' => function ($data) {
                                 return ($data['php']['sockets']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                            }
+                        ],
+
+                        'uploadprogress' => [
+                            'label' => Yii::t('app/modules/admin', "UploadProgress"),
+                            'format' => 'raw',
+                            'value' => function ($data) {
+                                return ($data['php']['uploadprogress']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                            }
+                        ],
+                        'oauth' => [
+                            'label' => Yii::t('app/modules/admin', "oAuth"),
+                            'format' => 'raw',
+                            'value' => function ($data) {
+                                return ($data['php']['oauth']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                            }
+                        ],
+                        'gmp' => [
+                            'label' => Yii::t('app/modules/admin', "GMP"),
+                            'format' => 'raw',
+                            'value' => function ($data) {
+                                return ($data['php']['gmp']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
                             }
                         ],
 

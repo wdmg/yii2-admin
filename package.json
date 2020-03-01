@@ -15,7 +15,6 @@
     "jquery": "^3.4.0",
     "jquery-helper": "^1.7.1",
     "roboto-fontface": "^0.10.0",
-    "font-awesome": "^4.7.0",
     "sticky-sidebar": "^3.3.1"
   },
   "devDependencies": {

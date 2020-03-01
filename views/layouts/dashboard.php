@@ -67,12 +67,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
 
         if (Yii::$app->user->isGuest)
             $items[] = [
-                'label' => '<span class="fa fa-fw fa-sign-in"></span> Login',
+                'label' => '<span class="fa fa-fw fa-sign-in-alt"></span> Login',
                 'url' => ['/admin/login']
             ];
         else
             $items[] = [
-                'label' => '<span class="fa fa-fw fa-user-o"></span> Logout (' . Yii::$app->user->identity->username . ')',
+                'label' => '<span class="fa fa-fw fa-user-circle"></span> Logout (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']
             ];
 
@@ -115,18 +115,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                     'template' => '{label}<div class="input-group"><div class="input-group-addon"><span class="fa fa-search"></span></div>{input}</div>{hint}{error}'
                 ])->textInput(['placeholder' => "Type to search...", "autocomplete" => "off"])->label(false); ?>
                 <div class="search-box">
-                    <ul class="list-unstyled">
-                        <!-- li class="optgroup">
-                            <span class="optgroup-header">List Group <span class="subtext"></span></span>
-                            <ul class="list-unstyled">
-                                <li class="filter-item items" data-filter="Free jQuery Plugins" data-value="1">Free jQuery Plugins</li>
-                                <li class="filter-item items" data-filter="Codehim.com" data-value="2">Codehim.com</li>
-                                <li class="filter-item items" data-filter="Bootstrap Snippets" data-value="3">Bootstrap Snippets</li>
-                                <li class="filter-item items" data-filter="Web Design Code" data-value="4">Web Design Code</li>
-                                <li class="filter-item items" data-filter="HTML CSS jQuery" data-value="5">HTML CSS jQuery</li>
-                            </ul>
-                        </li -->
-                    </ul>
+                    <ul class="list-unstyled"></ul>
                     <div class="no-search-results" style="display: none;">
                         <div class="alert alert-warning" role="alert">
                             <i class="fa fa-warning"></i> No entry for <strong>`<span class="query"></span>`</strong> was found.
@@ -178,7 +167,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
         </div>
     </div>
 
-    <?php $this->registerJs(<<< JS
+    <?php /*$this->registerJs(<<< JS
         $(document).ready(function() {
         
             setInterval(function() {
@@ -197,146 +186,162 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                 });
             }, 10000);
             
-            if ($("#adminSearchForm").length) {
-            
-                var timeout = 0;
-                var query = "";
-                var searchForm = $("#adminSearchForm");
-                
-                searchForm.find("input").on("keyup", function(event) {
-                    query = $(event.target).val();
-                    if (query.length >= 3) {
-                        clearTimeout(timeout);
-                        timeout = setTimeout(function() {
-                            searchForm.submit();
-                        }, 1000);
-                    }
-                });
-                
-                searchForm.on("submit", function(event) {
-                    event.preventDefault();
-                
-                    $.ajax({
-                        type: "POST",
-                        url: "/admin/search",
-                        data: {
-                            query: query
-                        },
-                        dataType: "json",
-                        beforeSend: function () {
-                            searchForm.find(".search-box").addClass("show").addClass("loading");
-                        },
-                        complete: function(data) {
-                            
-                            searchForm.find(".search-box > ul").empty();
-                            searchForm.find(".search-box").removeClass("loading");
-                            
-                            if (data.status == 200 && data.responseJSON.results) {
-                                
-                                if (data.responseJSON.results.length) {
-                                    $.each(data.responseJSON.results, function(index, result) {
-                                        var item = $("<li class=\"list-item\" />");
-                                        var header = $("<h5 class=\"item-header\" />");
-                                        var buttons = $("<div class=\"btn-group btn-group-xs\" role=\"group\" />");
-                                        
-                                        if (result.title) {
-                                            header.html(result.title);
-                                        }
-                                        
-                                        if (!(typeof result.status == "undefined")) {
-                                            if (result.status == "1") {
-                                                $("<span class=\"label label-primary\">Published</span>").prependTo(header);
-                                            } else {
-                                                $("<span class=\"label label-default\">Draft</span>").prependTo(header);
-                                            }
-                                        }
-                                        
-                                        item.append(header);
-                                        
-                                        if (result.snippet) {
-                                            $("<div class=\"item-snippet\">" + result.snippet + "</div>").appendTo(item);
-                                        }
-                                        
-                                        if (result.url.view) {
-                                            $("<a href=\"" + result.url.view + "\" class=\"btn btn-link\" data-pajax=\"0\"><span class=\"glyphicon glyphicon-eye-open\"></span> View</a>").appendTo(buttons);
-                                        }
-                                        
-                                        if (result.url.update) {
-                                            $("<a href=\"" + result.url.update + "\" class=\"btn btn-link\" data-pajax=\"0\"><span class=\"glyphicon glyphicon-pencil\"></span> Update</a>").appendTo(buttons);
-                                        }
-                                        
-                                        if (result.url.public && !(typeof result.status == "undefined")) {
-                                            if (result.status == "1") {
-                                                $("<a href=\"" + result.url.public + "\" class=\"btn btn-link\" target=\"_blank\"><span class=\"glyphicon glyphicon-globe\"></span> Public</a>").appendTo(buttons);
-                                            }
-                                        }
-                                        
-                                        item.append(buttons);
-                                        searchForm.find(".search-box > ul").append(item);
-                                    });
-                                    searchForm.find(".search-box > ul").fadeIn();
-                                    searchForm.find(".search-box .no-search-results").fadeOut();
-                                    
-                                    searchForm.find(".search-box").on("mouseover", function () {
-                                        $(this).find(".search-box").fadeOut();
-                                    });
-                                } else {
-                                    searchForm.find(".search-box .no-search-results strong > span.query").text(query);
-                                    searchForm.find(".search-box .no-search-results").fadeIn();
-                                }
-                            } else {
-                                searchForm.find(".search-box").removeClass("show");
+        });
+JS
+    );*/ ?>
+
+    <?php
+        // Register dashboard search assets
+        if (!is_null(Yii::$app->dashboard->search)) {
+            $this->registerJs(<<< JS
+                $(document).ready(function() {
+                    
+                    if ($("#adminSearchForm").length) {
+                    
+                        var timeout = 0;
+                        var query = "";
+                        var searchForm = $("#adminSearchForm");
+                        
+                        searchForm.find("input").on("keyup", function(event) {
+                            query = $(event.target).val();
+                            if (query.length >= 3) {
+                                clearTimeout(timeout);
+                                timeout = setTimeout(function() {
+                                    searchForm.submit();
+                                }, 1000);
                             }
+                        });
+                        
+                        searchForm.on("submit", function(event) {
+                            event.preventDefault();
+                        
+                            $.ajax({
+                                type: "POST",
+                                url: "/admin/search",
+                                data: {
+                                    query: query
+                                },
+                                dataType: "json",
+                                beforeSend: function () {
+                                    searchForm.find(".search-box").addClass("show").addClass("loading");
+                                },
+                                complete: function(data) {
+                                    
+                                    searchForm.find(".search-box > ul").empty();
+                                    searchForm.find(".search-box").removeClass("loading");
+                                    
+                                    if (data.status == 200 && data.responseJSON.results) {
+                                        
+                                        if (data.responseJSON.results.length) {
+                                            $.each(data.responseJSON.results, function(index, result) {
+                                                var item = $("<li class=\"list-item\" />");
+                                                var header = $("<h5 class=\"item-header\" />");
+                                                var buttons = $("<div class=\"btn-group btn-group-xs\" role=\"group\" />");
+                                                
+                                                if (result.title) {
+                                                    header.html(result.title);
+                                                }
+                                                
+                                                if (!(typeof result.status == "undefined")) {
+                                                    if (result.status == "1") {
+                                                        $("<span class=\"label label-primary\">Published</span>").prependTo(header);
+                                                    } else {
+                                                        $("<span class=\"label label-default\">Draft</span>").prependTo(header);
+                                                    }
+                                                }
+                                                
+                                                item.append(header);
+                                                
+                                                if (result.snippet) {
+                                                    $("<div class=\"item-snippet\">" + result.snippet + "</div>").appendTo(item);
+                                                }
+                                                
+                                                if (result.url.view) {
+                                                    $("<a href=\"" + result.url.view + "\" class=\"btn btn-link\" data-pajax=\"0\"><span class=\"glyphicon glyphicon-eye-open\"></span> View</a>").appendTo(buttons);
+                                                }
+                                                
+                                                if (result.url.update) {
+                                                    $("<a href=\"" + result.url.update + "\" class=\"btn btn-link\" data-pajax=\"0\"><span class=\"glyphicon glyphicon-pencil\"></span> Update</a>").appendTo(buttons);
+                                                }
+                                                
+                                                if (result.url.public && !(typeof result.status == "undefined")) {
+                                                    if (result.status == "1") {
+                                                        $("<a href=\"" + result.url.public + "\" class=\"btn btn-link\" target=\"_blank\"><span class=\"glyphicon glyphicon-globe\"></span> Public</a>").appendTo(buttons);
+                                                    }
+                                                }
+                                                
+                                                item.append(buttons);
+                                                searchForm.find(".search-box > ul").append(item);
+                                            });
+                                            searchForm.find(".search-box > ul").fadeIn();
+                                            searchForm.find(".search-box .no-search-results").fadeOut();
+                                            
+                                            searchForm.find(".search-box").on("mouseover", function () {
+                                                $(this).find(".search-box").fadeOut();
+                                            });
+                                        } else {
+                                            searchForm.find(".search-box .no-search-results strong > span.query").text(query);
+                                            searchForm.find(".search-box .no-search-results").fadeIn();
+                                        }
+                                    } else {
+                                        searchForm.find(".search-box").removeClass("show");
+                                    }
+                                    
+                                }
+                            }).fail(function() {
+                                searchForm.find("input").val();
+                                searchForm.find(".search-box > ul").empty();
+                                searchForm.find(".search-box").removeClass("show").removeClass("loading");
+                                searchForm.find(".search-box .no-search-results").fadeOut();
+                            });
                             
-                        }
-                    }).fail(function() {
-                        searchForm.find("input").val();
-                        searchForm.find(".search-box > ul").empty();
-                        searchForm.find(".search-box").removeClass("show").removeClass("loading");
-                        searchForm.find(".search-box .no-search-results").fadeOut();
-                    });
+                        });
+                        
+                        searchForm.find(".search-box").click(function() {
+                            searchForm.find("input").val();
+                            searchForm.find(".search-box > ul").empty();
+                            searchForm.find(".search-box").removeClass("show").removeClass("loading");
+                            searchForm.find(".search-box .no-search-results").fadeOut();
+                        });
+                        
+                        searchForm.find(".search-box").hover(function() {
+                            searchForm.find("input").blur();
+                        }, function() {
+                            searchForm.find("input").val();
+                            searchForm.find(".search-box > ul").empty();
+                            searchForm.find(".search-box").removeClass("show").removeClass("loading");
+                            searchForm.find(".search-box .no-search-results").fadeOut();
+                        });
+                        
+                    }
                     
                 });
-                
-                searchForm.find(".search-box").click(function() {
-                    searchForm.find("input").val();
-                    searchForm.find(".search-box > ul").empty();
-                    searchForm.find(".search-box").removeClass("show").removeClass("loading");
-                    searchForm.find(".search-box .no-search-results").fadeOut();
-                });
-                
-                searchForm.find(".search-box").hover(function() {
-                    searchForm.find("input").blur();
-                }, function() {
-                    searchForm.find("input").val();
-                    searchForm.find(".search-box > ul").empty();
-                    searchForm.find(".search-box").removeClass("show").removeClass("loading");
-                    searchForm.find(".search-box .no-search-results").fadeOut();
-                });
-                
-            }
-            
-        });
 JS
-    ); ?>
-
-    <?php $this->registerJs(<<< JS
-        $('body').delegate('a[href="#terminal"]', 'click', function(event) {
-            event.preventDefault();
-            $.get(
-                '/admin/terminal',
-                function (data) {
-                    $('#terminalModal .modal-body').html($(data).remove('.modal-footer'));
-                    if ($(data).find('.modal-footer').length > 0) {
-                        $('#terminalModal').find('.modal-footer').remove();
-                        $('#terminalModal .modal-content').append($(data).find('.modal-footer'));
-                    }
-                    $('#terminalModal').modal();
-                }
             );
-        });
+        }
+    ?>
+    <?php
+        // Register dashboard terminal assets
+        if (Yii::$app->getModule('admin/terminal', false)) {
+            $this->registerJs(<<< JS
+                $('body').delegate('a[href="#terminal"]', 'click', function(event) {
+                    event.preventDefault();
+                    $.get(
+                        '/admin/terminal',
+                        function (data) {
+                            $('#terminalModal .modal-body').html($(data).remove('.modal-footer'));
+                            if ($(data).find('.modal-footer').length > 0) {
+                                $('#terminalModal').find('.modal-footer').remove();
+                                $('#terminalModal .modal-content').append($(data).find('.modal-footer'));
+                            }
+                            $('#terminalModal').modal();
+                        }
+                    );
+                });
 JS
-    ); ?>
+            );
+        }
+    ?>
 
     <?php yii\bootstrap\Modal::begin([
         'id' => 'terminalModal',

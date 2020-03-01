@@ -764,7 +764,7 @@ class AdminController extends Controller
         if (class_exists('\wdmg\users\models\Users')) {
             $users = new \wdmg\users\models\Users();
             return $model::find()->select([$model::tableName() . '.id', $model::tableName() . '.name', $model::tableName() . '.created_by', $model::tableName() . '.updated_at'])
-                ->joinWith(['user' => function ($query) use ($users) {
+                ->joinWith(['createdBy' => function ($query) use ($users) {
                     $query->select([$users::tableName() . '.id', $users::tableName() . '.username']);
                 }])->asArray()->limit(intval($limit))
                 ->orderBy([$model::tableName() . '.updated_at' => SORT_DESC])->all();
@@ -778,7 +778,7 @@ class AdminController extends Controller
         if (class_exists('\wdmg\users\models\Users')) {
             $users = new \wdmg\users\models\Users();
             return $model::find()->select([$model::tableName() . '.id', $model::tableName() . '.name', $model::tableName() . '.created_by', $model::tableName() . '.updated_at'])
-                ->joinWith(['user' => function ($query) use ($users) {
+                ->joinWith(['createdBy' => function ($query) use ($users) {
                     $query->select([$users::tableName() . '.id', $users::tableName() . '.username']);
                 }])->asArray()->limit(intval($limit))
                 ->orderBy([$model::tableName() . '.updated_at' => SORT_DESC])->all();
@@ -956,6 +956,14 @@ class AdminController extends Controller
         }
     }
 
+    private function getServerDatetime() {
+        $datetime = date("d-m-Y H:i:s", time());
+        return [
+            'timezone' => \date_default_timezone_get(),
+            'datetime' => \Yii::$app->formatter->format($datetime, 'datetime')
+        ];
+    }
+
     private function getSystemData() {
         $data = [
             'phpVersion' => PHP_VERSION,
@@ -985,6 +993,10 @@ class AdminController extends Controller
 
                 'soap' => extension_loaded('soap'),
                 'sockets' => extension_loaded('sockets'),
+
+                'uploadprogress' => extension_loaded('uploadprogress'),
+                'oauth' => extension_loaded('oauth'),
+                'gmp' => extension_loaded('gmp'),
 
                 'zip' => extension_loaded('zip'),
                 'zlib' => extension_loaded('zlib'),
@@ -1037,6 +1049,7 @@ class AdminController extends Controller
             'dbVersion' => $this->getDbVersion(),
             'extensions' => Yii::$app->extensions,
             'components' => Yii::$app->getComponents(),
+            'datetime' => $this->getServerDatetime(),
             'uptime' => $this->getUptime(),
             'params' => Yii::$app->params
         ];

@@ -83,24 +83,6 @@ module.exports = function(grunt) {
                         filter: 'isFile'
                     }
                 ]
-            },
-            fontAwesome: {
-                files: [
-                    {
-                        expand: true,
-                        cwd: 'node_modules/font-awesome/scss',
-                        src: '*.scss',
-                        dest: 'assets/scss/font-awesome',
-                        filter: 'isFile'
-                    },
-                    {
-                        expand: true,
-                        cwd: 'node_modules/font-awesome/fonts',
-                        src: ['**'],
-                        dest: 'assets/fonts',
-                        filter: 'isFile'
-                    }
-                ]
             }
         },
         uglify: {
