@@ -118,7 +118,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                     <ul class="list-unstyled"></ul>
                     <div class="no-search-results" style="display: none;">
                         <div class="alert alert-warning" role="alert">
-                            <i class="fa fa-warning"></i> No entry for <strong>`<span class="query"></span>`</strong> was found.
+                            <i class="fa fa-exclamation-triangle"></i> No entry for <strong>`<span class="query"></span>`</strong> was found.
                         </div>
                     </div>
                 </div>

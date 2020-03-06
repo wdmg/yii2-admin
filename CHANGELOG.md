@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.21 (2020-03-06)
+ * Added support for Blog module
+ 
 ## 1.1.20 (2020-02-27)
  * Added system information page
 

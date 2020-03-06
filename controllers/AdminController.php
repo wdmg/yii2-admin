@@ -896,52 +896,68 @@ class AdminController extends Controller
             $this->layout = 'dashboard';
 
         if ($exception !== null) {
-            return $this->render('error', ['type' => $type, 'statuses' => $statuses, 'code' => $exception->statusCode, 'message' => $exception->getMessage()]);
+            return $this->render('error', ['type' => $type, 'statuses' => $statuses, 'code' => ((isset($exception->statusCode)) ? $exception->statusCode : ""), 'message' => $exception->getMessage()]);
+        }
+    }
+
+    private function getSystemLimits() {
+        if (function_exists("posix_getrlimit")) {
+            if (!$limits = posix_getrlimit()) {
+                return null;
+            } else {
+                return $limits;
+            }
+        } else {
+            return null;
         }
     }
 
     private function getUptime() {
-        if (!$times = posix_times()) {
-            return null;
+        if (function_exists("posix_times")) {
+            if (!$times = posix_times()) {
+                return null;
+            } else {
+                $now = $times['ticks'];
+                $days = intval($now / (60*60*24*100));
+
+                $remainder = $now % (60*60*24*100);
+                $hours = intval($remainder / (60*60*100));
+
+                $remainder = $remainder % (60*60*100);
+                $minutes = intval($remainder / (60*100));
+
+                $remainder = $remainder % (60*100);
+                $seconds = intval($remainder / (100));
+
+                if ($days == 1)
+                    $writeDays = "day";
+                else
+                    $writeDays = "days";
+
+                if ($hours == 1)
+                    $writeHours = "hour";
+                else
+                    $writeHours = "hours";
+
+                if ($minutes == 1)
+                    $writeMins = "minute";
+                else
+                    $writeMins = "minutes";
+
+                if ($seconds == 1)
+                    $writeSecs = "second";
+                else
+                    $writeSecs = "seconds";
+
+                return [
+                    'days' => $days,
+                    'hours' => $hours,
+                    'minutes' => $minutes,
+                    'seconds' => $seconds
+                ];
+            }
         } else {
-            $now = $times['ticks'];
-            $days = intval($now / (60*60*24*100));
-
-            $remainder = $now % (60*60*24*100);
-            $hours = intval($remainder / (60*60*100));
-
-            $remainder = $remainder % (60*60*100);
-            $minutes = intval($remainder / (60*100));
-
-            $remainder = $remainder % (60*100);
-            $seconds = intval($remainder / (100));
-
-            if ($days == 1)
-                $writeDays = "day";
-            else
-                $writeDays = "days";
-
-            if ($hours == 1)
-                $writeHours = "hour";
-            else
-                $writeHours = "hours";
-
-            if ($minutes == 1)
-                $writeMins = "minute";
-            else
-                $writeMins = "minutes";
-
-            if ($seconds == 1)
-                $writeSecs = "second";
-            else
-                $writeSecs = "seconds";
-
-            return [
-                'days' => $days,
-                'hours' => $hours,
-                'minutes' => $minutes,
-                'seconds' => $seconds
-            ];
+            return null;
         }
     }
 
@@ -1050,6 +1066,7 @@ class AdminController extends Controller
             'extensions' => Yii::$app->extensions,
             'components' => Yii::$app->getComponents(),
             'datetime' => $this->getServerDatetime(),
+            'limits' => $this->getSystemLimits(),
             'uptime' => $this->getUptime(),
             'params' => Yii::$app->params
         ];

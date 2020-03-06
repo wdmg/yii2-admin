@@ -7,10 +7,10 @@ namespace wdmg\admin\components;
  * Yii2 Dashboard
  *
  * @category        Component
- * @version         1.1.20
+ * @version         1.1.21
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
- * @copyright       Copyright (c) 2019 W.D.M.Group, Ukraine
+ * @copyright       Copyright (c) 2019 - 2020 W.D.M.Group, Ukraine
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  *
  */

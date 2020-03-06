@@ -45,6 +45,14 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data['memory_limit'];
                 }
             ],
+            'cpu_limit' => [
+                'label' => Yii::t('app/modules/admin', "CPU limit"),
+                'value' => function ($data) {
+                    $output = (isset($data['limits']['soft cpu'])) ? $data['limits']['soft cpu'] : "";
+                    $output .= (isset($data['limits']['hard cpu'])) ? ((!empty($output)) ? " / " : "") . $data['limits']['hard cpu'] : "";
+                    return $output;
+                }
+            ],
             'upload_max_filesize' => [
                 'label' => Yii::t('app/modules/admin', "Upload max filesize"),
                 'value' => function ($data) {
@@ -143,49 +151,49 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "OpenSSL"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['openssl']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['openssl']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'curl' => [
                             'label' => Yii::t('app/modules/admin', "cURL"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['curl']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['curl']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'imap' => [
                             'label' => Yii::t('app/modules/admin', "IMAP"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['imap']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['imap']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'simplexml' => [
                             'label' => Yii::t('app/modules/admin', "SimpleXML"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['simplexml']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['simplexml']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'ftp' => [
                             'label' => Yii::t('app/modules/admin', "FTP"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['ftp']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['ftp']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'ssh2' => [
                             'label' => Yii::t('app/modules/admin', "SSH2"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['ssh2']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['ssh2']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'exif' => [
                             'label' => Yii::t('app/modules/admin', "EXIF"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['exif']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['exif']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -193,14 +201,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "SOAP"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['soap']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['soap']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'sockets' => [
                             'label' => Yii::t('app/modules/admin', "Sockets"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['sockets']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['sockets']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -208,21 +216,21 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "UploadProgress"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['uploadprogress']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['uploadprogress']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'oauth' => [
                             'label' => Yii::t('app/modules/admin', "oAuth"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['oauth']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['oauth']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'gmp' => [
                             'label' => Yii::t('app/modules/admin', "GMP"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['gmp']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['gmp']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -230,21 +238,21 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "ZIP"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['zip']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['zip']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'zlib' => [
                             'label' => Yii::t('app/modules/admin', "Zlib"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['zlib']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['zlib']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'pdflib' => [
                             'label' => Yii::t('app/modules/admin', "PDFLib"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['pdflib']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['pdflib']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -252,7 +260,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "xDebug"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['xdebug']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['xdebug']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -260,35 +268,35 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "APC"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['apc']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['apc']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'apcu' => [
                             'label' => Yii::t('app/modules/admin', "APC User Cache"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['apcu']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['apcu']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'memcache' => [
                             'label' => Yii::t('app/modules/admin', "Memcache"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['memcache']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['memcache']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'memcached' => [
                             'label' => Yii::t('app/modules/admin', "Memcached"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['memcached']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['memcached']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'opcache' => [
                             'label' => Yii::t('app/modules/admin', "OPcache"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['opcache']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['opcache']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -296,14 +304,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "iConv"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['iconv']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['iconv']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'intl' => [
                             'label' => Yii::t('app/modules/admin', "INTL"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['intl']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['intl']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -311,21 +319,21 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "Imagick"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['imagick']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['imagick']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'gd' => [
                             'label' => Yii::t('app/modules/admin', "GD"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['gd']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['gd']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'smtp' => [
                             'label' => Yii::t('app/modules/admin', "SMTP"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['smtp']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-remove text-danger"></span>';
+                                return ($data['php']['smtp']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
 
@@ -333,14 +341,14 @@ $this->params['breadcrumbs'][] = $this->title;
                             'label' => Yii::t('app/modules/admin', "Expose php"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['expose_php']) ? '<span class="fa fa-check text-danger"></span>' : '<span class="fa fa-remove text-success"></span>';
+                                return ($data['php']['expose_php']) ? '<span class="fa fa-check text-danger"></span>' : '<span class="fa fa-times text-success"></span>';
                             }
                         ],
                         'allow_url_include' => [
                             'label' => Yii::t('app/modules/admin', "Allow url include"),
                             'format' => 'raw',
                             'value' => function ($data) {
-                                return ($data['php']['allow_url_include']) ? '<span class="fa fa-check text-danger"></span>' : '<span class="fa fa-remove text-success"></span>';
+                                return ($data['php']['allow_url_include']) ? '<span class="fa fa-check text-danger"></span>' : '<span class="fa fa-times text-success"></span>';
                             }
                         ],
 
