@@ -50,6 +50,17 @@ class Dashboard extends Component
                 };
             }
 
+            if (isset($search->supportModels['blog'])) {
+                $search->supportModels['blog']['options']['conditions'] = [];
+                $search->supportModels['blog']['options']['url'] = function ($model) {
+                    return [
+                        'view' => \yii\helpers\Url::toRoute(['blog/posts/view', 'id' => $model->id]),
+                        'update' => \yii\helpers\Url::toRoute(['blog/posts/update', 'id' => $model->id]),
+                        'public' => $model->url,
+                    ];
+                };
+            }
+
             if (isset($search->supportModels['pages'])) {
                 $search->supportModels['pages']['options']['conditions'] = [];
                 $search->supportModels['pages']['options']['url'] = function ($model) {
