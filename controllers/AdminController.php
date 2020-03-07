@@ -96,6 +96,9 @@ class AdminController extends Controller
             if ($this->module->moduleLoaded('admin/news'))
                 $widgets['recentNews'] = $this->getRecentNews();
 
+            if ($this->module->moduleLoaded('admin/blog'))
+                $widgets['recentPosts'] = $this->getRecentPosts();
+
             if ($this->module->moduleLoaded('admin/users'))
                 $widgets['lastUsers'] = $this->getLastUsers();
 
@@ -775,6 +778,20 @@ class AdminController extends Controller
 
     public function getRecentNews($limit = 5) {
         $model = new \wdmg\news\models\News();
+        if (class_exists('\wdmg\users\models\Users')) {
+            $users = new \wdmg\users\models\Users();
+            return $model::find()->select([$model::tableName() . '.id', $model::tableName() . '.name', $model::tableName() . '.created_by', $model::tableName() . '.updated_at'])
+                ->joinWith(['createdBy' => function ($query) use ($users) {
+                    $query->select([$users::tableName() . '.id', $users::tableName() . '.username']);
+                }])->asArray()->limit(intval($limit))
+                ->orderBy([$model::tableName() . '.updated_at' => SORT_DESC])->all();
+        } else {
+            return $model::find()->select('id, name, created_by, updated_at')->where(['status' => true])->asArray()->limit(intval($limit))->orderBy(['updated_at' => SORT_DESC])->all();
+        }
+    }
+
+    public function getRecentPosts($limit = 5) {
+        $model = new \wdmg\blog\models\Posts();
         if (class_exists('\wdmg\users\models\Users')) {
             $users = new \wdmg\users\models\Users();
             return $model::find()->select([$model::tableName() . '.id', $model::tableName() . '.name', $model::tableName() . '.created_by', $model::tableName() . '.updated_at'])

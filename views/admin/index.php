@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '<ul class="panel-body list-group">';
                             foreach ($widgets['recentPages'] as $item) {
                                 $username = isset($item['user']['username']) ? $item['user']['username'].', ' : '';
-                                echo '<li class="list-group-item">'.Html::a($item['name'], ['./pages/pages/update', 'id' => $item['id']]);
+                                echo '<li class="list-group-item">'.Html::a($item['name'], ['pages/pages/update', 'id' => $item['id']]);
                                 echo Html::tag('small', $username . Yii::$app->formatter->asDate($item['updated_at']), ['class' => 'pull-right text-muted']);
                                 echo '</li>';
                             }
@@ -49,8 +49,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ?>
                 <div class="panel-footer">
-                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['./pages'], ['class' => 'text-muted']) ?>
-                    <?= Html::a('<span class="fa fa-plus"></span> ' . Yii::t('app/modules/pages', 'Add new page'), ['./pages/create'], ['class' => 'pull-right']) ?>
+                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['pages/pages'], ['class' => 'text-muted']) ?>
+                    <?= Html::a('<span class="fa fa-plus"></span> ' . Yii::t('app/modules/pages', 'Add new page'), ['pages/pages/create'], ['class' => 'pull-right']) ?>
                 </div>
             </div>
         </div>
@@ -72,7 +72,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '<ul class="panel-body list-group">';
                             foreach ($widgets['recentNews'] as $item) {
                                 $username = isset($item['user']['username']) ? $item['user']['username'].', ' : '';
-                                echo '<li class="list-group-item">'.Html::a($item['name'], ['./news/news/update', 'id' => $item['id']]);
+                                echo '<li class="list-group-item">'.Html::a($item['name'], ['news/news/update', 'id' => $item['id']]);
                                 echo Html::tag('small', $username . Yii::$app->formatter->asDate($item['updated_at']), ['class' => 'pull-right text-muted']);
                                 echo '</li>';
                             }
@@ -89,8 +89,48 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ?>
                 <div class="panel-footer">
-                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['./news'], ['class' => 'text-muted']) ?>
-                    <?= Html::a('<span class="fa fa-plus"></span> ' . Yii::t('app/modules/news', 'Add news item'), ['./news/create'], ['class' => 'pull-right']) ?>
+                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['news/news'], ['class' => 'text-muted']) ?>
+                    <?= Html::a('<span class="fa fa-plus"></span> ' . Yii::t('app/modules/news', 'Add news item'), ['news/news/create'], ['class' => 'pull-right']) ?>
+                </div>
+            </div>
+        </div>
+    <?php
+        }
+    ?>
+
+    <?php
+        if ($intance = $module->moduleLoaded('admin/blog', true)) {
+    ?>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="panel panel-widget">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/blog', 'Blog') ?>
+                </div>
+                <?php
+                    if (isset($widgets['recentPosts'])) {
+                        if (count($widgets['recentPosts']) > 0) {
+                            echo '<ul class="panel-body list-group">';
+                            foreach ($widgets['recentPosts'] as $item) {
+                                $username = isset($item['user']['username']) ? $item['user']['username'].', ' : '';
+                                echo '<li class="list-group-item">'.Html::a($item['name'], ['blog/posts/update', 'id' => $item['id']]);
+                                echo Html::tag('small', $username . Yii::$app->formatter->asDate($item['updated_at']), ['class' => 'pull-right text-muted']);
+                                echo '</li>';
+                            }
+                            echo '</ul>';
+                        } else {
+                            echo '<div class="panel-body">';
+                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/blog', 'No posts available').'</p>';
+                            echo '</div>';
+                        }
+                    } else {
+                        echo '<div class="panel-body">';
+                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/blog', 'An error occurred while retrieving the blog posts').'</p>';
+                        echo '</div>';
+                    }
+                ?>
+                <div class="panel-footer">
+                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['blog/posts'], ['class' => 'text-muted']) ?>
+                    <?= Html::a('<span class="fa fa-plus"></span> ' . Yii::t('app/modules/blog', 'Add new post'), ['blog/posts/create'], ['class' => 'pull-right']) ?>
                 </div>
             </div>
         </div>
