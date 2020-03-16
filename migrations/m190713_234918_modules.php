@@ -54,6 +54,16 @@ class m190713_234918_modules extends Migration
             'wdmg/yii2-rbac',
         ];
 
+        // Polyfill for array_key_first() for PHP <= 7.3.0
+        if (!function_exists('array_key_first')) {
+            function array_key_first(array $arr) {
+                foreach($arr as $key => $unused) {
+                    return $key;
+                }
+                return NULL;
+            }
+        }
+
         // Each modules who what to be pre installed
         foreach ($modules as $module_id) {
             $module = Yii::$app->extensions[$module_id];

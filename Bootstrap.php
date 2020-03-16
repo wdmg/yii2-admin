@@ -152,9 +152,10 @@ class Bootstrap implements BootstrapInterface
         if (Yii::$app->db->schema->getTableSchema(\wdmg\admin\models\Modules::tableName())) {
             $migrationLookup = [];
             $model = new \wdmg\admin\models\Modules();
+
             $modules = $model::getModules(true);
             if (is_array($modules)) {
-                
+
                 foreach ($modules as $module) {
 
                     if (!class_exists($module['class'])) {
@@ -225,11 +226,23 @@ class Bootstrap implements BootstrapInterface
             $migrationLookup = [];
             $support = $this->module->getSupportModules();
 
+            // Polyfill for array_key_first() for PHP <= 7.3.0
+            if (!function_exists('array_key_first')) {
+                function array_key_first(array $arr) {
+                    foreach($arr as $key => $unused) {
+                        return $key;
+                    }
+                    return NULL;
+                }
+            }
+
             // Configure migrations for all modules
             foreach (Yii::$app->extensions as $key => $extension) {
                 // Limit the output of only those modules that are supported by the system.
                 if (in_array($extension['name'], $support)) {
+
                     $alias = array_key_first($extension['alias']);
+
                     //$migrationLookup[] = BaseFileHelper::normalizePath(Yii::getAlias($alias) . '/migrations');
                     $migrationLookup[] = BaseFileHelper::normalizePath($extension['alias'][$alias] . '/migrations');
                 }
