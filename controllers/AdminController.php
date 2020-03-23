@@ -38,6 +38,7 @@ class AdminController extends Controller
                     'logout' => ['POST'],
                     'checkpoint' => ['POST'],
                     'search' => ['POST'],
+                    'error' => ['GET'],
                     'info' => ['GET'],
                 ],
             ],
@@ -901,6 +902,10 @@ class AdminController extends Controller
 
     public function actionError()
     {
+
+        if (!Yii::$app->user->isGuest)
+            $this->layout = 'dashboard';
+
         $type = 'default';
         $exception = Yii::$app->errorHandler->exception;
         $response = Yii::$app->getResponse();
@@ -918,9 +923,6 @@ class AdminController extends Controller
                 $type = 'warning';
             }
         }
-
-        if (!Yii::$app->user->isGuest)
-            $this->layout = 'dashboard';
 
         if ($exception !== null) {
             return $this->render('error', ['type' => $type, 'statuses' => $statuses, 'code' => ((isset($exception->statusCode)) ? $exception->statusCode : ""), 'message' => $exception->getMessage()]);
@@ -1018,6 +1020,7 @@ class AdminController extends Controller
                 'host' => \yii\helpers\Url::base(true),
                 'language' => Yii::$app->language,
                 'sourceLanguage' => Yii::$app->sourceLanguage,
+                'i18n' => \locale_get_default(),
                 'charset' => Yii::$app->charset,
                 'env' => YII_ENV,
                 'debug' => YII_DEBUG,
@@ -1058,6 +1061,7 @@ class AdminController extends Controller
                 'geoip' => extension_loaded('geoip'),
 
                 'imagick' => extension_loaded('imagick'),
+                'ffmpeg' => extension_loaded('ffmpeg'),
                 'gd' => extension_loaded('gd'),
                 'smtp' => strlen(ini_get('SMTP')) > 0,
 

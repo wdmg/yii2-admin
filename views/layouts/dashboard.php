@@ -13,9 +13,11 @@ use yii\bootstrap\ActiveForm;
 use yii\widgets\Breadcrumbs;
 use yii\widgets\Pjax;
 use wdmg\admin\AdminAsset;
+use wdmg\admin\FontAwesomeAssets;
 
-//AppAsset::register($this);
 $bundle = AdminAsset::register($this);
+$bundle2 = FontAwesomeAssets::register($this);
+
 $this->registerLinkTag(['rel' => 'shortcut icon', 'type' => 'image/x-icon', 'href' => Url::to($bundle->baseUrl . '/favicon.ico')]);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to($bundle->baseUrl . '/favicon.png')]);
 
@@ -53,26 +55,115 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
         ]);
 
         $items = [];
+        $create = [];
+
+        if (Yii::$app->getModule('admin/pages', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Page'),
+                'url' => ['/admin/pages/pages/create']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/media', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Media item'),
+                'url' => ['/admin/media/list/upload']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/content', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Content block'),
+                'url' => ['/admin/content/blocks/create']
+            ];
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Content list'),
+                'url' => ['/admin/content/lists/create']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/news', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'News'),
+                'url' => ['/admin/news/news/create']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/blog', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Post'),
+                'url' => ['/admin/blog/posts/create']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/subscribers', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Subscriber'),
+                'url' => ['/admin/subscribers/all/create']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/newsletters', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Newsletter'),
+                'url' => ['/admin/newsletters/list/create']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/forms', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Form'),
+                'url' => ['/admin/forms/list/create']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/users', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'User'),
+                'url' => ['/admin/users/users/create/']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/tasks', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Task'),
+                'url' => ['/admin/tasks/item/create/']
+            ];
+        }
+
+        if (Yii::$app->getModule('admin/translations', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Translate'),
+                'url' => ['/admin/translations/list/create/']
+            ];
+        }
+
+        if (count($create) > 0) {
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-plus"></span> ' . Yii::t('app/modules/admin', 'Add new'),
+                'items' => $create
+            ];
+        }
 
         if (Yii::$app->getModule('admin/terminal', false))
             $items[] = [
-                'label' => '<span class="fa fa-fw fa-terminal"></span> Terminal',
+                'label' => '<span class="fa fa-fw fa-terminal"></span> ' . Yii::t('app/modules/admin', 'Terminal'),
                 'url' => '#terminal'
             ];
 
         $items[] = [
-            'label' => '<span class="fa fa-fw fa-language"></span> Language',
+            'label' => '<span class="fa fa-fw fa-language"></span> ' . Yii::t('app/modules/admin', 'Language'),
             'items' => $this->params['langs']
         ];
 
         if (Yii::$app->user->isGuest)
             $items[] = [
-                'label' => '<span class="fa fa-fw fa-sign-in-alt"></span> Login',
+                'label' => '<span class="fa fa-fw fa-sign-in-alt"></span> ' . Yii::t('app/modules/admin', 'Login'),
                 'url' => ['/admin/login']
             ];
         else
             $items[] = [
-                'label' => '<span class="fa fa-fw fa-user-circle"></span> Logout (' . Yii::$app->user->identity->username . ')',
+                'label' => '<span class="fa fa-fw fa-user-circle"></span> ' . Yii::t('app/modules/admin', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
                 'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']
             ];
 
@@ -113,12 +204,13 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
             <div class="navbar-search">
                 <?= $searchForm->field(Yii::$app->dashboard->search, 'query', [
                     'template' => '{label}<div class="input-group"><div class="input-group-addon"><span class="fa fa-search"></span></div>{input}</div>{hint}{error}'
-                ])->textInput(['placeholder' => "Type to search...", "autocomplete" => "off"])->label(false); ?>
+                ])->textInput(['placeholder' => Yii::t('app/modules/admin', 'Type to search...'), "autocomplete" => "off"])->label(false); ?>
                 <div class="search-box">
                     <ul class="list-unstyled"></ul>
                     <div class="no-search-results" style="display: none;">
                         <div class="alert alert-warning" role="alert">
-                            <i class="fa fa-exclamation-triangle"></i> No entry for <strong>`<span class="query"></span>`</strong> was found.
+                            <i class="fa fa-exclamation-triangle"></i>
+                            <?= Yii::t('app/modules/admin', 'No entry for <strong>`<span class="query"></span>`</strong> was found.') ?>
                         </div>
                     </div>
                 </div>

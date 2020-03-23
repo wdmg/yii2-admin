@@ -38,6 +38,12 @@ $this->params['breadcrumbs'][] = $this->title;
                     return $data['charset'] . ", " . $data['language'];
                 }
             ],
+            'i18n' => [
+                'label' => Yii::t('app/modules/admin', "Internationalization"),
+                'value' => function ($data) {
+                    return $data['application']['i18n'];
+                }
+            ],
 
             'memory_limit' => [
                 'label' => Yii::t('app/modules/admin', "Memory limit"),
@@ -320,6 +326,13 @@ $this->params['breadcrumbs'][] = $this->title;
                             'format' => 'raw',
                             'value' => function ($data) {
                                 return ($data['php']['imagick']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
+                            }
+                        ],
+                        'ffmpeg' => [
+                            'label' => Yii::t('app/modules/admin', "FFMPEG"),
+                            'format' => 'raw',
+                            'value' => function ($data) {
+                                return ($data['php']['ffmpeg']) ? '<span class="fa fa-check text-success"></span>' : '<span class="fa fa-times text-danger"></span>';
                             }
                         ],
                         'gd' => [

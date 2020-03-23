@@ -75,6 +75,7 @@ return [
     'Engine' => "Технология",
     'Yii-framework version' => "Версия Yii-фреймворка",
     'Butterfly.CMS version' => "Версия Butterfly.CMS",
+    'Internationalization' => "Интернационализация",
     'Server time' => "Время на сервере",
     'Server runs' => "Сервер работает",
     '{days, plural, =0{} one {# day, } few {# days, } many {# days, } other {# days, }}{hours, plural, =0{} one {# hour, } few {# hours, } many {# hours, } other {# hours, }}{minutes, plural, =0{} one {# minute, } few {# minutes, } many {# minutes, } other {# minutes, }}{seconds, plural, =0{} one {# second} few {# seconds} many {# seconds} other {# seconds}}' => "{days, plural, =0{} one {# день, } few {# дня, } many {# дней, } other {# дней, }}{hours, plural, =0{} one {# час, } few {# часа, } many {# часов, } other {# часов, }}{minutes, plural, =0{} one {# минуту, } few {# минуты, } many {# минут, } other {# минут, }}{seconds, plural, =0{} one {# секунду} few {# секунды} many {# секунд} other {# секунд}}",
@@ -166,6 +167,26 @@ return [
     'Failed to send error report.' => "Не удалось отправить отчёт об ошибке.",
     '* - passwords and/or authorization data will not be transferred in this report!' => "* - пароли и/или данные авторизации не будут переданы в данном отчёте!",
 
+
+    'Add new' => "Добавить",
+    'Terminal' => "Терминал",
+    'Language' => "Язык",
+    'Login' => "Войти",
+    'Logout' => "Выйти",
+    'Type to search...' => "Запрос для поиска...",
+    'No entry for <strong>`<span class="query"></span>`</strong> was found.' => 'Не найдено записей для <strong>`<span class="query"></span>`</strong>',
+    'Page' => 'Страницу',
+    'Media item' => 'Медиа элемент',
+    'Content block' => 'Блок контента',
+    'Content list' => 'Список контента',
+    'News' => 'Новость',
+    'Post' => 'Публикацию',
+    'Subscriber' => 'Подписчика',
+    'Newsletter' => 'Рассылку',
+    'Form' => 'Форму',
+    'User' => 'Пользователя',
+    'Task' => 'Задачу',
+    'Translate' => 'Перевод',
 ];
 
 ?>

@@ -130,7 +130,6 @@ class Module extends BaseModule
                 'api',
                 'options',
                 'services',
-                'forms',
                 'redirects',
                 'mailer',
                 [
@@ -190,7 +189,7 @@ class Module extends BaseModule
         ], [
             'label' => 'Feedbacks',
             'icon' => 'fa fa-fw fa-comments',
-            'items' => ['reviews', 'comments'],
+            'items' => ['reviews', 'comments', 'forms'],
             'order' => 10,
         ], [
             'label' => 'Socials',
@@ -245,15 +244,20 @@ class Module extends BaseModule
             Yii::$app->user->loginUrl = ['/admin/login'];
 
             // Set assets bundle, if not loaded
-            if ($this->isBackend() && !$this->isConsole() && !isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'])) {
-                Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
-                Yii::$app->assetManager->bundles['wdmg\admin\FontAwesomeAssets'] = \wdmg\admin\FontAwesomeAssets::register(Yii::$app->view);
+            if ($this->isBackend() && !$this->isConsole()) {
+
+                if (!isset(Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset']))
+                    Yii::$app->assetManager->bundles['wdmg\admin\AdminAsset'] = \wdmg\admin\AdminAsset::register(Yii::$app->view);
+
+                if (!isset(Yii::$app->assetManager->bundles['wdmg\admin\FontAwesomeAssets']))
+                    Yii::$app->assetManager->bundles['wdmg\admin\FontAwesomeAssets'] = \wdmg\admin\FontAwesomeAssets::register(Yii::$app->view);
+
             }
 
             // Check of updates and return current version
             $meta = $this->getMetaData();
             $version = $this->getVersion();
-            if ($new_version = $this->checkUpdates($meta['name'], $version)) // wdmg/yii2-admin
+            if ($new_version = $this->checkUpdates($meta['name'], $version)) // Check of updates for `wdmg/yii2-admin`
                 $this->view->params['version'] = 'v'. $version . ' <label class="label label-danger">Available update to ' . $new_version . '</label>';
             else
                 $this->view->params['version'] = 'v'. $version;
