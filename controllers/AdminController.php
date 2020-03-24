@@ -1009,6 +1009,86 @@ class AdminController extends Controller
         ];
     }
 
+    /**
+     * @param $name
+     * @param $dsn
+     * @return mixed|null
+     */
+    protected static function getDsnAttribute($name, $dsn) {
+        if (preg_match('/' . $name . '=([^;]*)/', $dsn, $match)) {
+            return $match[1];
+        } else {
+            return null;
+        }
+    }
+
+    /**
+     * @param null $config
+     * @return array|null
+     * @throws \yii\db\Exception
+     */
+    private static function getDbStatus($config = null) {
+        if (!is_null($config)) {
+            try {
+                $connection = new \yii\db\Connection($config);
+                $connection->open();
+                $host = self::getDsnAttribute('host', $connection->dsn);
+                $dbname = self::getDsnAttribute('dbname', $connection->dsn);
+                $node = $host . ":" .$dbname;
+                return [
+                    $node => [
+                        'status' => ($connection->getIsActive()) ? 'ok' : 'inactive',
+                        'driver' => $connection->getDriverName(),
+                        'version' => $connection->getServerVersion()
+                    ]
+                ];
+                $connection->close();
+            } catch (\Exception $e) {
+                $host = self::getDsnAttribute('host', (is_object($config)) ? $config->dsn : $config['dsn']);
+                $dbname = self::getDsnAttribute('dbname', (is_object($config)) ? $config->dsn : $config['dsn']);
+                $node = $host . ":" .$dbname;
+                return [
+                    $node => [
+                        'status' => 'offline'
+                    ]
+                ];
+            }
+        }
+        return null;
+    }
+
+    private function getDbPrimary() {
+        $config = Yii::$app->getDb();
+        $output = self::getDbStatus([
+            'dsn' => $config->dsn,
+            'username' => $config->username,
+            'password' => $config->password
+        ]);
+        return $output;
+    }
+
+    private function getDbMasters() {
+        $output = [];
+        if ($masters = Yii::$app->db->masters) {
+            foreach ($masters as $master) {
+                $config = \yii\helpers\ArrayHelper::merge($master, Yii::$app->db->masterConfig);
+                $output = array_merge($output, $this->getDbStatus($config));
+            }
+        }
+        return $output;
+    }
+
+    private function getDbSlaves() {
+        $output = [];
+        if ($slaves = Yii::$app->db->slaves) {
+            foreach ($slaves as $slave) {
+                $config = \yii\helpers\ArrayHelper::merge($slave, Yii::$app->db->slaveConfig);
+                $output = array_merge($output, $this->getDbStatus($config));
+            }
+        }
+        return $output;
+    }
+
     private function getSystemData() {
         $data = [
             'phpVersion' => PHP_VERSION,
@@ -1024,6 +1104,11 @@ class AdminController extends Controller
                 'charset' => Yii::$app->charset,
                 'env' => YII_ENV,
                 'debug' => YII_DEBUG,
+            ],
+            'db' => [
+                'primary' => $this->getDbPrimary(),
+                'masters' => $this->getDbMasters(),
+                'slaves' => $this->getDbSlaves(),
             ],
             'php' => [
                 'version' => PHP_VERSION,

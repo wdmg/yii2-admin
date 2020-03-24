@@ -187,6 +187,8 @@ return [
     'User' => 'Пользователя',
     'Task' => 'Задачу',
     'Translate' => 'Перевод',
+
+    'DataBase Status' => 'СУБД',
 ];
 
 ?>

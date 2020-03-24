@@ -10,12 +10,20 @@ use yii\web\View;
 $this->title = Yii::t('app/modules/admin', 'System information');
 $this->params['breadcrumbs'][] = $this->title;
 
+function getDsnAttribute($name, $dsn) {
+    if (preg_match('/' . $name . '=([^;]*)/', $dsn, $match)) {
+        return $match[1];
+    } else {
+        return null;
+    }
+}
 ?>
 <div class="page-header">
     <h1>
         <?= Html::encode($this->title) ?> <small class="text-muted pull-right">[v.<?= $this->context->module->version ?>]</small>
     </h1>
 </div>
+
 <div class="admin-info">
     <?= DetailView::widget([
         'model' => $data,
@@ -139,7 +147,90 @@ $this->params['breadcrumbs'][] = $this->title;
             ]
         ],
     ]);
+
     ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <a data-toggle="collapse" href="#dbStatus">
+                    <?= Yii::t('app/modules/admin', "DataBase Status") ?>
+                </a>
+            </h5>
+        </div>
+        <div id="dbStatus" class="panel-collapse collapse">
+            <div class="panel-body">
+                <?= DetailView::widget([
+                    'model' => $data,
+                    'attributes' => [
+                        'primary' => [
+                            'label' => Yii::t('app/modules/admin', "Primary"),
+                            'format' => 'raw',
+                            'value' => function ($data) {
+                                $output = null;
+                                if (is_countable($data['db']['primary'])) {
+                                    foreach ($data['db']['primary'] as $name => $node) {
+                                        if (isset($node['status'])) {
+                                            if ($node['status'] == "ok") {
+                                                $output .= '<span class="text-success fa fa-check-circle"></span>';
+                                                $output .= '&nbsp;<b>' . $name . '</b> (' . $node['driver'] . ', ' . $node['version'] . ')' . '<br/>';
+                                            } else {
+                                                $output .= '<span class="text-danger fa fa-circle"></span>';
+                                                $output .= '&nbsp;<b>' . $name . '</b>' . '<br/>';
+                                            }
+                                        }
+                                    }
+                                }
+                                return $output;
+                            }
+                        ],
+                        'masters' => [
+                            'label' => Yii::t('app/modules/admin', "Masters"),
+                            'format' => 'raw',
+                            'value' => function ($data) {
+                                $output = null;
+                                if (is_countable($data['db']['masters'])) {
+                                    foreach ($data['db']['masters'] as $name => $node) {
+                                        if (isset($node['status'])) {
+                                            if ($node['status'] == "ok") {
+                                                $output .= '<span class="text-success fa fa-check-circle"></span>';
+                                                $output .= '&nbsp;<b>' . $name . '</b> (' . $node['driver'] . ', ' . $node['version'] . ')' . '<br/>';
+                                            } else {
+                                                $output .= '<span class="text-danger fa fa-circle"></span>';
+                                                $output .= '&nbsp;<b>' . $name . '</b>' . '<br/>';
+                                            }
+                                        }
+                                    }
+                                }
+                                return $output;
+                            }
+                        ],
+                        'slaves' => [
+                            'label' => Yii::t('app/modules/admin', "Slaves"),
+                            'format' => 'raw',
+                            'value' => function ($data) {
+                                $output = null;
+                                if (is_countable($data['db']['slaves'])) {
+                                    foreach ($data['db']['slaves'] as $name => $node) {
+                                        if (isset($node['status'])) {
+                                            if ($node['status'] == "ok") {
+                                                $output .= '<span class="text-success fa fa-check-circle"></span>';
+                                                $output .= '&nbsp;<b>' . $name . '</b> (' . $node['driver'] . ', ' . $node['version'] . ')' . '<br/>';
+                                            } else {
+                                                $output .= '<span class="text-danger fa fa-circle"></span>';
+                                                $output .= '&nbsp;<b>' . $name . '</b>' . '<br/>';
+                                            }
+                                        }
+                                    }
+                                }
+                                return $output;
+                            }
+                        ],
+                    ],
+                ]);
+                ?>
+            </div>
+        </div>
+    </div>
     <div class="panel panel-default">
         <div class="panel-heading">
             <h5 class="panel-title">
