@@ -928,6 +928,10 @@ $hr-border:                   #dcdcdc !default;
 @import "bootstrap/responsive-utilities";
 
 
+body {
+  -webkit-font-smoothing: antialiased;
+}
+
 /* Extend components */
 .label {
   &[disabled] {
@@ -936,8 +940,23 @@ $hr-border:                   #dcdcdc !default;
   }
 }
 
-body {
-  -webkit-font-smoothing: antialiased;
+/* Row columns with equal heights */
+.flex-row {
+  display: flex;
+  flex-flow: row wrap;
+  &:after,
+  &:before {
+    display: flex;
+  }
+  & > [class*='col-'] {
+    display: flex;
+    flex-direction: column;
+    .align-center {
+      width: 100%;
+      margin-top: auto;
+      margin-bottom: auto;
+    }
+  }
 }
 
 // Admin dashboard welcome
@@ -1307,6 +1326,25 @@ body {
             border-bottom: none;
           }
         }
+      }
+    }
+  }
+
+  .flex-row {
+    .panel-widget {
+      display: flex;
+      flex: 1;
+      flex-direction: column;
+      align-self: stretch;
+      .panel-header {
+        margin-bottom: auto;
+      }
+      .panel-body {
+        flex: 1 100%;
+        align-content: stretch;
+      }
+      .panel-footer {
+        margin-top: auto;
       }
     }
   }

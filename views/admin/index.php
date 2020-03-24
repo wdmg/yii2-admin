@@ -15,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
 </div>
 <div class="admin-index">
-    <div class="row">
+    <div class="row flex-row">
 
     <?php
         if ($intance = $module->moduleLoaded('admin/pages', true)) {
@@ -39,12 +39,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '</ul>';
                         } else {
                             echo '<div class="panel-body">';
-                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/pages', 'No pages available for display').'</p>';
+                            echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/pages', 'No pages available for display').'</p>';
                             echo '</div>';
                         }
                     } else {
                         echo '<div class="panel-body">';
-                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/pages', 'An error occurred while retrieving the page list').'</p>';
+                        echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/pages', 'An error occurred while retrieving the page list').'</p>';
                         echo '</div>';
                     }
                 ?>
@@ -79,12 +79,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '</ul>';
                         } else {
                             echo '<div class="panel-body">';
-                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/news', 'No news available').'</p>';
+                            echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/news', 'No news available').'</p>';
                             echo '</div>';
                         }
                     } else {
                         echo '<div class="panel-body">';
-                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/news', 'An error occurred while retrieving the news list').'</p>';
+                        echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/news', 'An error occurred while retrieving the news list').'</p>';
                         echo '</div>';
                     }
                 ?>
@@ -119,12 +119,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '</ul>';
                         } else {
                             echo '<div class="panel-body">';
-                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/blog', 'No posts available').'</p>';
+                            echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/blog', 'No posts available').'</p>';
                             echo '</div>';
                         }
                     } else {
                         echo '<div class="panel-body">';
-                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/blog', 'An error occurred while retrieving the blog posts').'</p>';
+                        echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/blog', 'An error occurred while retrieving the blog posts').'</p>';
                         echo '</div>';
                     }
                 ?>
@@ -158,12 +158,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '</ul>';
                         } else {
                             echo '<div class="panel-body">';
-                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/users', 'No users available').'</p>';
+                            echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/users', 'No users available').'</p>';
                             echo '</div>';
                         }
                     } else {
                         echo '<div class="panel-body">';
-                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/users', 'An error occurred while retrieving the users list').'</p>';
+                        echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/users', 'An error occurred while retrieving the users list').'</p>';
                         echo '</div>';
                     }
                 ?>
@@ -197,12 +197,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '</ul>';
                         } else {
                             echo '<div class="panel-body">';
-                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/reviews', 'No reviews available').'</p>';
+                            echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/reviews', 'No reviews available').'</p>';
                             echo '</div>';
                         }
                     } else {
                         echo '<div class="panel-body">';
-                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/reviews', 'An error occurred while retrieving the reviews list').'</p>';
+                        echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/reviews', 'An error occurred while retrieving the reviews list').'</p>';
                         echo '</div>';
                     }
                 ?>
@@ -234,12 +234,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo '</ul>';
                         } else {
                             echo '<div class="panel-body">';
-                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/comments', 'No comments available').'</p>';
+                            echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/comments', 'No comments available').'</p>';
                             echo '</div>';
                         }
                     } else {
                         echo '<div class="panel-body">';
-                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/comments', 'An error occurred while retrieving the comments list').'</p>';
+                        echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/comments', 'An error occurred while retrieving the comments list').'</p>';
                         echo '</div>';
                     }
                 ?>
@@ -272,12 +272,12 @@ $this->params['breadcrumbs'][] = $this->title;
                             ]);
                         } else {
                             echo '<div class="panel-body">';
-                            echo '<p class="text-center text-muted">'.Yii::t('app/modules/stats', 'No stats data available').'</p>';
+                            echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/stats', 'No stats data available').'</p>';
                             echo '</div>';
                         }
                     } else {
                         echo '<div class="panel-body">';
-                        echo '<p class="text-center text-warning">'.Yii::t('app/modules/stats', 'An error occurred while retrieving the stats data').'</p>';
+                        echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/stats', 'An error occurred while retrieving the stats data').'</p>';
                         echo '</div>';
                     }
                 ?>
