@@ -1,7 +1,16 @@
 Changelog
 =========
 
+## 1.1.22 (2020-03-25)
+ * Added pagination
+ * Added DB status to System info
+ * Row columns with equal heights
+ * Dashboard update, some translations
+ * Polyfill for array_key_first() for PHP <= 7.3.0
+ 
 ## 1.1.21 (2020-03-06)
+ * Stylesheets for dashboard
+ * Live search for blog posts in dashboard navbar
  * Added support for Blog module
  
 ## 1.1.20 (2020-02-27)

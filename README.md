@@ -1,4 +1,4 @@
-[![Yii2](https://img.shields.io/badge/required-Yii2_v2.0.20-blue.svg)](https://packagist.org/packages/yiisoft/yii2)
+[![Yii2](https://img.shields.io/badge/required-Yii2_v2.0.33-blue.svg)](https://packagist.org/packages/yiisoft/yii2)
 [![Github all releases](https://img.shields.io/github/downloads/wdmg/yii2-admin/total.svg)](https://GitHub.com/wdmg/yii2-admin/releases/)
 ![Progress](https://img.shields.io/badge/progress-ready_to_use-green.svg)
 [![GitHub license](https://img.shields.io/github/license/wdmg/yii2-admin.svg)](https://github.com/wdmg/yii2-admin/blob/master/LICENSE)
@@ -9,7 +9,7 @@ Administrative panel for [Butterfly.CMS](https://github.com/wdmg/butterfly.cms)
 
 # Requirements 
 * PHP 5.6 or higher
-* Yii2 v.2.0.20 and newest
+* Yii2 v.2.0.33 and newest
 * [Yii2 Base](https://github.com/wdmg/yii2-base) module (required)
 * [Yii2 Users](https://github.com/wdmg/yii2-users) module (required)
 
@@ -61,6 +61,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.22 - Added pagination, DB status to System info
 * v.1.1.21 - Added support for Blog module
 * v.1.1.20 - Added system information page
 * v.1.1.19 - Added support for Search module, error handler for dashboard

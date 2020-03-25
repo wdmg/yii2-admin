@@ -59,6 +59,11 @@ return [
     'Follow the link below to reset your password: {link}' => "Перейдите по ссылке ниже, чтобы сбросить пароль: {link}",
     'New password saved!' => "Новый пароль сохранен!",
 
+    'First page' => 'Первая страница',
+    'Last page' => 'Последняя страница',
+    '&larr; Prev page' => '&larr; Предыдущая страница',
+    'Next page &rarr;' => 'Следующая страница &rarr;',
+
     'Information' => "Информация",
     'System information' => "Информация о системе",
     'IP, host' => "IP, хост",
