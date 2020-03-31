@@ -20,6 +20,21 @@ $bundle2 = FontAwesomeAssets::register($this);
 
 $this->registerLinkTag(['rel' => 'shortcut icon', 'type' => 'image/x-icon', 'href' => Url::to($bundle->baseUrl . '/favicon.ico')]);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to($bundle->baseUrl . '/favicon.png')]);
+$this->registerJs(<<< JS
+    /*$(function () {
+        $("[data-toggle='tooltip']").tooltip();
+        //$("[data-toggle='modal']").modal();
+        $("[data-toggle='popover']").popover(); 
+        $('.dropdown-toggle').dropdown();
+    });
+    $(document).on('pjax:success', function() {
+        $("[data-toggle='tooltip']").tooltip();
+        //$("[data-toggle='modal']").modal();
+        $("[data-toggle='popover']").popover(); 
+        $('.dropdown-toggle').dropdown();
+    });*/
+JS
+);
 
 ?>
 <?php $this->beginPage() ?>

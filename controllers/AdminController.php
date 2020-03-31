@@ -103,6 +103,9 @@ class AdminController extends Controller
             if ($this->module->moduleLoaded('admin/users'))
                 $widgets['lastUsers'] = $this->getLastUsers();
 
+            if ($this->module->moduleLoaded('admin/activity'))
+                $widgets['recentActivity'] = $this->getRecentActivity();
+
             if ($this->module->moduleLoaded('admin/stats'))
                 $widgets['recentStats'] = $this->getRecentStats();
 
@@ -818,6 +821,11 @@ class AdminController extends Controller
     public function getLastUsers($limit = 5) {
         $model = new \wdmg\users\models\Users();
         return $model::find()->select('id, username, created_at')->where(['or', 'status' => $model::USR_STATUS_ACTIVE, 'status' => $model::USR_STATUS_WAITING])->asArray()->limit(intval($limit))->orderBy(['created_at' => SORT_DESC])->all();
+    }
+
+    public function getRecentActivity($limit = 5) {
+        $model = new \wdmg\activity\models\Activity();
+        return $model::find()->select('type, message, action, created_at, created_by')->asArray()->limit(intval($limit))->orderBy(['id' => SORT_DESC, 'created_at' => SORT_ASC])->all();
     }
 
     public function getRecentStats() {

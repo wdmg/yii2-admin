@@ -178,6 +178,56 @@ $this->params['breadcrumbs'][] = $this->title;
     ?>
 
     <?php
+        if ($intance = $module->moduleLoaded('admin/activity', true)) {
+    ?>
+        <div class="col-xs-12 col-sm-6 col-md-4">
+            <div class="panel panel-widget">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/activity', 'Activity') ?>
+                </div>
+                <?php
+                if (isset($widgets['recentActivity'])) {
+                    if (count($widgets['recentActivity']) > 0) {
+                        echo '<ul class="panel-body list-group">';
+                        foreach ($widgets['recentActivity'] as $item) {
+                            $username = isset($item['user']['username']) ? $item['user']['username'].', ' : '';
+
+                            $class = ' list-group-item-info';
+                            if ($item['type'] == 'danger')
+                                $class = ' list-group-item-danger';
+                            elseif ($item['type'] == 'warning')
+                                $class = ' list-group-item-warning';
+                            elseif ($item['type'] == 'success')
+                                $class = ' list-group-item-success';
+
+                            echo '<li class="list-group-item' . $class . '">';
+                                echo '<div style="padding: 0 10px">' . $item['message'];
+                                echo Html::tag('small', $username . Yii::$app->formatter->asDate($item['created_at']), ['class' => 'pull-right text-muted']);
+                                echo '</div>';
+                            echo '</li>';
+                        }
+                        echo '</ul>';
+                    } else {
+                        echo '<div class="panel-body">';
+                        echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/pages', 'No activity available for display').'</p>';
+                        echo '</div>';
+                    }
+                } else {
+                    echo '<div class="panel-body">';
+                    echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/pages', 'An error occurred while retrieving the list of activity').'</p>';
+                    echo '</div>';
+                }
+                ?>
+                <div class="panel-footer">
+                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['activity/list'], ['class' => 'text-muted']) ?>
+                </div>
+            </div>
+        </div>
+    <?php
+        }
+    ?>
+
+    <?php
         if ($intance = $module->moduleLoaded('admin/reviews', true)) {
     ?>
         <div class="col-xs-12 col-sm-6 col-md-4">
