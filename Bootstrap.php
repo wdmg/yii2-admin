@@ -185,12 +185,16 @@ class Bootstrap implements BootstrapInterface
                             $installed = $app->getModule('admin/' . $module['module']);
                             if ($installed) {
 
-                                // Register translations for loading module
+                                // Register the translation for the loadable module,
+                                // if it has not been registered before (possibly not inherited from BaseModule)
                                 if (!($app instanceof \yii\console\Application) && $this->module) {
-                                    if ($translations = Yii::$app->getModule('admin/translations'))
-                                        $translations->registerTranslations($installed, true);
-                                    else
-                                        $this->module->registerTranslations($installed);
+                                    if (!isset((Yii::$app->i18n->translations['app/modules/' . $installed->id]))) {
+                                        if ($translations = Yii::$app->getModule('admin/translations')) {
+                                            $translations->registerTranslations($installed, true);
+                                        } else {
+                                            $this->module->registerTranslations($installed);
+                                        }
+                                    }
                                 }
 
                                 // Configure dashboard layout
