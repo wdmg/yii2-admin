@@ -1262,6 +1262,96 @@ body {
     }
   }
 
+  .btn {
+    &.btn-edit, .btn-update, &.btn-refresh, &.btn-create, &.btn-view, &.btn-send, &.btn-save, &.btn-add, &.btn-delete {
+      position: relative;
+      &:after {
+        position: relative;
+        display: inline-block;
+        content: "";
+        text-align: center;
+        -moz-osx-font-smoothing: grayscale;
+        -webkit-font-smoothing: antialiased;
+        font-style: normal;
+        font-variant: normal;
+        text-rendering: auto;
+        line-height: inherit;
+        font-family: 'Font Awesome 5 Free';
+        font-weight: 900;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        width: 24px;
+        margin-left: 5px;
+        margin-right: -5px;
+        z-index: 1;
+      }
+    }
+    &.btn-edit, .btn-update {
+      &:after {
+        content: "\f303";
+      }
+    }
+    &.btn-refresh {
+      &:after {
+        content: "\f021";
+      }
+    }
+    &.btn-view {
+      &:after {
+        content: "\f06e";
+      }
+    }
+    &.btn-save {
+      &:after {
+        content: "\f058";
+      }
+    }
+    &.btn-add, &.btn-create {
+      &:after {
+        content: "\f067";
+      }
+    }
+    &.btn-delete {
+      &:after {
+        content: "\f2ed";
+      }
+    }
+    &.btn-send {
+      &:after {
+        content: "\f1d8";
+      }
+    }
+    &.btn-default {
+      &.btn-edit, .btn-update, &.btn-send {
+        &:after {
+          color: $brand-primary;
+        }
+      }
+      &.btn-refresh {
+
+        &:after {
+          color: $brand-warning;
+        }
+      }
+      &.btn-view {
+        &:after {
+          color: $brand-info;
+        }
+      }
+      &.btn-save, &.btn-add, &.btn-create {
+        &:after {
+          color: $brand-success;
+        }
+      }
+      &.btn-delete {
+        &:after {
+          color: $brand-danger;
+        }
+      }
+    }
+  }
+
   .nav {
     .nav-tabs {
       & > li {
@@ -1302,6 +1392,51 @@ body {
           }
           &:last-child {
             border-bottom: none;
+          }
+        }
+      }
+    }
+  }
+
+  .panel {
+    .panel-title {
+      font-size: $font-size-base !important;
+      &.h1, &h1 {
+        font-size: $font-size-h1 !important;
+      }
+      &.h2, &h2 {
+        font-size: $font-size-h2 !important;
+      }
+      &.h3, &h3 {
+        font-size: $font-size-h3 !important;
+      }
+      &.h4, &h4 {
+        font-size: $font-size-h4 !important;
+      }
+      &.h5, &h5 {
+        font-size: $font-size-h5 !important;
+      }
+      &.h6, &h6 {
+        font-size: $font-size-h6 !important;
+      }
+    }
+    &.panel-default {
+      .panel-heading {
+        h1, h2, h3, h4, h5, h6,
+        .h1, .h2, .h3, .h4, .h5, .h6 {
+          &.panel-title {
+            & > a {
+              position: relative;
+              display: block;
+              width: 100%;
+              text-decoration: none;
+              color: $link-color;
+              &:hover,
+              &:focus {
+                text-decoration: none;
+                color: $link-hover-color;
+              }
+            }
           }
         }
       }

@@ -181,14 +181,13 @@ class Bootstrap implements BootstrapInterface
                                 'class' => $module['class']
                             ], $options));
 
-                            // Check if the module is registered
-                            $installed = $app->getModule('admin/' . $module['module']);
-                            if ($installed) {
+                            // Registered the module
+                            if ($installed = $app->getModule('admin/' . $module['module'], true)) {
 
                                 // Register the translation for the loadable module,
                                 // if it has not been registered before (possibly not inherited from BaseModule)
                                 if (!($app instanceof \yii\console\Application) && $this->module) {
-                                    if (!isset((Yii::$app->i18n->translations['app/modules/' . $installed->id]))) {
+                                    if (!isset(Yii::$app->getI18n()->translations['app/modules/' . $installed->id])) {
                                         if ($translations = Yii::$app->getModule('admin/translations')) {
                                             $translations->registerTranslations($installed, true);
                                         } else {

@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.1.*
+ * Add subclasses for buttons
+ * Loads stats widget for dashboard
+ 
 ## 1.1.22 (2020-03-25)
  * Added pagination
  * Added DB status to System info

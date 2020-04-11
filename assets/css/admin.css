@@ -7600,6 +7600,66 @@ body {
   padding-top: 6px;
   padding-bottom: 12px;
 }
+.dashboard .btn.btn-edit, .dashboard .btn .btn-update, .dashboard .btn.btn-refresh, .dashboard .btn.btn-create, .dashboard .btn.btn-view, .dashboard .btn.btn-send, .dashboard .btn.btn-save, .dashboard .btn.btn-add, .dashboard .btn.btn-delete {
+  position: relative;
+}
+.dashboard .btn.btn-edit:after, .dashboard .btn .btn-update:after, .dashboard .btn.btn-refresh:after, .dashboard .btn.btn-create:after, .dashboard .btn.btn-view:after, .dashboard .btn.btn-send:after, .dashboard .btn.btn-save:after, .dashboard .btn.btn-add:after, .dashboard .btn.btn-delete:after {
+  position: relative;
+  display: inline-block;
+  content: "";
+  text-align: center;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  font-style: normal;
+  font-variant: normal;
+  text-rendering: auto;
+  line-height: inherit;
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  width: 24px;
+  margin-left: 5px;
+  margin-right: -5px;
+  z-index: 1;
+}
+.dashboard .btn.btn-edit:after, .dashboard .btn .btn-update:after {
+  content: "";
+}
+.dashboard .btn.btn-refresh:after {
+  content: "";
+}
+.dashboard .btn.btn-view:after {
+  content: "";
+}
+.dashboard .btn.btn-save:after {
+  content: "";
+}
+.dashboard .btn.btn-add:after, .dashboard .btn.btn-create:after {
+  content: "";
+}
+.dashboard .btn.btn-delete:after {
+  content: "";
+}
+.dashboard .btn.btn-send:after {
+  content: "";
+}
+.dashboard .btn.btn-default.btn-edit:after, .dashboard .btn.btn-default .btn-update:after, .dashboard .btn.btn-default.btn-send:after {
+  color: #1786DB;
+}
+.dashboard .btn.btn-default.btn-refresh:after {
+  color: #f7b53e;
+}
+.dashboard .btn.btn-default.btn-view:after {
+  color: #34A0E8;
+}
+.dashboard .btn.btn-default.btn-save:after, .dashboard .btn.btn-default.btn-add:after, .dashboard .btn.btn-default.btn-create:after {
+  color: #42c14f;
+}
+.dashboard .btn.btn-default.btn-delete:after {
+  color: #ec5852;
+}
 .dashboard .nav + .tab-content > .tab-pane {
   padding: 24px 24px 12px 24px;
 }
@@ -7626,6 +7686,41 @@ body {
 }
 .dashboard .popover.nav-popover .popover-content .nav > li:last-child {
   border-bottom: none;
+}
+.dashboard .panel .panel-title {
+  font-size: 14px !important;
+}
+.dashboard .panel .panel-title.h1, .dashboard .panel .panel-titleh1 {
+  font-size: 36px !important;
+}
+.dashboard .panel .panel-title.h2, .dashboard .panel .panel-titleh2 {
+  font-size: 30px !important;
+}
+.dashboard .panel .panel-title.h3, .dashboard .panel .panel-titleh3 {
+  font-size: 24px !important;
+}
+.dashboard .panel .panel-title.h4, .dashboard .panel .panel-titleh4 {
+  font-size: 18px !important;
+}
+.dashboard .panel .panel-title.h5, .dashboard .panel .panel-titleh5 {
+  font-size: 14px !important;
+}
+.dashboard .panel .panel-title.h6, .dashboard .panel .panel-titleh6 {
+  font-size: 12px !important;
+}
+.dashboard .panel.panel-default .panel-heading h1.panel-title > a, .dashboard .panel.panel-default .panel-heading h2.panel-title > a, .dashboard .panel.panel-default .panel-heading h3.panel-title > a, .dashboard .panel.panel-default .panel-heading h4.panel-title > a, .dashboard .panel.panel-default .panel-heading h5.panel-title > a, .dashboard .panel.panel-default .panel-heading h6.panel-title > a,
+.dashboard .panel.panel-default .panel-heading .h1.panel-title > a, .dashboard .panel.panel-default .panel-heading .h2.panel-title > a, .dashboard .panel.panel-default .panel-heading .h3.panel-title > a, .dashboard .panel.panel-default .panel-heading .h4.panel-title > a, .dashboard .panel.panel-default .panel-heading .h5.panel-title > a, .dashboard .panel.panel-default .panel-heading .h6.panel-title > a {
+  position: relative;
+  display: block;
+  width: 100%;
+  text-decoration: none;
+  color: #1786DB;
+}
+.dashboard .panel.panel-default .panel-heading h1.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading h1.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading h2.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading h2.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading h3.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading h3.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading h4.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading h4.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading h5.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading h5.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading h6.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading h6.panel-title > a:focus,
+.dashboard .panel.panel-default .panel-heading .h1.panel-title > a:hover,
+.dashboard .panel.panel-default .panel-heading .h1.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading .h2.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading .h2.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading .h3.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading .h3.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading .h4.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading .h4.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading .h5.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading .h5.panel-title > a:focus, .dashboard .panel.panel-default .panel-heading .h6.panel-title > a:hover, .dashboard .panel.panel-default .panel-heading .h6.panel-title > a:focus {
+  text-decoration: none;
+  color: #105c96;
 }
 .dashboard .panel-widget {
   border-radius: 6px !important;
