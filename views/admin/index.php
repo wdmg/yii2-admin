@@ -336,6 +336,40 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
             </div>
         </div>
+        <?php if (isset($widgets['recentLoads'])) { ?>
+            <div class="col-xs-12 col-sm-6 col-md-4">
+                <div class="panel panel-widget">
+                    <div class="panel-heading">
+                        <?= Yii::t('app/modules/stats', 'Loads') ?>
+                    </div>
+                    <?php
+                        if (isset($widgets['recentLoads'])) {
+                            if (count($widgets['recentLoads']) > 0) {
+                                echo ChartJS::widget([
+                                    'type' => 'line',
+                                    'options' => [
+                                        'width' => 640,
+                                        'height' => 260
+                                    ],
+                                    'data' => $widgets['recentLoads']
+                                ]);
+                            } else {
+                                echo '<div class="panel-body">';
+                                echo '<p class="text-center text-muted align-center">'.Yii::t('app/modules/stats', 'No loads data available').'</p>';
+                                echo '</div>';
+                            }
+                        } else {
+                            echo '<div class="panel-body">';
+                            echo '<p class="text-center text-warning align-center">'.Yii::t('app/modules/stats', 'An error occurred while retrieving the loads data').'</p>';
+                            echo '</div>';
+                        }
+                    ?>
+                    <div class="panel-footer">
+                        <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['./stats/load'], ['class' => 'text-muted']) ?>
+                    </div>
+                </div>
+            </div>
+        <?php } ?>
     <?php
         }
     ?>
