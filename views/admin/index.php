@@ -340,7 +340,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-xs-12 col-sm-6 col-md-4">
                 <div class="panel panel-widget">
                     <div class="panel-heading">
-                        <?= Yii::t('app/modules/stats', 'Loads') ?>
+                        <?= Yii::t('app/modules/stats', 'Load') ?>
                     </div>
                     <?php
                         if (isset($widgets['recentLoads'])) {

@@ -33,6 +33,11 @@ $this->registerJs(<<< JS
         $("[data-toggle='popover']").popover(); 
         $('.dropdown-toggle').dropdown();
     });*/
+    
+    $('.table').addClass('table-hover');
+    $(document).on('pjax:success', function() {
+        $('.table').addClass('table-hover');
+    });
 JS
 );
 
