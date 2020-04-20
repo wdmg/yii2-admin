@@ -1,7 +1,7 @@
 Changelog
 =========
 
-## 1.1.*
+## 1.1.23 (2020-04-20)
  * Add subclasses for buttons
  * Loads stats widget for dashboard
  

@@ -62,6 +62,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.23 - Subclasses for buttons, stats widgets
 * v.1.1.22 - Added pagination, DB status to System info
 * v.1.1.21 - Added support for Blog module
 * v.1.1.20 - Added system information page
