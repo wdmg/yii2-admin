@@ -8,8 +8,10 @@ use yii\helpers\Url;
 use yii\widgets\Pjax;
 use yii\bootstrap\ButtonDropdown;
 use wdmg\admin\AdminAsset;
+use wdmg\admin\FontAwesomeAssets;
 
 $bundle = AdminAsset::register($this);
+$bundle2 = FontAwesomeAssets::register($this);
 $this->registerLinkTag(['rel' => 'shortcut icon', 'type' => 'image/x-icon', 'href' => Url::to($bundle->baseUrl . '/favicon.ico')]);
 $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::to($bundle->baseUrl . '/favicon.png')]);
 
