@@ -6,8 +6,6 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\widgets\ActiveForm;
-use yii\bootstrap\ButtonGroup;
-use yii\bootstrap\ButtonDropdown;
 use wdmg\widgets\SelectInput;
 
 /* @var $this yii\web\View */
