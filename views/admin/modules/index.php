@@ -6,6 +6,8 @@ use yii\grid\GridView;
 use yii\widgets\Pjax;
 use yii\bootstrap\Modal;
 use yii\widgets\ActiveForm;
+use yii\bootstrap\ButtonGroup;
+use yii\bootstrap\ButtonDropdown;
 use wdmg\widgets\SelectInput;
 
 /* @var $this yii\web\View */
@@ -192,7 +194,7 @@ $this->params['breadcrumbs'][] = $this->title;
             <div class="col-xs-12 col-sm-6 col-lg-3">
                 <div class="form-group field-modules-autoactivate">
                     <?= Html::submitButton(Yii::t('app/modules/admin', 'Add module'), [
-                        'class' => 'btn btn-success',
+                        'class' => 'btn btn-add btn-success',
                         'disabled' => (count($extensions) == 0) ? true : false
                     ]) ?>
                 </div>
