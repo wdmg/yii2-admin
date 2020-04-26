@@ -21,13 +21,44 @@ use yii\widgets\DetailView;
 
             'class:ntext',
             // 'bootstrap:ntext',
-            'require:ntext',
-            'type:ntext',
+            [
+                'attribute' => 'require',
+                'format' => 'raw',
+                'contentOptions' => [
+                    'style' => "word-break:break-all;"
+                ]
+            ],
+            [
+                'attribute' => 'type',
+                'format' => 'raw',
+                'contentOptions' => [
+                    'style' => "word-break:break-all;"
+                ]
+            ],
+            [
+                'attribute' => 'homepage',
+                'format' => 'raw',
+                'contentOptions' => [
+                    'style' => "word-break:break-all;"
+                ]
+            ],
+            [
+                'attribute' => 'support',
+                'format' => 'raw',
+                'contentOptions' => [
+                    'style' => "word-break:break-all;"
+                ]
+            ],
+            [
+                'attribute' => 'authors',
+                'format' => 'raw',
+                'contentOptions' => [
+                    'style' => "word-break:break-all;"
+                ]
+            ],
 
-            'homepage:ntext',
-            'support:ntext',
-            'authors:ntext',
             'license:ntext',
+
             [
                 'attribute' => 'version',
                 'format' => 'raw',
@@ -40,8 +71,13 @@ use yii\widgets\DetailView;
 
                 }
             ],
-
-            'options:ntext',
+            [
+                'attribute' => 'options',
+                'format' => 'raw',
+                'contentOptions' => [
+                    'style' => "word-break:break-all;"
+                ]
+            ],
 
             'status:ntext',
             'protected:ntext',
