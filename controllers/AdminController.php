@@ -837,7 +837,7 @@ class AdminController extends Controller
         $visitors = $dataProvider->query->all();
 
         $dateTime = new \DateTime('00:00:00', new \DateTimeZone(ini_get('date.timezone')));
-        $timestamp = $dateTime->modify('+1 day')->getTimestamp();
+        $timestamp = $dateTime->modify('+2 day')->getTimestamp();
 
         $format = 'd M';
         $metrik = 'days';
@@ -905,8 +905,9 @@ class AdminController extends Controller
         $dataProvider = $model->search(['period' => 'week']);
         $visitors = $dataProvider->query->all();
 
-        $dateTime = new \DateTime('00:00:00', new \DateTimeZone(ini_get('date.timezone')));
-        $timestamp = $dateTime->modify('+1 day')->getTimestamp();
+        $timezone = \date_default_timezone_get();
+        $dateTime = new \DateTime('00:00:00', new \DateTimeZone($timezone));
+        $timestamp = $dateTime->modify('+2 day')->getTimestamp();
 
         $format = 'd M';
         $metrik = 'days';
@@ -919,11 +920,12 @@ class AdminController extends Controller
         $db_time_avrg = [];
 
         foreach ($visitors as $visitor) {
-            for ($i = 1; $i <= $iterations; $i++) {
-
-                if ($visitor->datetime <= strtotime('-'.$i.' '.$metrik, $timestamp) && $visitor->datetime > strtotime('-'.($i + 1).' '.$metrik, $timestamp))
+            for ($i = 0; $i <= $iterations; $i++) {
+                if ($visitor->datetime <= strtotime('-'.$i.' '.$metrik, $timestamp) && $visitor->datetime > strtotime('-'.($i + 1).' '.$metrik, $timestamp)) {
                     $output[$i][] = $visitor->params;
-
+                } else {
+                    $output[$i][] = [];
+                }
             }
         }
 
@@ -934,47 +936,38 @@ class AdminController extends Controller
             if (isset($output[$i])) {
 
                 $et = 0;
+                $mu = 0;
+                $dbq = 0;
+                $dbt = 0;
                 $et_count = 0;
+                $mu_count = 0;
+                $dbq_count = 0;
+                $dbt_count = 0;
+
                 foreach ($output[$i] as $item) {
                     if (isset($item['et'])) {
                         $et += $item['et'];
                         $et_count++;
                     }
-                }
-                $elapsed_time_avrg[] = round((($et_count) ? ($et / $et_count) : $et), 4);
-
-                $mu = 0;
-                $mu_count = 0;
-                foreach ($output[$i] as $item) {
                     if (isset($item['mu'])) {
                         $mu += $item['mu'];
                         $mu_count++;
                     }
-                }
-                $memory_usage_avrg[] = round((($mu_count) ? ($mu / $mu_count) : $mu), 2);
-
-                $dbq = 0;
-                $dbq_count = 0;
-                foreach ($output[$i] as $item) {
                     if (isset($item['dbq'])) {
                         $dbq += $item['dbq'];
                         $dbq_count++;
                     }
-                }
-                $db_queries_avrg[] = round((($dbq_count) ? ($dbq / $dbq_count) : $dbq), 4);
-
-                $dbt = 0;
-                $dbt_count = 0;
-                foreach ($output[$i] as $item) {
                     if (isset($item['dbt'])) {
                         $dbt += $item['dbt'];
                         $dbt_count++;
                     }
                 }
+
+                $elapsed_time_avrg[] = round((($et_count) ? ($et / $et_count) : $et), 4);
+                $memory_usage_avrg[] = round((($mu_count) ? ($mu / $mu_count) : $mu), 2);
+                $db_queries_avrg[] = round((($dbq_count) ? ($dbq / $dbq_count) : $dbq), 4);
                 $db_time_avrg[] = round((($dbt_count) ? ($dbt / $dbt_count) : $dbt), 4);
-
             }
-
         }
 
         return [
@@ -1142,9 +1135,12 @@ class AdminController extends Controller
     }
 
     private function getServerDatetime() {
-        $datetime = date("d-m-Y H:i:s", time());
+        $timestamp = time();
+        $timezone = \date_default_timezone_get();
+        $date = new \DateTime('now', new \DateTimeZone($timezone));
+        $datetime = $date->format('Y-m-d H:i:sP');
         return [
-            'timezone' => \date_default_timezone_get(),
+            'timezone' => $timezone,
             'datetime' => \Yii::$app->formatter->format($datetime, 'datetime')
         ];
     }
