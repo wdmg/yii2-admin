@@ -371,8 +371,8 @@ $(document).ready(function() {
     }
 
     // Dropdown`s
-    $('a.dropdown-toggle').click(function(event) {
-        if ($(document).width() > breakpoints.sm) {
+    $('body').delegate('.dropdown-toggle, [data-toggle="dropdown"]', 'click', function (event) {
+        if (($(document).width() > breakpoints.sm) && $(this).is("a")) {
             event.preventDefault();
             var url = $(this).attr('href');
             if (url !== '#')
@@ -380,8 +380,22 @@ $(document).ready(function() {
         }
 
         if (config.debug)
-            console.log('Dashboard: click on a.dropdown-toggle');
+            console.log('Dashboard: click on .dropdown-toggle');
 
+    });
+    $('body').delegate($('.dropdown-toggle, [data-toggle="dropdown"]').parent(), 'show.bs.dropdown', function (event) {
+        var $button = $(event.relatedTarget);
+        var $dropdown = $(event.target).find('.dropdown-menu');
+        var viewporHeight = $(document).height();
+        var buttonOffset = $button.offset().top + $button.height();
+        var dropdownHeight = $dropdown.height();
+        var dropdownOffset = buttonOffset + dropdownHeight;
+
+        if (dropdownOffset > (viewporHeight - 45) && (buttonOffset - 55) > dropdownHeight) {
+            $(event.target).addClass('dropup');
+        } else {
+            $(event.target).removeClass('dropup');
+        }
     });
 
     // Modals and buttons loading state

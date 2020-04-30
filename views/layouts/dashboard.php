@@ -201,6 +201,7 @@ JS
             ],
             'encodeLabels' => false
         ]);
+
         echo Nav::widget([
             'options' => [
                 'id' => 'mainNav',
