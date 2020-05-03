@@ -36,6 +36,21 @@ module.exports = function(grunt) {
                 dest: 'assets/js/sticky-sidebar.js'
             }
         },
+        'string-replace': {
+            inline: {
+                files: {
+                    'assets/js/sticky-sidebar.js': 'assets/js/sticky-sidebar.js'
+                },
+                options: {
+                    replacements: [
+                        {
+                            pattern: 'sourceMappingURL=jquery.sticky-sidebar.js.map',
+                            replacement: 'sourceMappingURL=sticky-sidebar.js.map'
+                        }
+                    ]
+                }
+            }
+        },
         copy: {
             bootstrap: {
                 files: [
@@ -183,7 +198,8 @@ module.exports = function(grunt) {
     grunt.loadNpmTasks('grunt-css');
     grunt.loadNpmTasks('grunt-contrib-cssmin');
     grunt.loadNpmTasks('grunt-autoprefixer');
+    grunt.loadNpmTasks('grunt-string-replace');
 
-    grunt.registerTask('default', ['concat', 'copy', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
+    grunt.registerTask('default', ['concat', 'copy', 'string-replace', 'uglify', 'sass', 'autoprefixer', 'cssmin', 'watch']);
 
 };

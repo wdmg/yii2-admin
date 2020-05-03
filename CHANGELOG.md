@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.*
+ * Fixed: Dropdown menu hidding by popover is show
  * Check height of dropdown, dropup variation
  
 ## 1.1.23 (2020-04-20)

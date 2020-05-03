@@ -7,6 +7,10 @@ class AdminAsset extends AssetBundle
 {
     public $sourcePath = '@vendor/wdmg/yii2-admin/assets';
 
+    public $publishOptions = [
+        'forceCopy' => YII_ENV_DEV ? true : false
+    ];
+
     public $js = [
         'js/sticky-sidebar.js',
         'js/admin.js'

@@ -254,6 +254,7 @@ $(document).ready(function() {
                     $sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
                 });
                 $this.hover(function () {
+
                     var $dropdown = $(this);
                     if (!$dropdown.find('.dropdown-menu').is(':visible')) {
                         $dropdown.find('.dropdown-menu').stop(true, true).delay(500).slideToggle("fast");
@@ -267,9 +268,12 @@ $(document).ready(function() {
                         console.log('Dashboard: dropdown in sidebar is visible by hover');
 
                 }, function () {
+
                     var $dropdown = $(this);
+
                     if (!$dropdown.hasClass('popover-show')) {
-                        $dropdown.find('.dropdown-menu').stop(true, true).delay(100).slideUp("fast");
+
+                        $dropdown.find('.dropdown-menu').stop(true, true).delay(200).slideUp("fast");
                         setTimeout(function() {
                             $dropdown.find('.dropdown-toggle .fa-angle-up').removeClass('fa-angle-up').addClass('fa-angle-down');
                         }, 200);
@@ -278,7 +282,8 @@ $(document).ready(function() {
                             console.log('Dashboard: dropdown in sidebar is hidding by hover');
 
                     }
-                    $sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
+                    // Fixed: Dropdown menu hidding by popover is show
+                    //$sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
                 });
             });
             $sidebarNav.find(".dropdown.active").find('.dropdown-toggle .fa-angle-down').toggleClass('fa-angle-down fa-angle-up');
