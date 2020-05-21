@@ -24,7 +24,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <?php $this->registerCsrfMetaTags() ?>
-    <title><?= Html::encode($this->title) ?></title>
+    <title><?= Html::encode('Butterfly.CMS — ' . $this->title) ?></title>
     <?php $this->head() ?>
 </head>
 <body class="welcome <?= (YII_ENV_DEV) ? 'env-dev' : '' ?>">
