@@ -32,8 +32,14 @@ $this->params['breadcrumbs'][] = $this->title;
             ['class' => 'yii\grid\SerialColumn'],
             'module',
             'name',
-            'description',
+            [
+                'attribute' => 'description',
+                'value' => function($data) use ($module) {
+                    return Yii::t('app/modules/'.$data->module, $data->description);
+                }
+            ],
             'class',
+
             [
                 'attribute' => 'version',
                 'format' => 'raw',

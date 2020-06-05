@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.24 (2020-06-06)
+ * Translated description of module (modules list)
  * Added support for Robots.txt module
  * Fontface in dashboard
  * Fixed: Dropdown menu hidding by popover is show

@@ -221,4 +221,26 @@ class Modules extends \yii\db\ActiveRecord
         else
             return null;
     }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCreatedBy()
+    {
+        if (class_exists('\wdmg\users\models\Users'))
+            return $this->hasOne(\wdmg\users\models\Users::class, ['id' => 'created_by']);
+        else
+            return null;
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUpdatedBy()
+    {
+        if (class_exists('\wdmg\users\models\Users'))
+            return $this->hasOne(\wdmg\users\models\Users::class, ['id' => 'updated_by']);
+        else
+            return null;
+    }
 }
