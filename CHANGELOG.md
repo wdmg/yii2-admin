@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.*
+ * Fontface in dashboard
  * Fixed: Dropdown menu hidding by popover is show
  * Check height of dropdown, dropup variation
  

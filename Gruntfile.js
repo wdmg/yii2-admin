@@ -86,9 +86,8 @@ module.exports = function(grunt) {
                     {
                         expand: true,
                         cwd: 'node_modules/roboto-fontface/css/',
-                        src: '*.scss',
-                        dest: 'assets/scss/roboto-fontface',
-                        filter: 'isFile'
+                        src: ['**'],
+                        dest: 'assets/scss/roboto-fontface/'
                     },
                     {
                         expand: true,

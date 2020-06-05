@@ -1,10 +1,6 @@
 
-
-/* Fonts */
-$roboto-font-path: "../fonts" !default;
-@import 'roboto-fontface/mixins.scss';
-
 $bootstrap-sass-asset-helper: false !default;
+
 //
 // Variables
 // --------------------------------------------------
@@ -927,6 +923,9 @@ $hr-border:                   #dcdcdc !default;
 @import "bootstrap/utilities";
 @import "bootstrap/responsive-utilities";
 
+/* Fonts */
+$roboto-font-path: '../fonts' !default;
+@import 'roboto-fontface/roboto/sass/roboto-fontface.scss';
 
 body {
   -webkit-font-smoothing: antialiased;
