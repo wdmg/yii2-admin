@@ -32,40 +32,26 @@ class Bootstrap implements BootstrapInterface
         // Add module URL rules
         $app->getUrlManager()->enablePrettyUrl = true;
         $app->getUrlManager()->showScriptName = false;
-        $app->getUrlManager()->enableStrictParsing = true;
-        $app->getUrlManager()->addRules(
-            [
-                'admin' => 'admin/admin/index',
-                'admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
+        $app->getUrlManager()->enableStrictParsing = false;
+
+        if ($this->module->isBackend()) {
+            $app->getUrlManager()->addRules(
                 [
-                    'pattern' => 'admin/index',
-                    'route' => 'admin/admin/index',
-                    'suffix' => '',
-                ], [
-                    'pattern' => 'admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|info|error)>',
-                    'route' => 'admin/admin/<action>',
-                    'suffix' => '',
+                    '/admin' => 'admin/admin/index',
+                    '/admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
+
+                    '<module:\w+>/<submodule:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<submodule>/<controller>/<action>',
+                    '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
+                    '<module:\w+>/<submodule:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<submodule>/<controller>/<action>',
+                    '<module:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
+                    '<module:\w+>/<submodule:\w+>/<controller:\w+>' => '<module>/<submodule>/<controller>/index',
+                    //'<module:\w+>/<controller:\w+>' => '<module>/<controller>/index',
+                    '<controller:\w+>/<action:\w+>' => '<controller>/<action>',
+                    '<controller:\w+>' => '<controller>/index',
                 ],
-                '<module:admin>/<controller:\w+>' => '<module>/<controller>',
-                '<module:admin>/<submodule:\w+>/<controller:\w+>' => '<module>/<submodule>/<controller>',
-                '<module:admin>/<controller:\w+>/<action:\w+>' => '<module>/<controller>/<action>',
-                '<module:admin>/<submodule:\w+>/<controller:\w+>/<action:\w+>' => '<module>/<submodule>/<controller>/<action>',
-                [
-                    'pattern' => '<module:admin>/',
-                    'route' => '<module>/admin/index',
-                    'suffix' => '',
-                ], [
-                    'pattern' => '<module:admin>/<controller:\w+>/',
-                    'route' => '<module>/<controller>',
-                    'suffix' => '',
-                ], [
-                    'pattern' => '<module:admin>/<controller:\w+>/<action:\w+>',
-                    'route' => '<module>/<controller>/<action>',
-                    'suffix' => '',
-                ],
-            ],
-            true
-        );
+                true
+            );
+        }
 
         // Register language of user interface
         if (!($app instanceof \yii\console\Application)) {
