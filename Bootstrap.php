@@ -51,6 +51,14 @@ class Bootstrap implements BootstrapInterface
                 ],
                 true
             );
+        } else {
+            $app->getUrlManager()->addRules(
+                [
+                    '/admin' => 'admin/admin/index',
+                    '/admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
+                ],
+                true
+            );
         }
 
         // Register language of user interface
