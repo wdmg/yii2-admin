@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.25 (2020-07-01)
+ * Update dependencies, README.md
+ 
 ## 1.1.24 (2020-06-06)
  * UrlManager rules fixed
  * Translated description of module (modules list)

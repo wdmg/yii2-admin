@@ -34,6 +34,9 @@ class Bootstrap implements BootstrapInterface
         $app->getUrlManager()->showScriptName = false;
         $app->getUrlManager()->enableStrictParsing = false;
 
+        if (YII_ENV_DEV)
+            $app->getUrlManager()->cache = null;
+
         if ($this->module->isBackend()) {
             $app->getUrlManager()->addRules(
                 [

@@ -4,9 +4,14 @@
 ![Progress](https://img.shields.io/badge/progress-ready_to_use-green.svg)
 [![GitHub license](https://img.shields.io/github/license/wdmg/yii2-admin.svg)](https://github.com/wdmg/yii2-admin/blob/master/LICENSE)
 
+<img src="./docs/images/yii2-admin.png" width="100%" alt="Administrative panel for Butterfly.CMS" />
 
 # Yii2 Admin Module
-Administrative panel for [Butterfly.CMS](https://github.com/wdmg/butterfly.cms)
+Administrative panel for [Butterfly.CMS](https://github.com/wdmg/butterfly.cms).
+                                                                                                     
+This module is an integral part of the [Butterfly.СMS](https://butterflycms.com/) content management system, but can also be used as an standalone extension.
+
+Copyrights (c) 2019-2020 [W.D.M.Group, Ukraine](https://wdmg.com.ua/)
 
 # Requirements 
 * PHP 5.6 or higher
@@ -62,6 +67,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.25 - Update dependencies, README.md
 * v.1.1.24 - UrlManager rules fixed, support for Robots.txt module
 * v.1.1.23 - Subclasses for buttons, stats widgets
 * v.1.1.22 - Added pagination, DB status to System info
