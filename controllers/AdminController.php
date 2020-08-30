@@ -142,9 +142,9 @@ class AdminController extends Controller
                     if (Yii::$app->request->post('id', null)) {
                         $id = Yii::$app->request->post('id');
                         $status = Yii::$app->request->post('value', 0);
-                        $model = $model->findOne(['id' => intval($id)]);
-                        if (intval($model->protected) == 0) {
-                            if ($model->updateAttributes(['status' => intval($status)]))
+                        $_model = $model->findOne(['id' => intval($id)]);
+                        if (intval($_model->protected) == 0) {
+                            if ($_model->updateAttributes(['status' => intval($status)]))
                                 return true;
                             else
                                 return false;
@@ -154,126 +154,120 @@ class AdminController extends Controller
                     if (Yii::$app->request->get('id', null)) {
                         $id = Yii::$app->request->get('id');
                         $status = Yii::$app->request->get('value', 0);
-                        $model = $model->findOne(['id' => intval($id)]);
+                        $_model = $model->findOne(['id' => intval($id)]);
                         return $this->renderAjax('view', [
-                            'model' => $model,
+                            'model' => $_model,
                             'module' => $this->module
                         ]);
                     }
                 }
             } else {
-                if ($action == "delete") {
-                    if (Yii::$app->request->get('id', null)) {
-                        $id = Yii::$app->request->get('id');
-                        $status = Yii::$app->request->get('value', 0);
-                        $model = $model->findOne(['id' => intval($id)]);
-                        if (intval($model->protected) == 0) {
-                            if ($model->updateAttributes(['status' => $model::MODULE_STATUS_NOT_INSTALL])) {
-                                Yii::$app->getSession()->setFlash(
-                                    'success',
-                                    Yii::t(
-                                        'app/modules/admin',
-                                        'OK! Module `{module}` successfully deleted.',
-                                        [
-                                            'module' => $model->name
-                                        ]
-                                    )
-                                );
-                            } else {
-                                Yii::$app->getSession()->setFlash(
-                                    'danger',
-                                    Yii::t(
-                                        'app/modules/admin',
-                                        'An error occurred while deleting a module `{module}`.',
-                                        [
-                                            'module' => $model->name
-                                        ]
-                                    )
-                                );
+                if ($id = Yii::$app->request->get('id', null)) {
+                    if ($_model = $model->findOne(['id' => intval($id)])) {
+                        if (intval($_model->protected) == 0) {
+                            switch ($action) {
+
+                                case "delete":
+
+                                    if ($_model->updateAttributes(['status' => $model::MODULE_STATUS_NOT_INSTALL])) {
+                                        Yii::$app->getSession()->setFlash(
+                                            'success',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'OK! Module `{module}` successfully deleted.',
+                                                [
+                                                    'module' => $_model->name
+                                                ]
+                                            )
+                                        );
+                                    } else {
+                                        Yii::$app->getSession()->setFlash(
+                                            'danger',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'An error occurred while deleting a module `{module}`.',
+                                                [
+                                                    'module' => $_model->name
+                                                ]
+                                            )
+                                        );
+                                    }
+                                    break;
+
+                                case "activate":
+                                case "disable":
+
+                                    if ($action == "activate")
+                                        $status = $model::MODULE_STATUS_ACTIVE;
+                                    else
+                                        $status = $model::MODULE_STATUS_DISABLED;
+
+                                    if ($_model->updateAttributes(['status' => $status])) {
+                                        Yii::$app->getSession()->setFlash(
+                                            'success',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'OK! Module `{module}` properties successfully updated.',
+                                                [
+                                                    'module' => $_model->name
+                                                ]
+                                            )
+                                        );
+                                    } else {
+                                        Yii::$app->getSession()->setFlash(
+                                            'danger',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'An error occurred while updating a module `{module}` properties.',
+                                                [
+                                                    'module' => $_model->name
+                                                ]
+                                            )
+                                        );
+                                    }
+                                    break;
+
+                                case "clear":
+
+                                    // Errors flag
+                                    $errors = false;
+
+                                    // Delete all module options from DB
+                                    if (isset(Yii::$app->options) && !is_null($_model->module)) {
+
+                                        if (!Yii::$app->options->deleteAll($_model->module))
+                                            $errors = true;
+
+                                        Yii::$app->options->clearCache();
+                                    }
+
+                                    // Delete module entry from DB
+                                    if ($_model->delete() && !$errors) {
+                                        Yii::$app->getSession()->setFlash(
+                                            'success',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'OK! Module `{module}` date successfully cleared.',
+                                                [
+                                                    'module' => $_model->name
+                                                ]
+                                            )
+                                        );
+                                    } else {
+                                        Yii::$app->getSession()->setFlash(
+                                            'danger',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'An error occurred while clearing a module `{module}` data.',
+                                                [
+                                                    'module' => $_model->name
+                                                ]
+                                            )
+                                        );
+                                    }
+                                    break;
+
                             }
-                        }
-                    }
-                } elseif ($action == "activate" || $action == "disable") {
-                    if (Yii::$app->request->get('id', null)) {
-                        $id = Yii::$app->request->get('id');
-
-                        if ($action == "activate")
-                            $status = $model::MODULE_STATUS_ACTIVE;
-                        else
-                            $status = $model::MODULE_STATUS_DISABLED;
-
-                        $model = $model->findOne(['id' => intval($id)]);
-                        if (intval($model->protected) == 0) {
-                            if ($model->updateAttributes(['status' => $status])) {
-                                Yii::$app->getSession()->setFlash(
-                                    'success',
-                                    Yii::t(
-                                        'app/modules/admin',
-                                        'OK! Module `{module}` properties successfully updated.',
-                                        [
-                                            'module' => $model->name
-                                        ]
-                                    )
-                                );
-                            } else {
-                                Yii::$app->getSession()->setFlash(
-                                    'danger',
-                                    Yii::t(
-                                        'app/modules/admin',
-                                        'An error occurred while updating a module `{module}` properties.',
-                                        [
-                                            'module' => $model->name
-                                        ]
-                                    )
-                                );
-                            }
-                        }
-                    }
-                } elseif ($action == "clear") {
-                    if (Yii::$app->request->get('id', null)) {
-                        $id = Yii::$app->request->get('id');
-                        $model = $model->findOne(['id' => intval($id)]);
-                        if (intval($model->protected) == 0) {
-
-                            // Errors flag
-                            $errors = false;
-
-                            // Delete all module options from DB
-                            if (isset(Yii::$app->options) && !is_null($model->module)) {
-
-                                if (!Yii::$app->options->deleteAll($model->module))
-                                    $errors = true;
-
-                                Yii::$app->options->clearCache();
-                            }
-
-                            // Delete module entry from DB
-                            if ($model->delete() && !$errors) {
-                                Yii::$app->getSession()->setFlash(
-                                    'success',
-                                    Yii::t(
-                                        'app/modules/admin',
-                                        'OK! Module `{module}` date successfully cleared.',
-                                        [
-                                            'module' => $model->name
-                                        ]
-                                    )
-                                );
-                            } else {
-                                Yii::$app->getSession()->setFlash(
-                                    'danger',
-                                    Yii::t(
-                                        'app/modules/admin',
-                                        'An error occurred while clearing a module `{module}` data.',
-                                        [
-                                            'module' => $model->name
-                                        ]
-                                    )
-                                );
-                            }
-
-
-
                         }
                     }
                 }
@@ -293,7 +287,7 @@ class AdminController extends Controller
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             // Adding a new module model
-            if ($post = Yii::$app->request->post()) {
+            if ($post = Yii::$app->request->post() && !Yii::$app->request->isAjax) {
                 if ($module_id = $post['Modules']['extensions']) {
                     $module = Yii::$app->extensions[$module_id];
 

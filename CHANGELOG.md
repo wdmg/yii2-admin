@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.*
+ * Modules controller fixed: add, delete and update module status
+ 
 ## 1.1.25 (2020-07-01)
  * Update dependencies, README.md
  

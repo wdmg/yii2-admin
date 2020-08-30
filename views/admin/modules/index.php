@@ -166,6 +166,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr/>
     <div class="modules-add-form">
         <?php $form = ActiveForm::begin([
+            'action' => 'admin/modules',
             'options' => [
                 'class' => 'form form-inline'
             ]
