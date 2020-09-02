@@ -67,6 +67,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.1.26 - Set error handler, fixed add/activate module in controller
 * v.1.1.25 - Update dependencies, README.md
 * v.1.1.24 - UrlManager rules fixed, support for Robots.txt module
 * v.1.1.23 - Subclasses for buttons, stats widgets
