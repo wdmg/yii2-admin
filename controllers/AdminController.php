@@ -12,9 +12,6 @@ use yii\helpers\ArrayHelper;
 use wdmg\admin\models\Modules;
 use wdmg\admin\models\ModulesSearch;
 use wdmg\users\models\UsersSignin;
-//use wdmg\users\models\UsersSignup;
-//use wdmg\users\models\UsersPasswordRequest;
-//use wdmg\users\models\UsersResetPassword;
 
 /**
  * AdminController implements the CRUD actions.
@@ -287,7 +284,8 @@ class AdminController extends Controller
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             // Adding a new module model
-            if ($post = Yii::$app->request->post() && !Yii::$app->request->isAjax) {
+            if (($post = Yii::$app->request->post()) && !Yii::$app->request->isAjax) {
+
                 if ($module_id = $post['Modules']['extensions']) {
                     $module = Yii::$app->extensions[$module_id];
 
@@ -1030,7 +1028,9 @@ class AdminController extends Controller
     public function actionError()
     {
 
-        if (!Yii::$app->user->isGuest)
+        if (Yii::$app->user->isGuest)
+            $this->layout = 'welcome';
+        else
             $this->layout = 'dashboard';
 
         $type = 'default';

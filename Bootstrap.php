@@ -88,7 +88,6 @@ class Bootstrap implements BootstrapInterface
             }
         }
 
-
         // Configure languages menu for UI
         if (!($app instanceof \yii\console\Application) && $this->module) {
             \yii\base\Event::on(\yii\base\Controller::class, \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
@@ -217,6 +216,26 @@ class Bootstrap implements BootstrapInterface
                         }
                     }
                 }
+            }
+        }
+
+        // Set error handler
+        if (!($app instanceof \yii\console\Application) && $this->module->isBackend()) {
+            if ($errorHandler = $app->getErrorHandler()) {
+
+                if (Yii::$app->getModule('admin/rbac'))
+                    $errorHandler->errorAction = 'admin/rbac/rbac/error';
+                else
+                    $errorHandler->errorAction = 'admin/error';
+
+            } else {
+                $app->setComponents([
+                    'errorHandler' => [
+                        'errorAction' => (Yii::$app->getModule('admin/rbac')) ?
+                            'admin/rbac/rbac/error' :
+                            'admin/error'
+                    ]
+                ]);
             }
         }
 

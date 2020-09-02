@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.1.*
+## 1.1.26 (2020-09-02)
+ * Set error handler, fixed add/activate module in controller
  * Modules controller fixed: add, delete and update module status
  
 ## 1.1.25 (2020-07-01)
