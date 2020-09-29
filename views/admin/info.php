@@ -130,6 +130,17 @@ function getDsnAttribute($name, $dsn) {
                     return $data['datetime']['datetime'] . ((isset($data['datetime']['timezone'])) ? " (". $data['datetime']['timezone'] . ")" : "");
                 }
             ],
+            'processes' => [
+                'label' => Yii::t('app/modules/admin', "Active processes"),
+                'value' => function ($data) {
+                    $output = '';
+                    foreach ($data['processes'] as $process => $count) {
+                        if ($count)
+                            $output .= ((!empty($output)) ? ", ": "" ) . "$process ($count)";
+                    }
+                    return $output;
+                }
+            ],
             'uptime' => [
                 'label' => Yii::t('app/modules/admin', "Server runs"),
                 'value' => function ($data) {

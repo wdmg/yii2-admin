@@ -84,6 +84,7 @@ return [
     'Server time' => "Время на сервере",
     'Server runs' => "Сервер работает",
     '{days, plural, =0{} one {# day, } few {# days, } many {# days, } other {# days, }}{hours, plural, =0{} one {# hour, } few {# hours, } many {# hours, } other {# hours, }}{minutes, plural, =0{} one {# minute, } few {# minutes, } many {# minutes, } other {# minutes, }}{seconds, plural, =0{} one {# second} few {# seconds} many {# seconds} other {# seconds}}' => "{days, plural, =0{} one {# день, } few {# дня, } many {# дней, } other {# дней, }}{hours, plural, =0{} one {# час, } few {# часа, } many {# часов, } other {# часов, }}{minutes, plural, =0{} one {# минуту, } few {# минуты, } many {# минут, } other {# минут, }}{seconds, plural, =0{} one {# секунду} few {# секунды} many {# секунд} other {# секунд}}",
+    'Active processes' => "Активные процессы",
     'PHP extensions' => "Расширения PHP",
 
     'ID' => "ИД",

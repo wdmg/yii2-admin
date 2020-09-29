@@ -1187,6 +1187,24 @@ class AdminController extends Controller
         return null;
     }
 
+    private function getActiveProcessesCount() {
+        $output = [
+            'httpd' => `pgrep httpd | wc -l`,
+            'mysqld' => `pgrep mysqld | wc -l`,
+            'crond' => `pgrep crond | wc -l`,
+            'node' => `pgrep node | wc -l`,
+            'sshd' => `pgrep sshd | wc -l`,
+            'bash' => `pgrep bash | wc -l`,
+            'rsyslogd' => `pgrep rsyslogd | wc -l`,
+            'uwsgi' => `pgrep uwsgi | wc -l`,
+            'perl' => `pgrep perl | wc -l`,
+            'ruby' => `pgrep ruby | wc -l`,
+            'python' => `pgrep python | wc -l`,
+            'apache2' => `pgrep apache2 | wc -l`,
+        ];
+        return array_map("trim", $output);
+    }
+
     private function getDbPrimary() {
         $config = Yii::$app->getDb();
         $output = self::getDbStatus([
@@ -1314,7 +1332,8 @@ class AdminController extends Controller
             'datetime' => $this->getServerDatetime(),
             'limits' => $this->getSystemLimits(),
             'uptime' => $this->getUptime(),
-            'params' => Yii::$app->params
+            'params' => Yii::$app->params,
+            'processes' => $this->getActiveProcessesCount()
         ];
 
         return $data;

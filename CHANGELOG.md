@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.*
+ * Added active processes info
+ 
 ## 1.1.26 (2020-09-02)
  * Set error handler, fixed add/activate module in controller
  * Modules controller fixed: add, delete and update module status
