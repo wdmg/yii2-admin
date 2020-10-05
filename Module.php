@@ -201,6 +201,7 @@ class Module extends BaseModule
         ], [
             'label' => 'Security',
             'icon' => 'fa fa-fw fa-shield-alt',
+            'item' => 'guard',
             'order' => 12,
         ], [
             'label' => 'Common',
