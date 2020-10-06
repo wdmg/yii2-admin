@@ -1,8 +1,10 @@
 Changelog
 =========
 
-## 1.1.*
- * Added active processes info
+## 1.1.27 (2020-10-06)
+ * Added active processes info. Fixed terminal
+ * Update bower dependencies
+ * Added support for Guard module
  
 ## 1.1.26 (2020-09-02)
  * Set error handler, fixed add/activate module in controller

@@ -56,7 +56,7 @@ function getDsnAttribute($name, $dsn) {
             'memory_limit' => [
                 'label' => Yii::t('app/modules/admin', "Memory limit"),
                 'value' => function ($data) {
-                    return $data['memory_limit'];
+                    return $data['memory_limit'] . (isset($data['memory_usage']) ? " (" . $data['memory_usage'] ." usage)" : '');
                 }
             ],
             'cpu_limit' => [
@@ -64,7 +64,7 @@ function getDsnAttribute($name, $dsn) {
                 'value' => function ($data) {
                     $output = (isset($data['limits']['soft cpu'])) ? $data['limits']['soft cpu'] : "";
                     $output .= (isset($data['limits']['hard cpu'])) ? ((!empty($output)) ? " / " : "") . $data['limits']['hard cpu'] : "";
-                    return $output;
+                    return $output . (isset($data['system_load']) ? " (system load: " . $data['system_load'] ." %)" : '');
                 }
             ],
             'upload_max_filesize' => [
@@ -141,7 +141,7 @@ function getDsnAttribute($name, $dsn) {
                     return $output;
                 }
             ],
-            'uptime' => [
+            /*'uptime' => [
                 'label' => Yii::t('app/modules/admin', "Server runs"),
                 'value' => function ($data) {
                     return Yii::t(
@@ -154,6 +154,12 @@ function getDsnAttribute($name, $dsn) {
                             'seconds' => (isset($data['uptime']['seconds'])) ? $data['uptime']['seconds'] : 0
                         ]
                     );
+                }
+            ],*/
+            'uptime' => [
+                'label' => Yii::t('app/modules/admin', "Server runs"),
+                'value' => function ($data) {
+                    return $data['uptime'];
                 }
             ]
         ],

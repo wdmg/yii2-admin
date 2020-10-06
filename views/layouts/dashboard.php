@@ -280,7 +280,7 @@ JS
         </div>
     </div>
 
-    <?php /*$this->registerJs(<<< JS
+    <?php $this->registerJs(<<< JS
         $(document).ready(function() {
         
             setInterval(function() {
@@ -301,7 +301,7 @@ JS
             
         });
 JS
-    );*/ ?>
+    ); ?>
 
     <?php
         // Register dashboard search assets
@@ -436,20 +436,23 @@ JS
     <?php
         // Register dashboard terminal assets
         if (Yii::$app->getModule('admin/terminal', false)) {
+            $url = Url::to(['terminal/terminal/index']);
             $this->registerJs(<<< JS
-                $('body').delegate('a[href="#terminal"]', 'click', function(event) {
-                    event.preventDefault();
-                    $.get(
-                        '/admin/terminal',
-                        function (data) {
-                            $('#terminalModal .modal-body').html($(data).remove('.modal-footer'));
-                            if ($(data).find('.modal-footer').length > 0) {
-                                $('#terminalModal').find('.modal-footer').remove();
-                                $('#terminalModal .modal-content').append($(data).find('.modal-footer'));
+                $(function() {
+                    $('body').delegate('a[href="#terminal"]', 'click', function(event) {
+                        event.preventDefault();
+                        $.get(
+                            '$url',
+                            function (data) {
+                                $('#terminalModal .modal-body').html($(data).remove('.modal-footer'));
+                                if ($(data).find('.modal-footer').length > 0) {
+                                    $('#terminalModal').find('.modal-footer').remove();
+                                    $('#terminalModal .modal-content').append($(data).find('.modal-footer'));
+                                }
+                                $('#terminalModal').modal();
                             }
-                            $('#terminalModal').modal();
-                        }
-                    );
+                        );
+                    });
                 });
 JS
             );
@@ -493,23 +496,26 @@ JS
         </div>
     </footer>
 
-    <?php $this->registerJs(<<< JS
-        $('body').delegate('a[href="#bugreport"]', 'click', function(event) {
-            event.preventDefault();
-            $.get(
-                '/admin/bugreport',
-                function (data) {
-                    $('#bugreportModal .modal-body').html($(data).remove('.modal-footer'));
-                    if ($(data).find('.modal-footer').length > 0) {
-                        $('#bugreportModal').find('.modal-footer').remove();
-                        $('#bugreportModal .modal-content').append($(data).find('.modal-footer'));
+    <?php
+        $url = Url::to(['admin/bugreport']);
+        $this->registerJs(<<< JS
+            $('body').delegate('a[href="#bugreport"]', 'click', function(event) {
+                event.preventDefault();
+                $.get(
+                    '$url',
+                    function (data) {
+                        $('#bugreportModal .modal-body').html($(data).remove('.modal-footer'));
+                        if ($(data).find('.modal-footer').length > 0) {
+                            $('#bugreportModal').find('.modal-footer').remove();
+                            $('#bugreportModal .modal-content').append($(data).find('.modal-footer'));
+                        }
+                        $('#bugreportModal').modal();
                     }
-                    $('#bugreportModal').modal();
-                }
-            );
-        });
+                );
+            });
 JS
     ); ?>
+
     <?php yii\bootstrap\Modal::begin([
         'id' => 'bugreportModal',
         'header' => '<h4 class="modal-title">'.Yii::t('app/modules/admin', 'Bug Report').'</h4>',

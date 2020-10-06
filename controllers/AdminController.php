@@ -1069,52 +1069,56 @@ class AdminController extends Controller
     }
 
     private function getUptime() {
-        if (function_exists("posix_times")) {
-            if (!$times = posix_times()) {
-                return null;
-            } else {
-                $now = $times['ticks'];
-                $days = intval($now / (60*60*24*100));
-
-                $remainder = $now % (60*60*24*100);
-                $hours = intval($remainder / (60*60*100));
-
-                $remainder = $remainder % (60*60*100);
-                $minutes = intval($remainder / (60*100));
-
-                $remainder = $remainder % (60*100);
-                $seconds = intval($remainder / (100));
-
-                if ($days == 1)
-                    $writeDays = "day";
-                else
-                    $writeDays = "days";
-
-                if ($hours == 1)
-                    $writeHours = "hour";
-                else
-                    $writeHours = "hours";
-
-                if ($minutes == 1)
-                    $writeMins = "minute";
-                else
-                    $writeMins = "minutes";
-
-                if ($seconds == 1)
-                    $writeSecs = "second";
-                else
-                    $writeSecs = "seconds";
-
-                return [
-                    'days' => $days,
-                    'hours' => $hours,
-                    'minutes' => $minutes,
-                    'seconds' => $seconds
-                ];
-            }
+        $output = $this->module->runConsole('uptime', true, true);
+        if (isset($output[1])) {
+            return $output[1];
         } else {
             return null;
         }
+    }
+
+    private function getMemoryUsage() {
+        $mem = memory_get_usage(true);
+        if ($mem < 1024)
+            $$memory = $mem .' B';
+        elseif ($mem < 1048576)
+            $memory = round($mem / 1024, 2) .' Kb';
+        else
+            $memory = round($mem / 1048576, 2) .' Mb';
+
+        return $memory;
+    }
+
+    private function getSystemLoad($coreCount = 2, $interval = 1) {
+        $rs = sys_getloadavg();
+        $interval = $interval >= 1 && 3 <= $interval ? $interval : 1;
+        $load = $rs[$interval];
+        return round(($load * 100) / $coreCount,2);
+    }
+
+    private function getCoresCount() {
+
+        $output = $this->module->runConsole('uname', true, true);
+        $os = strtolower(trim($output[1]));
+
+        switch ($os) {
+            case('linux'):
+                $cmd = "cat /proc/cpuinfo | grep processor | wc -l";
+                break;
+            case('freebsd'):
+            case('darwin'):
+                $cmd = "sysctl -a | grep 'hw.ncpu' | cut -d ':' -f2";
+                break;
+            default:
+                unset($cmd);
+        }
+
+        if (isset($cmd)) {
+            $output = $this->module->runConsole($cmd, true, true, false);
+            return intval(trim($output[1]));
+        }
+
+        return 1;
     }
 
     private function getDbVersion() {
@@ -1191,16 +1195,28 @@ class AdminController extends Controller
         $output = [
             'httpd' => `pgrep httpd | wc -l`,
             'mysqld' => `pgrep mysqld | wc -l`,
+            'postgres' => `pgrep postgres | wc -l`,
+            'apache2' => `pgrep apache2 | wc -l`,
+            'fcgi' => `pgrep fcgi | wc -l`,
+            'nginx' => `pgrep nginx | wc -l`,
+            'smtpd' => `pgrep smtpd | wc -l`,
+            'qmqpd' => `pgrep qmqpd | wc -l`,
+            'sendmail' => `pgrep sendmail | wc -l`,
+            'memcached' => `pgrep memcached | wc -l`,
             'crond' => `pgrep crond | wc -l`,
             'node' => `pgrep node | wc -l`,
+            'sh' => `pgrep sh | wc -l`,
             'sshd' => `pgrep sshd | wc -l`,
+            'ssh-agent' => `pgrep ssh-agent | wc -l`,
             'bash' => `pgrep bash | wc -l`,
+            'syslogd' => `pgrep syslogd | wc -l`,
             'rsyslogd' => `pgrep rsyslogd | wc -l`,
             'uwsgi' => `pgrep uwsgi | wc -l`,
+            'php' => `pgrep php | wc -l`,
+            'php-cgi' => `pgrep php-cgi | wc -l`,
             'perl' => `pgrep perl | wc -l`,
             'ruby' => `pgrep ruby | wc -l`,
             'python' => `pgrep python | wc -l`,
-            'apache2' => `pgrep apache2 | wc -l`,
         ];
         return array_map("trim", $output);
     }
@@ -1310,6 +1326,8 @@ class AdminController extends Controller
             'port' => Yii::$app->getRequest()->getServerPort() . "/" . Yii::$app->getRequest()->getSecurePort(),
 
             'memory_limit' => ini_get('memory_limit'),
+            'memory_usage' => $this->getMemoryUsage(),
+
             'upload_max_filesize' => ini_get('upload_max_filesize'),
             'post_max_size' => ini_get('post_max_size'),
 
@@ -1331,6 +1349,7 @@ class AdminController extends Controller
             'components' => Yii::$app->getComponents(),
             'datetime' => $this->getServerDatetime(),
             'limits' => $this->getSystemLimits(),
+            'system_load' => $this->getSystemLoad($this->getCoresCount()),
             'uptime' => $this->getUptime(),
             'params' => Yii::$app->params,
             'processes' => $this->getActiveProcessesCount()
