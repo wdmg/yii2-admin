@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.1.28 (2020-10-10)
+ * Rebuild assets after jQuery update
  * Fixed jQuery version on v3.5.1
  
 ## 1.1.27 (2020-10-06)
