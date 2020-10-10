@@ -12,7 +12,7 @@
   ],
   "dependencies": {
     "bootstrap-sass": "~3.4.1",
-    "jquery": "~3.5.0",
+    "jquery": "~3.5.1",
     "jquery-helper": "^1.7.1",
     "roboto-fontface": "^0.10.0",
     "sticky-sidebar": "^3.3.1"

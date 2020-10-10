@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.1.28 (2020-10-10)
+ * Fixed jQuery version on v3.5.1
+ 
 ## 1.1.27 (2020-10-06)
  * Added active processes info. Fixed terminal
  * Update bower dependencies
