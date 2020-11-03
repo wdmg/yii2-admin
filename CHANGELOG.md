@@ -1,6 +1,11 @@
 Changelog
 =========
 
+## 1.2.0 (2020-11-04)
+ * Change assets workflow to Gulp.js
+ * Refactoring of detect process by grep
+ * Added call `phpinfo()` in modal
+
 ## 1.1.28 (2020-10-10)
  * Rebuild assets after jQuery update
  * Fixed jQuery version on v3.5.1

@@ -798,4 +798,4 @@ window.StickySidebar = StickySidebar;
 
 })));
 
-//# sourceMappingURL=sticky-sidebar.js.map
+//# sourceMappingURL=jquery.sticky-sidebar.js.map

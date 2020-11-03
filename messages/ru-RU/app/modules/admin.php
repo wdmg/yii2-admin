@@ -67,6 +67,7 @@ return [
     'Information' => "Информация",
     'System information' => "Информация о системе",
     'IP, host' => "IP, хост",
+    'Server interface' => "Интерфейс сервера",
     'Charset and language' => "Кодировка и язык",
     'Protocol, server' => "Протокол, сервер",
     'Memory limit' => "Лимит выделенной памяти",
@@ -86,6 +87,10 @@ return [
     '{days, plural, =0{} one {# day, } few {# days, } many {# days, } other {# days, }}{hours, plural, =0{} one {# hour, } few {# hours, } many {# hours, } other {# hours, }}{minutes, plural, =0{} one {# minute, } few {# minutes, } many {# minutes, } other {# minutes, }}{seconds, plural, =0{} one {# second} few {# seconds} many {# seconds} other {# seconds}}' => "{days, plural, =0{} one {# день, } few {# дня, } many {# дней, } other {# дней, }}{hours, plural, =0{} one {# час, } few {# часа, } many {# часов, } other {# часов, }}{minutes, plural, =0{} one {# минуту, } few {# минуты, } many {# минут, } other {# минут, }}{seconds, plural, =0{} one {# секунду} few {# секунды} many {# секунд} other {# секунд}}",
     'Active processes' => "Активные процессы",
     'PHP extensions' => "Расширения PHP",
+
+    'PHP Info' => "Информация о PHP",
+    'Run `phpinfo()`' => "Запустить `phpinfo()`",
+    'Run `phpinfo()` for CLI' => "Запустить `phpinfo()` для CLI",
 
     'ID' => "ИД",
     'Module ID' => "ИД модуля",

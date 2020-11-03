@@ -4,6 +4,7 @@ use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\DetailView;
 use yii\web\View;
+use yii\bootstrap\Modal;
 
 /* @var $this yii\web\View */
 
@@ -17,6 +18,7 @@ function getDsnAttribute($name, $dsn) {
         return null;
     }
 }
+
 ?>
 <div class="page-header">
     <h1>
@@ -38,6 +40,12 @@ function getDsnAttribute($name, $dsn) {
                 'label' => Yii::t('app/modules/admin', "Protocol, server"),
                 'value' => function ($data) {
                     return "HTTP " . $data['protocol'] . ((isset($data['engine'])) ? ", " . $data['engine'] : "");
+                }
+            ],
+            'php_sapi_name' => [
+                'label' => Yii::t('app/modules/admin', "Server interface"),
+                'value' => function ($data) {
+                    return $data['php_sapi_name'];
                 }
             ],
             'charset' => [
@@ -479,4 +487,68 @@ function getDsnAttribute($name, $dsn) {
             </div>
         </div>
     </div>
+    <hr/>
+    <div class="btn-group">
+        <?= Html::a(Yii::t('app/modules/admin', 'Run `phpinfo()`'), [
+            'admin/phpinfo'
+        ], [
+            'class' => 'btn btn-info',
+            'data' => [
+                'toggle' => "modal",
+                'target' => "#getPhpInfo"
+            ]
+        ]) ?>
+        <?= Html::a(Yii::t('app/modules/admin', 'Run `phpinfo()` for CLI'), [
+            'admin/phpinfo',
+            'cli' => true
+        ], [
+            'class' => 'btn btn-warning',
+            'data' => [
+                'toggle' => "modal",
+                'target' => "#getPhpInfo"
+            ]
+        ]) ?>
+    </div>
 </div>
+
+<?php
+$this->registerJs(<<< JS
+    $('body').delegate('[data-toggle="modal"][data-target]', 'click', function(event) {
+        event.preventDefault();
+        let target = $(event.target).data('target');
+        $(target).find('.modal-body').empty();
+        $.get(
+            $(this).attr('href'),
+            function (response, status, xhr) {
+                
+                let data = '';
+                let type = xhr.getResponseHeader("content-type") || "";
+                
+                if (type.indexOf('html') > -1)
+                  data = response;
+                else if (type.indexOf('json') > -1)
+                  data = JSON.parse(response);
+                
+                let iframe = $('<iframe />').attr('srcdoc', data);
+                iframe.attr('width', '100%').attr('height', '640px');
+                $(target).find('.modal-body').html($(iframe));
+                if ($(data).find('.modal-footer').length > 0) {
+                    $(target).find('.modal-footer').remove();
+                    $(target).find('.modal-content').append($(data).find('.modal-footer'));
+                }
+                $(target).modal();
+            }
+        );
+    });
+JS
+); ?>
+<?php Modal::begin([
+    'id' => 'getPhpInfo',
+    'header' => '<h4 class="modal-title">'.Yii::t('app/modules/admin', 'PHP Info').'</h4>',
+    'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('app/modules/admin', 'Close').'</a>',
+    'size' => "modal-lg",
+    'clientOptions' => [
+        'show' => false
+    ]
+]); ?>
+<?php Modal::end(); ?>

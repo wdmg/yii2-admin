@@ -1025,6 +1025,23 @@ class AdminController extends Controller
         }
     }
 
+    public function actionPhpinfo($cli = false)
+    {
+        $this->layout = null;
+        if (Yii::$app->user->isGuest) {
+            return $this->redirect(['admin/login']);
+        } else {
+            if ($cli) {
+                $data = $this->module->runConsole('php -i - phpinfo', true, true, false);
+                return \nl2br($data[1]);
+            } else {
+                ob_start();
+                \phpinfo();
+                return ob_get_clean();
+            }
+        }
+    }
+
     public function actionError()
     {
 
@@ -1078,7 +1095,7 @@ class AdminController extends Controller
     }
 
     private function getMemoryUsage() {
-        $mem = memory_get_usage(true);
+        $mem = \memory_get_usage(true);
         if ($mem < 1024)
             $$memory = $mem .' B';
         elseif ($mem < 1048576)
@@ -1090,16 +1107,17 @@ class AdminController extends Controller
     }
 
     private function getSystemLoad($coreCount = 2, $interval = 1) {
-        $rs = sys_getloadavg();
+        $rs = \sys_getloadavg();
         $interval = $interval >= 1 && 3 <= $interval ? $interval : 1;
-        $load = $rs[$interval];
-        return round(($load * 100) / $coreCount,2);
+        $load = floatval($rs[$interval]);
+        $load_avg = ($load * 100) / intval($coreCount);
+        return round($load_avg, 2);
     }
 
     private function getCoresCount() {
 
         $output = $this->module->runConsole('uname', true, true);
-        $os = strtolower(trim($output[1]));
+        $os = \mb_strtolower(trim($output[1]));
 
         switch ($os) {
             case('linux'):
@@ -1192,32 +1210,42 @@ class AdminController extends Controller
     }
 
     private function getActiveProcessesCount() {
-        $output = [
-            'httpd' => `pgrep httpd | wc -l`,
-            'mysqld' => `pgrep mysqld | wc -l`,
-            'postgres' => `pgrep postgres | wc -l`,
-            'apache2' => `pgrep apache2 | wc -l`,
-            'fcgi' => `pgrep fcgi | wc -l`,
-            'nginx' => `pgrep nginx | wc -l`,
-            'smtpd' => `pgrep smtpd | wc -l`,
-            'qmqpd' => `pgrep qmqpd | wc -l`,
-            'sendmail' => `pgrep sendmail | wc -l`,
-            'memcached' => `pgrep memcached | wc -l`,
-            'crond' => `pgrep crond | wc -l`,
-            'node' => `pgrep node | wc -l`,
-            'sh' => `pgrep sh | wc -l`,
-            'sshd' => `pgrep sshd | wc -l`,
-            'ssh-agent' => `pgrep ssh-agent | wc -l`,
-            'bash' => `pgrep bash | wc -l`,
-            'syslogd' => `pgrep syslogd | wc -l`,
-            'rsyslogd' => `pgrep rsyslogd | wc -l`,
-            'uwsgi' => `pgrep uwsgi | wc -l`,
-            'php' => `pgrep php | wc -l`,
-            'php-cgi' => `pgrep php-cgi | wc -l`,
-            'perl' => `pgrep perl | wc -l`,
-            'ruby' => `pgrep ruby | wc -l`,
-            'python' => `pgrep python | wc -l`,
+        $system = [
+            'httpd',
+            'mysqld',
+            'postgres',
+            'apache2',
+            'fcgi',
+            'nginx',
+            'smtpd',
+            'qmqpd',
+            'sendmail',
+            'memcached',
+            'crond',
+            'node',
+            'sh',
+            'sshd',
+            'ssh-agent',
+            'bash',
+            'syslogd',
+            'rsyslogd',
+            'uwsgi',
+            'php',
+            'php-cgi',
+            'crontab',
+            'perl',
+            'ruby',
+            'python',
         ];
+        foreach ($system as $extension) {
+            $output[$extension] = `pgrep ^$extension$ | wc -l`;
+        }
+
+        $loaded_extensions = array_values(\get_loaded_extensions());
+        foreach ($loaded_extensions as $extension) {
+            $output[$extension] = `pgrep ^$extension$ | wc -l`;
+        }
+
         return array_map("trim", $output);
     }
 
@@ -1321,6 +1349,8 @@ class AdminController extends Controller
 
             'server' => Yii::$app->getRequest()->getServerName(),
             'host' => \yii\helpers\Url::base(true),
+
+            'php_sapi_name' => php_sapi_name(),
 
             'ip' => (isset($_SERVER['SERVER_ADDR'])) ? $_SERVER['SERVER_ADDR'] : null,
             'port' => Yii::$app->getRequest()->getServerPort() . "/" . Yii::$app->getRequest()->getSecurePort(),

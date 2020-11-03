@@ -280,7 +280,7 @@ JS
         </div>
     </div>
 
-    <?php $this->registerJs(<<< JS
+    <?php /*$this->registerJs(<<< JS
         $(document).ready(function() {
         
             setInterval(function() {
@@ -301,7 +301,7 @@ JS
             
         });
 JS
-    ); ?>
+    );*/ ?>
 
     <?php
         // Register dashboard search assets
