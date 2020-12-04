@@ -81,6 +81,7 @@ class Module extends BaseModule
         'wdmg/yii2-mailer',
         'wdmg/yii2-content',
         'wdmg/yii2-options',
+        'wdmg/yii2-menu',
         'wdmg/yii2-pages',
         'wdmg/yii2-news',
         'wdmg/yii2-blog',
@@ -206,7 +207,7 @@ class Module extends BaseModule
         ], [
             'label' => 'Common',
             'icon' => 'fa fa-fw fa-wrench',
-            'items' => ['search', 'geo', 'translations', 'rss', 'turbo', 'amp', 'sitemap'],
+            'items' => ['menu', 'search', 'geo', 'translations', 'rss', 'turbo', 'amp', 'sitemap'],
             'order' => 13,
         ], [
             'label' => 'Stats',

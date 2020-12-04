@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.2.*
+ * Added support for Menu module
+ 
 ## 1.2.0 (2020-11-04)
  * Change assets workflow to Gulp.js
  * Refactoring of detect process by grep

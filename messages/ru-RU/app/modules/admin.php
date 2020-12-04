@@ -192,6 +192,7 @@ return [
     'Content list' => 'Список контента',
     'News' => 'Новость',
     'Post' => 'Публикацию',
+    'Menu item' => 'Новое меню',
     'Subscriber' => 'Подписчика',
     'Newsletter' => 'Рассылку',
     'Form' => 'Форму',

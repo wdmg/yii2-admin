@@ -102,6 +102,13 @@ JS
             ];
         }
 
+        if (Yii::$app->getModule('admin/menu', false)) {
+            $create[] = [
+                'label' => Yii::t('app/modules/admin', 'Menu item'),
+                'url' => ['/admin/menu/list/create']
+            ];
+        }
+
         if (Yii::$app->getModule('admin/news', false)) {
             $create[] = [
                 'label' => Yii::t('app/modules/admin', 'News'),
