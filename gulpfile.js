@@ -124,7 +124,7 @@ function images() {
         gulp.src(['src/favicon.png', 'src/favicon.ico']).pipe(gulp.dest('assets'));
 }
 
-function watch() {
+function watchFiles() {
     gulp.watch('src/js/**/*.js', gulp.series(js, js_minify));
     gulp.watch('src/scss/**/*.scss', gulp.series(sass, css_minify));
     gulp.watch('src/images/**/*.*', gulp.series(images));
@@ -137,5 +137,6 @@ exports.cleanup = cleanup;
 exports.js_minify = js_minify;
 exports.css_minify = css_minify;
 exports.minify = gulp.parallel(js_minify, css_minify);
+exports.watch = gulp.parallel(sass, js, watchFiles);
 exports.copy = gulp.parallel(jquery, bootstrap, helpers, sticky_sidebar, roboto_fontface);
-exports.default = gulp.series(cleanup, copy, images, js, sass, minify, watch);
+exports.default = gulp.series(cleanup, copy, images, js, sass, minify, watchFiles);

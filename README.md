@@ -67,6 +67,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.2.1 - Hot keys for pagination, support for Menu module
 * v.1.2.0 - Gulp workflow. Process info refactoring, `phpinfo()` in modal
 * v.1.1.28 - Fixed jQuery version on v3.5.1, rebuild assets
 * v.1.1.27 - Support for Guard module, active processes info

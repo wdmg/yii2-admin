@@ -403,6 +403,48 @@ $(document).ready(function() {
         }
     });
 
+    // Hot keys for pagination
+    $(window).keydown(function(event) {
+
+        var $pagination = $dashboard.find('.pagination');
+        let ctrlKey = (getOS() == "Windows") ? event.ctrlKey : (getOS() == "Mac OS") ? event.altKey : null;
+        let keyCode = event.keyCode ? event.keyCode : event.which ? event.which : null;
+
+        if (ctrlKey && keyCode && $pagination.length > 0) {
+            event.preventDefault();
+
+            let link = null;
+            switch (keyCode) {
+                case 37:
+                    link = $pagination.find('li > a[rel="prev"], li.prev > a').attr('href');
+                    break;
+                case 39:
+                    link = $pagination.find('li > a[rel="next"], li.next > a').attr('href');
+                    break;
+            }
+
+            if (link) {
+
+                let $pjax = $pagination.closest('[data-pjax-container]');
+                if ($pjax.length > 0) {
+
+                    let timeout = 5000;
+                    if ($pjax.data("pjax-timeout"))
+                        timeout = parseInt($pjax.data("pjax-timeout"));
+
+                    $.pjax.reload({
+                        container: ($pjax.attr('id')) ? '#' + $pjax.attr('id') : null,
+                        timeout: timeout,
+                        url: link
+                    });
+
+                } else {
+                    document.location = link;
+                }
+            }
+        }
+    });
+
     // Modals and buttons loading state
     $('body').delegate('a, button', 'click', function(event) {
         if ($(this).data('toggle') == "modal") {

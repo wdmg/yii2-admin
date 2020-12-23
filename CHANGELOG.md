@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.2.*
+## 1.2.1 (2020-12-24)
+ * Hot keys for pagination
  * Added support for Menu module
  
 ## 1.2.0 (2020-11-04)

@@ -1,6 +1,6 @@
 {
   "name": "yii2-admin-assets",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "Admin Module Assets",
   "main": "Gruntfile.js",
   "scripts": {
@@ -44,7 +44,7 @@
   "dependencies": {
     "bootstrap-sass": "^3.4.1",
     "jquery": "~3.5.1",
-    "jquery-helper": "^1.7.1",
+    "jquery-helper": "^1.7.2",
     "roboto-fontface": "^0.10.0",
     "sticky-sidebar": "^3.3.1"
   },

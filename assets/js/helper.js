@@ -1,4 +1,4 @@
-/* Helper.js v1.7.1 */
+/* Helper.js v1.7.2 */
 
 (function($) {
     $.fn.preLoadImages = function(cb) {
@@ -459,6 +459,30 @@ const fetchJSONP = (unique => url =>
 		document.body.appendChild(script);
 	})
 )(0);
+
+const getOS = () => {
+
+	let userAgent = window.navigator.userAgent,
+		platform = window.navigator.platform,
+		macPlatforms = ['Macintosh', 'MacIntel', 'MacPPC', 'Mac68K'],
+		windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE'],
+		iosPlatforms = ['iPhone', 'iPad', 'iPod'],
+		os = null;
+
+	if (macPlatforms.indexOf(platform) !== -1) {
+		os = 'Mac OS';
+	} else if (iosPlatforms.indexOf(platform) !== -1) {
+		os = 'iOS';
+	} else if (windowsPlatforms.indexOf(platform) !== -1) {
+		os = 'Windows';
+	} else if (/Android/.test(userAgent)) {
+		os = 'Android';
+	} else if (!os && /Linux/.test(platform)) {
+		os = 'Linux';
+	}
+
+	return os;
+}
 
 jQuery.fn.checkSVG = function() {
 	if(document.createElementNS("http://www.w3.org/2000/svg", 'svg').createSVGRect !== undefined)
