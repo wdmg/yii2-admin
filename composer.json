@@ -21,7 +21,7 @@
     }
   ],
   "require": {
-    "yiisoft/yii2": "^2.0.35",
+    "yiisoft/yii2": "^2.0.40",
     "wdmg/yii2-base": "^1.3.0",
     "bower-asset/font-awesome": "^5.13"
   },
@@ -39,7 +39,8 @@
       "cacheExpire": 3600,
       "rememberDuration": 86400,
       "resetTokenExpire": 3600,
-      "supportEmail": "noreply@example.com"
+      "supportEmail": "noreply@example.com",
+      "menuShowDisabled": false
     }
   }
 }

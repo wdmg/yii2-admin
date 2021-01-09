@@ -52,15 +52,29 @@ class AdminController extends Controller
         ];
 
         // If auth manager not configured use default access control
-        if(!Yii::$app->authManager) {
+        if (!Yii::$app->authManager) {
+            $behaviors['access'] = [
+                'class' => AccessControl::class,
+                'rules' => [
+                    [
+                        'roles' => ['@'],
+                        'allow' => true
+                    ],
+                ]
+            ];
+        } else if ($this->module->moduleExist('admin/rbac')) { // Ok, then we check access according to the rules
             $behaviors['access'] = [
                 'class' => AccessControl::class,
                 'except' => ['login', 'checkpoint', 'restore'],
                 'rules' => [
                     [
-                        'roles' => ['@'],
+                        'actions' => ['modules'],
+                        'roles' => ['updateDashboard'],
                         'allow' => true
-                    ]
+                    ], [
+                        'roles' => ['viewDashboard'],
+                        'allow' => true
+                    ],
                 ],
             ];
         }
@@ -521,8 +535,11 @@ class AdminController extends Controller
         if ($model->load(Yii::$app->request->post())) {
 
             Yii::$app->user->on(\yii\web\User::EVENT_AFTER_LOGIN, function($e) {
-                if(isset(Yii::$app->components['activity']))
-                    Yii::$app->activity->set('User has successfully login.', 'login', 'info', 2);
+                // Log activity
+                if (isset(Yii::$app->components['activity'])) {
+                    $username = Yii::$app->user->identity->username;
+                    Yii::$app->activity->set('User `' . $username . '` has successfully login.', 'login', 'info', 2);
+                }
             });
 
             try {
@@ -539,8 +556,15 @@ class AdminController extends Controller
                     $module->rememberDuration = $rememberDuration;
                 }
 
-                if ($model->login())
+                if ($model->login()) {
                     return $this->redirect(['admin/index']);
+                } else {
+                    // Log activity
+                    if (isset(Yii::$app->components['activity'])) {
+                        $username = $model->username;
+                        Yii::$app->activity->set('An error occurred while user `'.$username.'` has attempt login. Wrong password.', 'login', 'danger', 2);
+                    }
+                }
 
             } catch (\DomainException $error) {
                 Yii::$app->session->setFlash('error', $error->getMessage());
@@ -562,8 +586,10 @@ class AdminController extends Controller
     {
 
         Yii::$app->user->on(\yii\web\User::EVENT_BEFORE_LOGOUT, function($e) {
-            if(isset(Yii::$app->components['activity']))
-                Yii::$app->activity->set('User has successfully logout.', 'logout', 'info', 2);
+            if (isset(Yii::$app->components['activity'])) {
+                $username = Yii::$app->user->identity->username;
+                Yii::$app->activity->set('User `'.$username.'` has successfully logout.', 'logout', 'info', 2);
+            }
         });
 
         Yii::$app->user->logout();
@@ -605,9 +631,9 @@ class AdminController extends Controller
 
             // Get `Users` module
             if (Yii::$app->hasModule('admin/users'))
-                $module = Yii::$app->getModule('admin/users');
+                $module = Yii::$app->getModule('admin/users', true);
             else
-                $module = Yii::$app->getModule('users');
+                $module = Yii::$app->getModule('users', true);
 
             $resetTokenExpire = $module->passwordReset['resetTokenExpire'];
             if (isset(Yii::$app->params['admin.resetTokenExpire']))
@@ -616,7 +642,6 @@ class AdminController extends Controller
             $supportEmail = $module->passwordReset['supportEmail'];
             if (isset(Yii::$app->params['admin.supportEmail']))
                 $supportEmail = Yii::$app->params['admin.supportEmail'];
-
 
             $module->passwordReset = [
                 'resetTokenExpire' => $resetTokenExpire,
@@ -629,9 +654,24 @@ class AdminController extends Controller
             ];
 
             if ($model->sendEmail()) {
+
+                // Log activity
+                if (isset(Yii::$app->components['activity'])) {
+                    $username = $model->username;
+                    Yii::$app->activity->set('User `'.$username.'` has request password restore.', 'restore', 'info', 2);
+                }
+
                 Yii::$app->session->setFlash('success', Yii::t('app/modules/admin', 'Check your email for further instructions.'));
+
                 return $this->redirect(['admin/login']);
             } else {
+
+                // Log activity
+                if (isset(Yii::$app->components['activity'])) {
+                    $username = $model->username;
+                    Yii::$app->activity->set('An error occurred while user `'.$username.'` has request password restore.', 'restore', 'danger', 2);
+                }
+
                 Yii::$app->session->setFlash('error', Yii::t('app/modules/admin', 'Sorry, we are unable to reset password for the provided email address.'));
             }
         }
@@ -749,10 +789,10 @@ class AdminController extends Controller
                     }
 
                     if ($message->send()) {
-                        Yii::warning('our bug report is sent successfully!');
+                        Yii::warning('Our bug report is sent successfully!');
                         Yii::$app->session->setFlash('success', Yii::t('app/modules/admin','Your bug report is sent successfully!'));
                     } else {
-                        Yii::warning('Failed to send error report');
+                        Yii::warning('Failed to send error report.');
                         Yii::$app->session->setFlash('error', Yii::t('app/modules/admin','Failed to send error report.'));
                     }
 
@@ -765,7 +805,6 @@ class AdminController extends Controller
                     'model' => $model
                 ]);
             } else {
-                die();
                 return $this->redirect(['admin/index']);
             }
         }

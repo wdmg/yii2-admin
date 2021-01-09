@@ -1261,6 +1261,23 @@ body {
       padding-top: $padding-base-vertical;
       padding-bottom: ($padding-base-vertical * 2);
     }
+
+    .has-success .dropdown,
+    .has-success .form-control,
+    .has-success .input-group-addon,
+    select[aria-invalid="false"] + .dropdown > .btn {
+      color: $state-success-text !important;
+      border-color: $state-success-border !important;
+    }
+
+    .has-error .dropdown,
+    .has-error .form-control,
+    .has-error .input-group-addon,
+    select[aria-invalid="true"] + .dropdown > .btn {
+      color: $state-danger-text !important;
+      border-color: $state-danger-border !important;
+    }
+
   }
 
   .btn {
