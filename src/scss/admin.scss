@@ -1266,7 +1266,7 @@ body {
     .has-success .form-control,
     .has-success .input-group-addon,
     select[aria-invalid="false"] + .dropdown > .btn {
-      color: $state-success-text !important;
+      color: $text-color;
       border-color: $state-success-border !important;
     }
 
