@@ -40,9 +40,9 @@ class m190713_234918_modules extends Migration
             'protected' => $this->boolean()->defaultValue(false),
             'priority' => $this->integer()->defaultValue(0),
             'created_at' => $this->dateTime()->defaultExpression('CURRENT_TIMESTAMP'),
-            'created_by' => $this->integer(11)->notNull()->defaultValue(0),
+            'created_by' => $this->integer(11)->null(),
             'updated_at' => $this->datetime()->defaultExpression('CURRENT_TIMESTAMP'),
-            'updated_by' => $this->integer(11)->notNull()->defaultValue(0),
+            'updated_by' => $this->integer(11)->null(),
         ], $tableOptions);
 
         $this->createIndex('{{%idx-modules}}', '{{%modules}}', ['module', 'name', 'version', 'status']);

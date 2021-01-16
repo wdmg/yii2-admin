@@ -122,7 +122,7 @@ class Dashboard extends Component
                 // Check the presence of the module identifier among the available packages
                 foreach ($modules as $module) {
                     if ($menu['item'] == $module['module']) {
-                        if($module = Yii::$app->getModule('admin/'. $module['module'])) {
+                        if($module = Yii::$app->getModule('admin/'. $module['module'], false)) {
 
                             // Call Module::dashboardNavItems() to get its native menu
                             $navitems = $module->dashboardNavItems();
@@ -240,6 +240,49 @@ class Dashboard extends Component
                 'active' => false,
                 'options' => ['class' => ($disabled) ? 'disabled' : ''],
             ];
+        }
+
+        return $items;
+    }
+
+
+    /**
+     * Generate create menu items for administrative interface
+     *
+     * @return array of menu items
+     */
+    public function getCreateMenuItems() {
+        $items = [];
+        $model = new \wdmg\admin\models\Modules();
+        $modules = $model::getModules(true);
+        $menuItems = $this->module->getCreateMenuItems();
+
+        foreach ($menuItems as $moduleId => $menu) {
+            foreach ($modules as $module) {
+
+                // Check the presence of the module identifier among the available packages
+                if ($moduleId == $module['name']) {
+                    if ($module = Yii::$app->getModule('admin/'. $module['module'], false)) {
+
+                        // Add items for create menu in Dashboard
+                        if (isset($menu['label']) && isset($menu['url'])) {
+                            $items[] = [
+                                'label' => Yii::t('app/modules/admin', $menu['label']),
+                                'url' => $menu['url']
+                            ];
+                        } else if (is_array($menu)) {
+                            foreach ($menu as $item) {
+                                if (isset($item['label']) && isset($item['url'])) {
+                                    $items[] = [
+                                        'label' => Yii::t('app/modules/admin', $item['label']),
+                                        'url' => $item['url']
+                                    ];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         return $items;

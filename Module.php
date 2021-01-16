@@ -31,7 +31,7 @@ class Module extends BaseModule
     /**
      * {@inheritdoc}
      */
-    public $defaultRoute = 'dashboard/index';
+    public $defaultRoute = 'admin/index';
 
     /**
      * @var string, the name of module
@@ -117,12 +117,12 @@ class Module extends BaseModule
         [
             'label' => 'Dashboard',
             'icon' => 'fa fa-fw fa-tachometer-alt',
-            'url' => '/admin/index',
+            'url' => ['/admin/admin/index'],
             'order' => 1,
         ], [
             'label' => 'Modules',
             'icon' => 'fa fa-fw fa-puzzle-piece',
-            'url' => '/admin/modules',
+            'url' => ['/admin/admin/modules'],
             'order' => 1,
         ], [
             'label' => 'System',
@@ -138,7 +138,7 @@ class Module extends BaseModule
                 [
                     'label' => 'Information',
                     'icon' => 'fa fa-fw fa-info-circle',
-                    'url' => '/admin/info',
+                    'url' => ['/admin/admin/info'],
                     'order' => 99,
                 ],
             ],
@@ -223,6 +223,54 @@ class Module extends BaseModule
     ];
 
     /**
+     * @var array of create menu items
+     */
+    private $createMenu = [
+        'wdmg/yii2-pages' => [
+            'label' => 'Page',
+            'url' => ['/admin/pages/pages/create']
+        ], 'wdmg/yii2-media' => [
+            'label' => 'Media item',
+            'url' => ['/admin/pages/pages/create']
+        ], 'wdmg/yii2-content' => [
+            [
+                'label' => 'Content block',
+                'url' => ['/admin/content/blocks/create']
+            ],[
+                'label' => 'Content list',
+                'url' => ['/admin/content/lists/create']
+            ],
+        ], 'wdmg/yii2-menu' => [
+            'label' => 'Menu item',
+            'url' => ['/admin/menu/list/create'],
+        ], 'wdmg/yii2-news' => [
+            'label' => 'News',
+            'url' => ['/admin/news/news/create']
+        ], 'wdmg/yii2-blog' => [
+            'label' => 'Post',
+            'url' => ['/admin/blog/posts/create']
+        ], 'wdmg/yii2-subscribers' => [
+            'label' => 'Subscriber',
+            'url' => ['/admin/subscribers/all/create']
+        ], 'wdmg/yii2-newsletters' => [
+            'label' => 'Newsletter',
+            'url' => ['/admin/newsletters/list/create']
+        ], 'wdmg/yii2-forms' => [
+            'label' => 'Form',
+            'url' => ['/admin/forms/list/create']
+        ], 'wdmg/yii2-users' => [
+            'label' => 'User',
+            'url' => ['/admin/users/users/create/']
+        ], 'wdmg/yii2-tasks' => [
+            'label' => 'Task',
+            'url' => ['/admin/tasks/item/create/']
+        ], 'wdmg/yii2-translations' => [
+            'label' => 'Translate',
+            'url' => ['/admin/translations/list/create/']
+        ],
+    ];
+
+    /**
      * @var bool of show disabled menu items in dashboard
      */
     public $menuShowDisabled = false;
@@ -250,7 +298,7 @@ class Module extends BaseModule
 
         if (!Yii::$app instanceof \yii\console\Application) {
             // Set authorization route
-            Yii::$app->user->loginUrl = ['/admin/login'];
+            Yii::$app->user->loginUrl = ['admin/login'];
 
             // Set assets bundle, if not loaded
             if ($this->isBackend() && !$this->isConsole()) {
@@ -294,12 +342,21 @@ class Module extends BaseModule
     }
 
     /**
-     * Return list of dashboard menu items
+     * Return list of dashboard main menu items
      * @return array
      */
     public function getMenuItems()
     {
         return $this->menu;
+    }
+
+    /**
+     * Return list of dashboard create menu items
+     * @return array
+     */
+    public function getCreateMenuItems()
+    {
+        return $this->createMenu;
     }
 
     /**
@@ -336,10 +393,17 @@ class Module extends BaseModule
         if (Yii::$app->user->isGuest || !$module_name || !$current_version)
             return false;
 
+        $status = null;
+        $versions = null;
         $remote_version = null;
-        $versions = Yii::$app->cache->get('modules.versions');
-        $status = Yii::$app->cache->get('modules.updates');
 
+        if (Yii::$app->getCache()) {
+            if (Yii::$app->cache->exists('modules.versions'))
+                $versions = Yii::$app->cache->get('modules.versions');
+
+            if (Yii::$app->cache->exists('modules.updates'))
+                $status = Yii::$app->cache->get('modules.updates');
+        }
         if (isset($versions[$module_name]))
             $remote_version = $versions[$module_name];
 
@@ -372,7 +436,10 @@ class Module extends BaseModule
                         )
                     );
                 } else if ($response->getStatusCode() == 403) {
-                    Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+
+                    if (Yii::$app->getCache())
+                        Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+
                     Yii::error('An error occurred while checking for updates to one or more modules. 403 - Request limit exceeded.', __METHOD__);
                     if(!in_array('admin-updates-limit', $viewed) && is_array($viewed)) {
                         Yii::$app->getSession()->setFlash(
@@ -382,7 +449,9 @@ class Module extends BaseModule
                         $session['viewed-flash'] = array_merge(array_unique($viewed), ['admin-updates-limit']);
                     }
                 } else if ($response->getStatusCode() == 503) {
-                    Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+                    if (Yii::$app->getCache())
+                        Yii::$app->cache->add('modules.updates', 'sleep', intval($expire));
+
                     Yii::error('An error occurred while checking for updates to one or more modules. 503 - Service is temporarily unavailable.', __METHOD__);
                     if(!in_array('admin-updates-unavailable', $viewed) && is_array($viewed)) {
                         Yii::$app->getSession()->setFlash(

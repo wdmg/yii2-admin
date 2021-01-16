@@ -35,7 +35,7 @@ $bundle = AdminAsset::register($this);
         ]
     ]) ?>
     <hr/>
-    <p class="text-center"><?= Html::a(Yii::t('app/modules/admin', '&larr; Back to login'), ['/admin/login']) ?></p>
+    <p class="text-center"><?= Html::a(Yii::t('app/modules/admin', '&larr; Back to login'), ['admin/login']) ?></p>
     <?php ActiveForm::end(); ?>
     <?php Pjax::end(); ?>
 </div>

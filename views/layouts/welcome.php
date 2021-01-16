@@ -35,28 +35,29 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                 'id' => 'authAjax',
                 'timeout' => 10000
             ]); ?>
-            <?php
-            $label = 'Language';
-            foreach ($this->params['langs'] as $lang) {
-                if ($lang['active'] === true) {
-                    $label = $lang['label'];
-                    break;
+            <?php if (isset($this->params['langs'])) {
+                $label = 'Language';
+                foreach ($this->params['langs'] as $lang) {
+                    if ($lang['active'] === true) {
+                        $label = $lang['label'];
+                        break;
+                    }
                 }
-            }
-            echo ButtonDropdown::widget([
-                'label' => $label,
-                'containerOptions' => [
-                    'id' => 'languageSelector',
-                    'class' => 'lang-select'
-                ],
-                'dropdown' => [
-                    'options' => [
-                        'class' => 'dropdown-menu-right'
+                echo ButtonDropdown::widget([
+                    'label' => $label,
+                    'containerOptions' => [
+                        'id' => 'languageSelector',
+                        'class' => 'lang-select'
                     ],
-                    'items' => $this->params['langs'],
-                    'encodeLabels' => false
-                ]
-            ]); ?>
+                    'dropdown' => [
+                        'options' => [
+                            'class' => 'dropdown-menu-right'
+                        ],
+                        'items' => $this->params['langs'],
+                        'encodeLabels' => false
+                    ]
+                ]);
+            } ?>
             <?= $content ?>
             <?php Pjax::end(); ?>
         </div>

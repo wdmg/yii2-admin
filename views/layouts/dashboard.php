@@ -62,7 +62,7 @@ JS
                 'class' => "img-responsive",
                 'onerror' => "this.src='" . $bundle->baseUrl . '/images/logotype-inline.png' . "'"
             ]),
-            'brandUrl' => ['/admin'],
+            'brandUrl' => ['/admin/admin/index'],
             'options' => [
                 'class' => 'navbar-inverse navbar-fixed-top',
             ],
@@ -75,100 +75,10 @@ JS
         ]);
 
         $items = [];
-        $create = [];
-
-        if (Yii::$app->getModule('admin/pages', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Page'),
-                'url' => ['/admin/pages/pages/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/media', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Media item'),
-                'url' => ['/admin/media/list/upload']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/content', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Content block'),
-                'url' => ['/admin/content/blocks/create']
-            ];
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Content list'),
-                'url' => ['/admin/content/lists/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/menu', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Menu item'),
-                'url' => ['/admin/menu/list/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/news', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'News'),
-                'url' => ['/admin/news/news/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/blog', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Post'),
-                'url' => ['/admin/blog/posts/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/subscribers', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Subscriber'),
-                'url' => ['/admin/subscribers/all/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/newsletters', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Newsletter'),
-                'url' => ['/admin/newsletters/list/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/forms', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Form'),
-                'url' => ['/admin/forms/list/create']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/users', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'User'),
-                'url' => ['/admin/users/users/create/']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/tasks', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Task'),
-                'url' => ['/admin/tasks/item/create/']
-            ];
-        }
-
-        if (Yii::$app->getModule('admin/translations', false)) {
-            $create[] = [
-                'label' => Yii::t('app/modules/admin', 'Translate'),
-                'url' => ['/admin/translations/list/create/']
-            ];
-        }
-
-        if (count($create) > 0) {
+        if ($createMenuItems = Yii::$app->dashboard->getCreateMenuItems()) {
             $items[] = [
                 'label' => '<span class="fa fa-fw fa-plus"></span> ' . Yii::t('app/modules/admin', 'Add new'),
-                'items' => $create
+                'items' => $createMenuItems
             ];
         }
 
@@ -178,20 +88,22 @@ JS
                 'url' => '#terminal'
             ];
 
-        $items[] = [
-            'label' => '<span class="fa fa-fw fa-language"></span> ' . Yii::t('app/modules/admin', 'Language'),
-            'items' => $this->params['langs']
-        ];
+        if (isset($this->params['langs'])) {
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-language"></span> ' . Yii::t('app/modules/admin', 'Language'),
+                'items' => $this->params['langs']
+            ];
+        }
 
         if (Yii::$app->user->isGuest)
             $items[] = [
                 'label' => '<span class="fa fa-fw fa-sign-in-alt"></span> ' . Yii::t('app/modules/admin', 'Login'),
-                'url' => ['/admin/login']
+                'url' => ['/admin/admin/login']
             ];
         else
             $items[] = [
                 'label' => '<span class="fa fa-fw fa-user-circle"></span> ' . Yii::t('app/modules/admin', 'Logout') . ' (' . Yii::$app->user->identity->username . ')',
-                'url' => ['/admin/logout'], 'linkOptions' => ['data-method' => 'post']
+                'url' => ['/admin/admin/logout'], 'linkOptions' => ['data-method' => 'post']
             ];
 
 
@@ -275,7 +187,7 @@ JS
                     <?= Breadcrumbs::widget([
                         'homeLink' => [
                             'label' => Yii::t('app/modules/admin', 'Main'),
-                            'url' => '/admin/'
+                            'url' => Url::to(['/admin/admin/index'])
                         ],
                         'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
                     ]) ?>
@@ -289,7 +201,7 @@ JS
 
     <?php /*$this->registerJs(<<< JS
         $(document).ready(function() {
-        
+
             setInterval(function() {
                 $.ajax({
                     type: "POST",
@@ -305,7 +217,7 @@ JS
                     }
                 });
             }, 10000);
-            
+
         });
 JS
     );*/ ?>
@@ -313,6 +225,7 @@ JS
     <?php
         // Register dashboard search assets
         if (!is_null(Yii::$app->dashboard->search)) {
+            $searchUrl = Url::to(['/admin/search']);
             $this->registerJs(<<< JS
                 $(document).ready(function() {
                     
@@ -337,7 +250,7 @@ JS
                         
                             $.ajax({
                                 type: "POST",
-                                url: "/admin/search",
+                                url: "$searchUrl",
                                 data: {
                                     query: query
                                 },
@@ -443,7 +356,7 @@ JS
     <?php
         // Register dashboard terminal assets
         if (Yii::$app->getModule('admin/terminal', false)) {
-            $url = Url::to(['terminal/terminal/index']);
+            $url = Url::to(['/admin/terminal/index']);
             $this->registerJs(<<< JS
                 $(function() {
                     $('body').delegate('a[href="#terminal"]', 'click', function(event) {

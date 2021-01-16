@@ -48,7 +48,7 @@ $bundle = AdminAsset::register($this);
     ]) ?>
     <hr/>
     <p class="text-center"><?= Yii::t('app/modules/admin', 'Don`t remember password? You may {link}.', [
-        'link' => Html::a(Yii::t('app/modules/admin', 'restore it here'), ['/admin/restore']),
+        'link' => Html::a(Yii::t('app/modules/admin', 'restore it here'), ['admin/restore']),
     ]) ?></p>
     <?php ActiveForm::end(); ?>
     <?php Pjax::end(); ?>

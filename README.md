@@ -53,6 +53,13 @@ To add a module to the project, add the following data in your configuration fil
     ],
 
 # Routing
+
+| Link to route (without prettyurl)                     | Link to route (prettyurl enabled)     | Description                          |
+|:----------------------------------------------------- |:------------------------------------- |:------------------------------------ |
+| http://example.com/index.php?r=admin                  | http://example.com/admin              | Main dashboard                       |
+| http://example.com/index.php?r=admin/admin/login      | http://example.com/admin/login        | Auth to dashboard                    |
+| http://example.com/index.php?r=admin/admin/restore    | http://example.com/admin/restore      | Restore access password              |
+
 Use the `Module::dashboardNavItems()` method of the module to generate a navigation items list for NavBar, like this:
 
     <?php

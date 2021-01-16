@@ -8,36 +8,32 @@ namespace wdmg\admin;
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  */
 
+use Yii;
 use wdmg\base\BaseModule;
 use yii\base\BootstrapInterface;
-use Yii;
 use yii\base\InvalidConfigException;
 use yii\helpers\ArrayHelper;
 use yii\helpers\BaseFileHelper;
+use wdmg\validators\SerialValidator;
 
 
-class Bootstrap implements BootstrapInterface
+class Bootstrap extends BaseModule implements BootstrapInterface
 {
 
-    public $module;
+    private $_module;
 
     public function bootstrap($app)
     {
         // Get the module instance
-        $this->module = Yii::$app->getModule('admin');
+        $this->_module = $app->getModule('admin', true);
 
         // Get translations module
-        $translations = Yii::$app->getModule('admin/translations');
-
-        // Add module URL rules
-        $app->getUrlManager()->enablePrettyUrl = true;
-        $app->getUrlManager()->showScriptName = false;
-        $app->getUrlManager()->enableStrictParsing = false;
+        $translations = $app->getModule('admin/translations', false);
 
         if (YII_ENV_DEV)
             $app->getUrlManager()->cache = null;
 
-        if ($this->module->isBackend()) {
+        if ($this->isBackend()) {
             $app->getUrlManager()->addRules(
                 [
                     '/admin' => 'admin/admin/index',
@@ -68,8 +64,10 @@ class Bootstrap implements BootstrapInterface
         if (!($app instanceof \yii\console\Application)) {
 
             // Set the error handler page
-            $errorHandler = Yii::$app->getErrorHandler();
-            $errorHandler->errorAction = 'admin/admin/error';
+            if (!YII_ENV_TEST) {
+                $errorHandler = Yii::$app->getErrorHandler();
+                $errorHandler->errorAction = 'admin/admin/error';
+            }
 
             if ($lang = $app->request->get('lang', false)) {
                 $app->session->set('lang', $lang);
@@ -89,15 +87,15 @@ class Bootstrap implements BootstrapInterface
         }
 
         // Configure languages menu for UI
-        if (!($app instanceof \yii\console\Application) && $this->module) {
+        if (!($app instanceof \yii\console\Application) && $this->_module) {
             \yii\base\Event::on(\yii\base\Controller::class, \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
 
                 $langs = [];
-                $locales = $this->module->getSupportLanguages();
+                $locales = $this->_module->getSupportLanguages();
                 if ($translations) {
 
                     // Register translations for admin module
-                    $translations->registerTranslations($this->module, true);
+                    $translations->registerTranslations($this->_module, true);
 
                     $bundle = \wdmg\translations\FlagsAsset::register(Yii::$app->view);
                     foreach ($locales as $locale => $name) {
@@ -110,7 +108,7 @@ class Bootstrap implements BootstrapInterface
 
                         $langs[] = [
                             'label' => $flag . '&nbsp;' . $locale['name'],
-                            'url' => '?lang='.$locale['locale'],
+                            'url' => \yii\helpers\Url::current(['lang' => $locale['locale']]),
                             'active'=> (Yii::$app->language == $locale['locale']) ? true : false,
                             'options' => [
                                 'class' => (Yii::$app->language == $locale['locale']) ? 'active' : false
@@ -120,7 +118,7 @@ class Bootstrap implements BootstrapInterface
                 } else {
 
                     // Register translations for admin module
-                    $this->module->registerTranslations($this->module);
+                    $this->_module->registerTranslations($this->_module);
 
                     foreach ($locales as $locale => $name) {
                         $langs[] = [
@@ -133,6 +131,7 @@ class Bootstrap implements BootstrapInterface
                         ];
                     }
                 }
+
                 Yii::$app->view->params['langs'] = $langs;
             });
         }
@@ -145,82 +144,98 @@ class Bootstrap implements BootstrapInterface
         ]);
 
         // Loading all child modules
-        if (Yii::$app->db->schema->getTableSchema(\wdmg\admin\models\Modules::tableName())) {
+        if ($app->db->schema->getTableSchema(\wdmg\admin\models\Modules::tableName())) {
             $migrationLookup = [];
             $model = new \wdmg\admin\models\Modules();
+            if ($modules = $model::getModules(true)) {
+                if (is_array($modules)) {
 
-            $modules = $model::getModules(true);
-            if (is_array($modules)) {
+                    foreach ($modules as $module) {
 
-                foreach ($modules as $module) {
+                        // Setup module ID
+                        $moduleId = 'admin/' . $module['module'];
 
-                    if (!class_exists($module['class'])) {
-                        throw new InvalidConfigException('Can\'t load module `' . $module['class'] . '`');
-                    } else {
+                        if (!class_exists($module['class'])) {
+                            throw new InvalidConfigException('Can\'t load module `' . $module['class'] . '`');
+                        } else {
 
-                        // Check if this module has been loaded before
-                        if (!$app->hasModule('admin/' . $module['module'])) {
+                            // Check if this module has been loaded before
+                            if (!$app->hasModule($moduleId)) {
 
-                            // Get default module options
-                            $options = (is_array($module['options'])) ? $module['options'] : unserialize($module['options']);
-
-                            // Prepare advanced module options from DB
-                            if (Yii::$app->getModule('admin/options') && isset(Yii::$app->options)) {
-                                foreach ($options as $option => $value) {
-                                    if (Yii::$app->options->get($module['module'] . '.' . $option))
-                                        $options[$option] = Yii::$app->options->get($module['module'] . '.' . $option);
+                                // Get default module options
+                                $options = [];
+                                if (is_array($module['options'])) {
+                                    $options = $module['options'];
+                                } elseif (is_string($module['options']) && SerialValidator::isValid($module['options'])) {
+                                    $options = unserialize($module['options']);
                                 }
-                            }
 
-                            // Register the module as a child module of `admin'
-                            $app->getModule('admin')->setModule($module['module'], ArrayHelper::merge([
-                                'class' => $module['class']
-                            ], $options));
 
-                            // Registered the module
-                            if ($installed = $app->getModule('admin/' . $module['module'], true)) {
+                                // Get default module options
+                                $options = (is_array($module['options'])) ? $module['options'] : unserialize($module['options']);
 
-                                // Register the translation for the loadable module,
-                                // if it has not been registered before (possibly not inherited from BaseModule)
-                                if (!($app instanceof \yii\console\Application) && $this->module) {
-                                    if (!isset(Yii::$app->getI18n()->translations['app/modules/' . $installed->id])) {
-                                        if ($translations = Yii::$app->getModule('admin/translations')) {
-                                            $translations->registerTranslations($installed, true);
-                                        } else {
-                                            $this->module->registerTranslations($installed);
-                                        }
+                                // Prepare advanced module options from DB and rewrite defaults
+                                if (Yii::$app->getModule('admin/options') && isset(Yii::$app->options)) {
+                                    foreach ($options as $option => $value) {
+                                        if (Yii::$app->options->get($module['module'] . '.' . $option))
+                                            $options[$option] = Yii::$app->options->get($module['module'] . '.' . $option);
                                     }
                                 }
 
-                                // Configure dashboard layout
-                                $installed->layout = 'dashboard';
-                                $installed->layoutPath = '@wdmg/admin/views/layouts';
-
-                                // Configure migrations lookup
-                                $migrationLookup[] = $installed->getBaseAlias() . '/migrations';
-
-                                // Configure base route prefix
-                                if (isset($module->routePrefix))
-                                    $installed->routePrefix = $module->routePrefix;
-
-                                // Check instance of BootstrapInterface
-                                if ($installed instanceof yii\base\BootstrapInterface) {
-                                    $installed->bootstrap(Yii::$app);
-                                } else if ($module['bootstrap']) {
-                                    Yii::$app->bootstrap[] = $module['bootstrap'];
-                                } else {
-                                    throw new InvalidConfigException('Module `' . $module['class'] . '` must implement BootstrapInterface interface');
+                                // Setup the module as a child module of `admin'
+                                if ($admin = $app->getModule('admin')) {
+                                    $admin->setModule($module['module'], ArrayHelper::merge([
+                                        'class' => $module['class']
+                                    ], $options));
                                 }
 
+                                // Register and load child module
+                                if ($installed = $app->getModule('admin/' . $module['module'], true)) {
+
+                                    // Register the translation for the loadable module,
+                                    // if it has not been registered before (possibly not inherited from BaseModule)
+                                    if (!($app instanceof \yii\console\Application) && $this->_module) {
+                                        if (!isset(Yii::$app->getI18n()->translations['app/modules/' . $installed->id])) {
+                                            if ($translations = Yii::$app->getModule('admin/translations')) {
+                                                $translations->registerTranslations($installed, true);
+                                            } else {
+                                                $this->_module->registerTranslations($installed);
+                                            }
+                                        }
+                                    }
+
+                                    // Configure dashboard layout
+                                    $installed->layout = 'dashboard';
+                                    $installed->layoutPath = '@wdmg/admin/views/layouts';
+
+                                    // Configure migrations lookup
+                                    $migrationLookup[] = $installed->getBaseAlias() . '/migrations';
+
+                                    // Configure base route prefix
+                                    if (isset($module->routePrefix))
+                                        $installed->routePrefix = $module->routePrefix;
+
+                                    // Check instance of BootstrapInterface
+                                    if ($installed instanceof yii\base\BootstrapInterface) {
+                                        $installed->bootstrap(Yii::$app);
+                                    } else if ($module['bootstrap']) {
+                                        Yii::$app->bootstrap[] = $module['bootstrap'];
+                                    } else {
+                                        throw new InvalidConfigException('Module `' . $module['class'] . '` must implement BootstrapInterface interface');
+                                    }
+
+                                }
                             }
                         }
                     }
                 }
+            } else {
+                Yii::debug('No child modules available for loading', __METHOD__);
             }
         }
 
         // Set error handler
-        if (!($app instanceof \yii\console\Application) && $this->module->isBackend()) {
+        if (!($app instanceof \yii\console\Application) && $this->isBackend()) {
             if ($errorHandler = $app->getErrorHandler()) {
 
                 if (Yii::$app->getModule('admin/rbac'))
@@ -240,10 +255,10 @@ class Bootstrap implements BootstrapInterface
         }
 
         // For console only
-        if (Yii::$app instanceof \yii\console\Application) {
+        if ($app instanceof \yii\console\Application) {
 
             $migrationLookup = [];
-            $support = $this->module->getSupportModules();
+            $support = $this->_module->getSupportModules();
 
             // Polyfill for array_key_first() for PHP <= 7.3.0
             if (!function_exists('array_key_first')) {
@@ -256,7 +271,7 @@ class Bootstrap implements BootstrapInterface
             }
 
             // Configure migrations for all modules
-            foreach (Yii::$app->extensions as $key => $extension) {
+            foreach ($app->extensions as $key => $extension) {
                 // Limit the output of only those modules that are supported by the system.
                 if (in_array($extension['name'], $support)) {
 
@@ -267,28 +282,23 @@ class Bootstrap implements BootstrapInterface
                 }
             }
 
-            Yii::$app->controllerMap['migrate'] = [
+            $app->controllerMap['migrate'] = [
                 'class' => 'wdmg\admin\commands\MigrateController',
                 'migrationLookup' => $migrationLookup
             ];
 
-
             // Configure urlManager
-            if (Yii::$app->getModule('admin/options') && isset(Yii::$app->options)) {
-
-                if (Yii::$app->options->get('urlManager.hostInfo')) {
-                    $hostInfo = Yii::$app->options->get('urlManager.hostInfo');
-                    $app->getUrlManager()->hostInfo = $hostInfo;
+            /*if ($app->getModule('admin/options') && isset(Yii::$app->options)) {
+                if ($hostInfo = Yii::$app->options->get('urlManager.hostInfo')) {
+                    $app->getUrlManager()->setHostInfo($hostInfo);
                     $_SERVER['SERVER_NAME'] = $hostInfo;
                 }
 
-                if (Yii::$app->options->get('urlManager.baseUrl')) {
-                    $baseUrl = Yii::$app->options->get('urlManager.baseUrl');
-                    $app->getUrlManager()->baseUrl = $baseUrl;
+                if ($baseUrl = Yii::$app->options->get('urlManager.baseUrl')) {
+                    $app->getUrlManager()->setBaseUrl($baseUrl);
                     $_SERVER['HTTP_HOST'] = $baseUrl;
                 }
-
-            }
+            }*/ // @TODO: Need review, see /yiisoft/yii2/web/UrlManager.php:640
         }
     }
 }

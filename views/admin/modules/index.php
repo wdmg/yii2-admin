@@ -166,42 +166,44 @@ $this->params['breadcrumbs'][] = $this->title;
     <hr/>
     <div class="modules-add-form">
         <?php $form = ActiveForm::begin([
-            'action' => 'admin/modules',
+            'action' => ['admin/modules'],
             'options' => [
                 'class' => 'form form-inline'
             ]
         ]); ?>
             <legend><?= Yii::t('app/modules/admin', 'Available modules'); ?></legend>
-            <div class="col-xs-6 col-sm-3 col-lg-3">
-                <?= $form->field($model, 'extensions', [
-                    'options' => [
-                        'tag' => false
-                    ]])->label(false)->widget(SelectInput::class, [
-                    'items' => $extensions,
-                    'options' => [
-                        'class' => 'form-control',
+            <div class="row">
+                <div class="col-xs-6 col-sm-3 col-lg-3">
+                    <?= $form->field($model, 'extensions', [
+                        'options' => [
+                            'tag' => false
+                        ]])->label(false)->widget(SelectInput::class, [
+                        'items' => $extensions,
+                        'options' => [
+                            'class' => 'form-control',
+                            'disabled' => (count($extensions) == 0) ? true : false
+                        ],
+                        'pluginOptions' => [
+                            'dropdownClass' => '.dropdown .btn-block',
+                            'toggleClass' => '.btn .btn-default .dropdown-toggle .btn-block',
+                            'toggleText' => Yii::t('app/modules/admin', 'Modules')
+                        ]
+                    ]); ?>
+                </div>
+                <div class="col-xs-6 col-sm-3 col-lg-3">
+                    <?= $form->field($model, 'autoActivate')->checkbox([
+                        'checked' => true,
+                        'style' => 'margin-top:10px;',
                         'disabled' => (count($extensions) == 0) ? true : false
-                    ],
-                    'pluginOptions' => [
-                        'dropdownClass' => '.dropdown .btn-block',
-                        'toggleClass' => '.btn .btn-default .dropdown-toggle .btn-block',
-                        'toggleText' => Yii::t('app/modules/admin', 'Modules')
-                    ]
-                ]); ?>
-            </div>
-            <div class="col-xs-6 col-sm-3 col-lg-3">
-                <?= $form->field($model, 'autoActivate')->checkbox([
-                    'checked' => true,
-                    'style' => 'margin-top:10px;',
-                    'disabled' => (count($extensions) == 0) ? true : false
-                ]); ?>
-            </div>
-            <div class="col-xs-12 col-sm-6 col-lg-3">
-                <div class="form-group field-modules-autoactivate">
-                    <?= Html::submitButton(Yii::t('app/modules/admin', 'Add module'), [
-                        'class' => 'btn btn-add btn-success',
-                        'disabled' => (count($extensions) == 0) ? true : false
-                    ]) ?>
+                    ]); ?>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-lg-3">
+                    <div class="form-group field-modules-autoactivate">
+                        <?= Html::submitButton(Yii::t('app/modules/admin', 'Add module'), [
+                            'class' => 'btn btn-add btn-success',
+                            'disabled' => (count($extensions) == 0) ? true : false
+                        ]) ?>
+                    </div>
                 </div>
             </div>
         <?php ActiveForm::end(); ?>
@@ -214,17 +216,19 @@ $this->params['breadcrumbs'][] = $this->title;
     var requestURL = window.location.href;
     if ($container.length > 0) {
         $container.delegate(\'[data-toggle="button-switcher"] button\', \'click\', function() {
-            var id = $(this).parent(\'.btn-group\').data(\'id\');
-            var value = $(this).data(\'value\');
-             $.ajax({
+            let id = $(this).parent(\'.btn-group\').data(\'id\');
+            let value = $(this).data(\'value\');
+            let url = new URL(requestURL);
+            url.searchParams.set(\'change\', \'status\');            
+            $.ajax({
                 type: "POST",
-                url: requestURL + \'?change=status\',
+                url: url.toString(),
                 dataType: \'json\',
                 data: {\'id\': id, \'value\': value},
                 complete: function(data) {
                     $.pjax.reload({type:\'POST\', container:\'#adminModulesAjax\'});
                 }
-             });
+            });
         });
     }', \yii\web\View::POS_READY
 ); ?>

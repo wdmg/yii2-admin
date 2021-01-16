@@ -13,7 +13,12 @@ class AdminAsset extends AssetBundle
 
     public $js = [
         'js/sticky-sidebar.js',
+        'js/helper.js',
         'js/admin.js'
+    ];
+
+    public $css = [
+        'css/admin.css'
     ];
 
     public $depends = [
