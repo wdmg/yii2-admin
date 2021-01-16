@@ -31,6 +31,7 @@ class AdminController extends Controller
                 'class' => VerbFilter::class,
                 'actions' => [
                     'index' => ['GET', 'POST'],
+                    'modules' => ['GET', 'POST'],
                     'restore' => ['GET', 'POST'],
                     'logout' => ['POST'],
                     'checkpoint' => ['POST'],
@@ -118,6 +119,9 @@ class AdminController extends Controller
             if ($this->module->moduleLoaded('admin/activity'))
                 $widgets['recentActivity'] = $this->getRecentActivity();
 
+            if ($this->module->moduleLoaded('admin/comments'))
+                $widgets['recentComments'] = $this->getRecentComments();
+
             if ($this->module->moduleLoaded('admin/stats')) {
                 $widgets['recentStats'] = $this->getRecentStats();
                 $widgets['recentLoads'] = $this->getRecentLoads();
@@ -149,6 +153,9 @@ class AdminController extends Controller
 
             // Change model status (aJax request by switcher)
             if (Yii::$app->request->isAjax) {
+
+                //var_export(Yii::$app->request->get());die();
+
                 if (Yii::$app->request->get('change') == "status") {
                     if (Yii::$app->request->post('id', null)) {
                         $id = Yii::$app->request->post('id');
@@ -860,6 +867,11 @@ class AdminController extends Controller
     public function getRecentActivity($limit = 5) {
         $model = new \wdmg\activity\models\Activity();
         return $model::find()->select('type, message, action, created_at, created_by')->asArray()->limit(intval($limit))->orderBy(['id' => SORT_DESC, 'created_at' => SORT_ASC])->all();
+    }
+
+    public function getRecentComments($limit = 5) {
+        $model = new \wdmg\comments\models\Comments();
+        return $model::find()->select('id, name, context, target, comment, created_at')->where(['status' => $model::COMMENT_STATUS_PUBLISHED])->asArray()->limit(intval($limit))->orderBy(['id' => SORT_DESC, 'created_at' => SORT_ASC])->all();
     }
 
     public function getRecentStats() {

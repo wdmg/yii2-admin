@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use wdmg\widgets\ChartJS;
+use wdmg\helpers\StringHelper;
 
 /* @var $this yii\web\View */
 
@@ -168,8 +169,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     }
                 ?>
                 <div class="panel-footer">
-                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['./users'], ['class' => 'text-muted']) ?>
-                    <?= Html::a('<span class="fa fa-plus"></span> ' . Yii::t('app/modules/users', 'Add new user'), ['./users/create'], ['class' => 'pull-right']) ?>
+                    <?= Html::a(Yii::t('app/modules/admin', 'View all'), ['users/users'], ['class' => 'text-muted']) ?>
+                    <?= Html::a('<span class="fa fa-plus"></span> ' . Yii::t('app/modules/users', 'Add new user'), ['users/users/create'], ['class' => 'pull-right']) ?>
                 </div>
             </div>
         </div>
@@ -276,11 +277,13 @@ $this->params['breadcrumbs'][] = $this->title;
                     if (isset($widgets['recentComments'])) {
                         if (count($widgets['recentComments']) > 0) {
                             echo '<ul class="panel-body list-group">';
-                            /*foreach ($widgets['recentComments'] as $item) {
-                                echo '<li class="list-group-item">'.Html::a($item['name'], ['./comments/comments/update', 'id' => $item['id']]);
-                                echo Html::tag('small', \Yii::$app->formatter->asDatetime($item['created_at']), ['class' => 'pull-right text-muted']);
+                            foreach ($widgets['recentComments'] as $item) {
+                                $comment = StringHelper::stripTags($item['comment']);
+                                $comment = StringHelper::stringShorter($comment, 96);
+                                echo '<li class="list-group-item">' . Html::tag('i', Html::encode($comment));
+                                echo Html::tag('small', "by " .Html::a($item['name'], ['./comments/comments/update', 'id' => $item['id']]) . " " . \Yii::$app->formatter->asDatetime($item['created_at']), ['class' => 'pull-right text-muted']);
                                 echo '</li>';
-                            }*/
+                            }
                             echo '</ul>';
                         } else {
                             echo '<div class="panel-body">';
@@ -315,8 +318,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             echo ChartJS::widget([
                                 'type' => 'line',
                                 'options' => [
-                                    'width' => 640,
-                                    'height' => 260
+                                    'height' => 248
                                 ],
                                 'data' => $widgets['recentStats']
                             ]);
@@ -348,8 +350,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 echo ChartJS::widget([
                                     'type' => 'line',
                                     'options' => [
-                                        'width' => 640,
-                                        'height' => 260
+                                        'height' => 248
                                     ],
                                     'data' => $widgets['recentLoads']
                                 ]);

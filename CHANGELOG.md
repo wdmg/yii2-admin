@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.2.*
+ * Added comments widget
+ * Menu and routes fixed
+ 
 ## 1.2.1 (2020-12-24)
  * Hot keys for pagination
  * Added support for Menu module

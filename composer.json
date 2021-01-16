@@ -23,6 +23,9 @@
   "require": {
     "yiisoft/yii2": "^2.0.40",
     "wdmg/yii2-base": "^1.3.0",
+    "wdmg/yii2-validators": "^1.0.6",
+    "wdmg/yii2-helpers": "^1.1.4",
+    "wdmg/yii2-widgets": "^1.0.4",
     "bower-asset/font-awesome": "^5.13"
   },
   "minimum-stability": "dev",
