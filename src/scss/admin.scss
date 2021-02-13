@@ -965,8 +965,8 @@ body {
   width: 100vw;
   height: 100vh;
   background: #00171F;
-  background-image: radial-gradient(50% 100%, rgba(138,213,247,0.38) 20%, rgba(30,111,147,0.00) 100%);
   color: $body-bg;
+  overflow: hidden;
   .container, .container-fluid {
     margin-bottom: auto;
     margin-top: auto;
@@ -1061,6 +1061,28 @@ body {
     .footer {
       right: 96px !important;
     }
+  }
+  &:before {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    content: '';
+    width: auto;
+    height: auto;
+    background-image: radial-gradient(50% 100%, rgba(138,213,247,0.38) 0%, rgba(30,111,147,0.00) 0%);
+    background-repeat: no-repeat;
+    background-position: center;
+    opacity: 0;
+    animation: welcomeBg 3s forwards;
+  }
+}
+
+@keyframes welcomeBg {
+  to {
+    background-image: radial-gradient(50% 100%, rgba(138,213,247,0.38) 20%, rgba(30,111,147,0.00) 100%);
+    opacity: 0.72;
   }
 }
 

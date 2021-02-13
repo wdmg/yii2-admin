@@ -7,7 +7,7 @@ namespace wdmg\admin\components;
  * Yii2 Dashboard
  *
  * @category        Component
- * @version         1.2.1
+ * @version         1.2.2
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 - 2021 W.D.M.Group, Ukraine
@@ -17,7 +17,8 @@ namespace wdmg\admin\components;
 
 use Yii;
 use yii\base\Component;
-use yii\helpers\ArrayHelper;
+use yii\helpers\Url;
+use wdmg\helpers\ArrayHelper;
 use wdmg\search\models\LiveSearch;
 
 class Dashboard extends Component
@@ -43,8 +44,8 @@ class Dashboard extends Component
                 $search->supportModels['news']['options']['conditions'] = [];
                 $search->supportModels['news']['options']['url'] = function ($model) {
                     return [
-                        'view' => \yii\helpers\Url::toRoute(['news/news/view', 'id' => $model->id]),
-                        'update' => \yii\helpers\Url::toRoute(['news/news/update', 'id' => $model->id]),
+                        'view' => Url::toRoute(['news/news/view', 'id' => $model->id]),
+                        'update' => Url::toRoute(['news/news/update', 'id' => $model->id]),
                         'public' => $model->url,
                     ];
                 };
@@ -54,8 +55,8 @@ class Dashboard extends Component
                 $search->supportModels['blog']['options']['conditions'] = [];
                 $search->supportModels['blog']['options']['url'] = function ($model) {
                     return [
-                        'view' => \yii\helpers\Url::toRoute(['blog/posts/view', 'id' => $model->id]),
-                        'update' => \yii\helpers\Url::toRoute(['blog/posts/update', 'id' => $model->id]),
+                        'view' => Url::toRoute(['blog/posts/view', 'id' => $model->id]),
+                        'update' => Url::toRoute(['blog/posts/update', 'id' => $model->id]),
                         'public' => $model->url,
                     ];
                 };
@@ -125,7 +126,15 @@ class Dashboard extends Component
                         if($module = Yii::$app->getModule('admin/'. $module['module'], false)) {
 
                             // Call Module::dashboardNavItems() to get its native menu
-                            $navitems = $module->dashboardNavItems();
+                            $navitems = [];
+                            $moduleNavitems = $module->dashboardNavItems();
+                            if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
+                                foreach ($moduleNavitems as $moduleNavitem) {
+                                    $navitems[] = $moduleNavitem;
+                                }
+                            } else  {
+                                $navitems = $moduleNavitems;
+                            }
 
                             // Check if the received menu item contains a direct link
                             if (isset($navitems['url']))
@@ -166,7 +175,14 @@ class Dashboard extends Component
                             foreach ($modules as $module) {
                                 if ($moduleId == $module['module']) {
                                     if ($module = Yii::$app->getModule('admin/'. $module['module'])) {
-                                        $navitems[] = $module->dashboardNavItems();
+                                        $moduleNavitems = $module->dashboardNavItems();
+                                        if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
+                                            foreach ($moduleNavitems as $moduleNavitem) {
+                                                $navitems[] = $moduleNavitem;
+                                            }
+                                        } else  {
+                                            $navitems[] = $moduleNavitems;
+                                        }
                                         $found++;
                                     }
                                 }
@@ -190,9 +206,7 @@ class Dashboard extends Component
                     $submenus = $menu['items'];
                     uasort($submenus, array($this, 'sortByOrder'));
                     foreach ($submenus as $submenu) {
-
-
-
+                        
                         $navitems = [];
                         if (isset($submenu['items']) && is_array($submenu['items'])) {
                             foreach ($submenu['items'] as $moduleId) {
@@ -200,8 +214,16 @@ class Dashboard extends Component
                                 // check the presence of the module identifier among the available packages
                                 foreach ($modules as $module) {
                                     if ($moduleId == $module['module']) {
-                                        if($module = Yii::$app->getModule('admin/'. $module['module']))
-                                            $navitems[] = $module->dashboardNavItems();
+                                        if ($module = Yii::$app->getModule('admin/'. $module['module'])) {
+                                            $moduleNavitems = $module->dashboardNavItems();
+                                            if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
+                                                foreach ($moduleNavitems as $moduleNavitem) {
+                                                    $navitems[] = $moduleNavitem;
+                                                }
+                                            } else  {
+                                                $navitems[] = $moduleNavitems;
+                                            }
+                                        }
                                     }
                                 }
                             }
@@ -210,7 +232,7 @@ class Dashboard extends Component
                         // Collect the final sub-menu item
                         $subitems[] = [
                             'label' => ($submenu['icon']) ? '<span class="icon"><i class="' . $submenu['icon'] . '"></i></span> ' . Yii::t('app/modules/admin', $submenu['label']) : Yii::t('app/modules/admin', $submenu['label']),
-                            'url' => ($submenu['url']) ? \yii\helpers\Url::to($submenu['url']) : '#',
+                            'url' => ($submenu['url']) ? Url::to($submenu['url']) : '#',
                             'items' => ($navitems) ? $navitems : false
                         ];
                         unset($navitems);
@@ -235,7 +257,7 @@ class Dashboard extends Component
             // Collect the final parent menu item
             $items[] = [
                 'label' => ($menu['icon']) ? '<span class="icon"><i class="' . $menu['icon'] . '"></i></span> ' . Yii::t('app/modules/admin', $menu['label']) : Yii::t('app/modules/admin', $menu['label']),
-                'url' => isset($menu['url']) ? \yii\helpers\Url::to($menu['url']) : '#',
+                'url' => isset($menu['url']) ? Url::to($menu['url']) : '#',
                 'items' => ($subitems) ? $subitems : (($navitems) ? $navitems : false),
                 'active' => false,
                 'options' => ['class' => ($disabled) ? 'disabled' : ''],

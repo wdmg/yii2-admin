@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Yii2 Admin panel for Butterfly.CMS
  *
  * @category        Module
- * @version         1.2.1
+ * @version         1.2.2
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 - 2021 W.D.M.Group, Ukraine
@@ -59,7 +59,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.2.1";
+    private $version = "1.2.2";
 
     /**
      * @var integer, priority of initialization
@@ -81,6 +81,8 @@ class Module extends BaseModule
         'wdmg/yii2-mailer',
         'wdmg/yii2-content',
         'wdmg/yii2-options',
+        'wdmg/yii2-catalog',
+        'wdmg/yii2-store',
         'wdmg/yii2-menu',
         'wdmg/yii2-pages',
         'wdmg/yii2-news',
@@ -106,6 +108,7 @@ class Module extends BaseModule
         'wdmg/yii2-terminal',
         'wdmg/yii2-robots',
         'wdmg/yii2-users',
+        'wdmg/yii2-profiles',
         'wdmg/yii2-views',
         'wdmg/yii2-votes',
     ];
@@ -168,7 +171,7 @@ class Module extends BaseModule
         ],*/ [
             'label' => 'Users',
             'icon' => 'fa fa-fw fa-users',
-            'items' => ['users', 'rbac'],
+            'items' => ['users', 'profiles', 'rbac'],
             'order' => 14,
         ], [
             'label' => 'Content',
@@ -188,6 +191,7 @@ class Module extends BaseModule
         ], [
             'label' => 'E-commerce',
             'icon' => 'fa fa-fw fa-shopping-bag',
+            'items' => ['catalog', 'store'],
             'order' => 9,
         ], [
             'label' => 'Feedbacks',

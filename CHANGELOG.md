@@ -1,7 +1,10 @@
 Changelog
 =========
 
-## 1.2.*
+## 1.2.2 (2021-02-14)
+ * Extended dashboard method `getSidebarMenuItems()` to render multi-menu
+ * Added support for yii2-catalog and yii2-store modules
+ * Added support for yii2-profiles module
  * Added comments widget
  * Menu and routes fixed
  
