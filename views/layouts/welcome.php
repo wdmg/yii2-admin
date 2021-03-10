@@ -29,12 +29,12 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
 </head>
 <body class="welcome <?= (YII_ENV_DEV) ? 'env-dev' : '' ?>">
     <?php $this->beginBody() ?>
+    <?php Pjax::begin([
+        'id' => 'authAjax',
+        'timeout' => 5000
+    ]); ?>
     <div class="container-fluid">
         <div class="row">
-            <?php Pjax::begin([
-                'id' => 'authAjax',
-                'timeout' => 10000
-            ]); ?>
             <?php if (isset($this->params['langs'])) {
                 $label = 'Language';
                 foreach ($this->params['langs'] as $lang) {
@@ -59,7 +59,6 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                 ]);
             } ?>
             <?= $content ?>
-            <?php Pjax::end(); ?>
         </div>
     </div>
     <footer class="footer">
@@ -77,6 +76,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
             </div>
         </div>
     </footer>
+    <?php Pjax::end(); ?>
     <?php $this->endBody() ?>
 </body>
 </html>

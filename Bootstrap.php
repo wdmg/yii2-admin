@@ -112,6 +112,12 @@ class Bootstrap extends BaseModule implements BootstrapInterface
                             'active'=> (Yii::$app->language == $locale['locale']) ? true : false,
                             'options' => [
                                 'class' => (Yii::$app->language == $locale['locale']) ? 'active' : false
+                            ],
+                            'linkOptions' => [
+                                'data' => [
+                                    'label' => $name,
+                                    'pjax' => 1
+                                ]
                             ]
                         ];
                     }
@@ -127,6 +133,12 @@ class Bootstrap extends BaseModule implements BootstrapInterface
                             'active'=> (Yii::$app->language == $locale) ? true : false,
                             'options' => [
                                 'class' => (Yii::$app->language == $locale) ? 'active' : false
+                            ],
+                            'linkOptions' => [
+                                'data' => [
+                                    'label' => $name,
+                                    'pjax' => 1
+                                ]
                             ]
                         ];
                     }

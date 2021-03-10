@@ -35,11 +35,11 @@ $(document).ready(function() {
     if ($welcomeScreen.find('#languageSelector').length > 0 || $dashboard.find('#languageSelector').length > 0) {
         var $languageSelector = $('#languageSelector');
         if ($languageSelector.find('.dropdown-menu > li.active').length > 0) {
-            var label = $languageSelector.find('.dropdown-menu > li.active > a').first().text();
+            var label = $languageSelector.find('.dropdown-menu > li.active > a').data('label');
             $languageSelector.find('.dropdown-toggle').html(label + ' <span class="caret"></span>');
         }
-        $body.delegate('#languageSelector .dropdown-menu > li > a', 'click', function () {
-            var label = $(this).text();
+        $body.delegate('#languageSelector .dropdown-menu > li > a', 'click', function() {
+            var label = $(this).data('label');
             $languageSelector.find('.dropdown-toggle').html(label + ' <span class="caret"></span>');
         });
 
@@ -160,6 +160,14 @@ $(document).ready(function() {
                 setTimeout(function () {
                     $requestProgress.hide();
                 }, 1200);
+            }
+
+            if ($welcomeScreen.find('#languageSelector').length > 0 || $dashboard.find('#languageSelector').length > 0) {
+                var $languageSelector = $('#languageSelector');
+                if ($languageSelector.find('.dropdown-menu > li.active').length > 0) {
+                    var label = $languageSelector.find('.dropdown-menu > li.active > a').data('label');
+                    $languageSelector.find('.dropdown-toggle').html(label + ' <span class="caret"></span>');
+                }
             }
 
             if (config.debug)

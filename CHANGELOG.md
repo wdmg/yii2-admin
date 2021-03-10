@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.2.*
+ * JS fixed for language switcher
+ 
 ## 1.2.2 (2021-02-14)
  * Extended dashboard method `getSidebarMenuItems()` to render multi-menu
  * Added support for yii2-catalog and yii2-store modules
