@@ -1161,7 +1161,12 @@ class AdminController extends Controller
         $rs = \sys_getloadavg();
         $interval = $interval >= 1 && 3 <= $interval ? $interval : 1;
         $load = floatval($rs[$interval]);
-        $load_avg = ($load * 100) / intval($coreCount);
+
+        if (intval($coreCount) !== 0)
+            $load_avg = ($load * 100) / intval($coreCount);
+        else
+            $load_avg = 0;
+
         return round($load_avg, 2);
     }
 
