@@ -1090,6 +1090,18 @@ body {
 .dashboard {
   margin-bottom: (42px + ($padding-base-vertical*2));
   .navbar {
+   &.navbar-inverse {
+      background: #222222;
+      background: -webkit-linear-gradient(to right, #1a2538, #222222);
+      background: linear-gradient(to right, #1a2538, #222222);
+      .navbar-nav > li > a {
+        color: #a4b4cd;
+        &:hover,
+        &:focus {
+          color: #f2f2f2;
+        }
+      }
+    }
     &:before {
       position: absolute;
       display: block;
