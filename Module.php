@@ -83,6 +83,7 @@ class Module extends BaseModule
         'wdmg/yii2-options',
         'wdmg/yii2-catalog',
         'wdmg/yii2-store',
+        'wdmg/yii2-billing',
         'wdmg/yii2-menu',
         'wdmg/yii2-pages',
         'wdmg/yii2-news',
@@ -191,7 +192,7 @@ class Module extends BaseModule
         ], [
             'label' => 'E-commerce',
             'icon' => 'fa fa-fw fa-shopping-bag',
-            'items' => ['catalog', 'store'],
+            'items' => ['catalog', 'store', 'billing'],
             'order' => 9,
         ], [
             'label' => 'Feedbacks',

@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.2.*
+ * Add support for yii2-billing
  * JS fixed for language switcher
  
 ## 1.2.2 (2021-02-14)
