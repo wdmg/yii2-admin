@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.2.*
+ * Multiple Sign In`s and logoffs by session timeout
  * Add support for yii2-billing
  * JS fixed for language switcher
  

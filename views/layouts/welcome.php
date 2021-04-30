@@ -3,6 +3,7 @@
 /* @var $this \yii\web\View */
 /* @var $content string */
 
+use app\widgets\Alert;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Pjax;
@@ -58,7 +59,8 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
                     ]
                 ]);
             } ?>
-            <?= $content ?>
+            <?= Alert::widget(); ?>
+            <?= $content; ?>
         </div>
     </div>
     <footer class="footer">

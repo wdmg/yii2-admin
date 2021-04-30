@@ -281,6 +281,16 @@ class Module extends BaseModule
     public $menuShowDisabled = false;
 
     /**
+     * @var bool, of allow to multi Sign In
+     */
+    public $multiSignIn = false; // not allow by default
+
+    /**
+     * @var integer, session timeout in sec. of auth (where `0` is unlimited)
+     */
+    public $sessionTimeout = 60 * 15; // 15 min.
+
+    /**
      * @var array, support system languages
      */
     private $locales = [

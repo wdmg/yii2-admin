@@ -43,7 +43,9 @@
       "rememberDuration": 86400,
       "resetTokenExpire": 3600,
       "supportEmail": "noreply@example.com",
-      "menuShowDisabled": false
+      "menuShowDisabled": false,
+      "multiSignIn": false,
+      "sessionTimeout": 900
     }
   }
 }

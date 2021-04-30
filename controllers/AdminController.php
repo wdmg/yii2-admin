@@ -538,10 +538,30 @@ class AdminController extends Controller
         if (!Yii::$app->user->isGuest)
             return $this->redirect(['admin/index']);
 
+        // Get remember duration
+        if (isset(Yii::$app->params['admin.rememberDuration'])) {
+
+            if (Yii::$app->hasModule('admin/users'))
+                $module = Yii::$app->getModule('admin/users');
+            else
+                $module = Yii::$app->getModule('users');
+
+            $rememberDuration = Yii::$app->params['admin.rememberDuration'];
+            $module->rememberDuration = intval($rememberDuration);
+
+            if (isset(Yii::$app->params['admin.multiSignIn']))
+                $module->multiSignIn = intval(Yii::$app->params['admin.multiSignIn']);
+
+            if (isset(Yii::$app->params['admin.sessionTimeout']))
+                $module->sessionTimeout = intval(Yii::$app->params['admin.sessionTimeout']);
+
+        }
+
         $model = new UsersSignin();
         if ($model->load(Yii::$app->request->post())) {
 
             Yii::$app->user->on(\yii\web\User::EVENT_AFTER_LOGIN, function($e) {
+
                 // Log activity
                 if (isset(Yii::$app->components['activity'])) {
                     $username = Yii::$app->user->identity->username;
@@ -550,19 +570,6 @@ class AdminController extends Controller
             });
 
             try {
-
-                // Set remember duration
-                if (isset(Yii::$app->params['admin.rememberDuration'])) {
-
-                    if (Yii::$app->hasModule('admin/users'))
-                        $module = Yii::$app->getModule('admin/users');
-                    else
-                        $module = Yii::$app->getModule('users');
-
-                    $rememberDuration = Yii::$app->params['admin.rememberDuration'];
-                    $module->rememberDuration = $rememberDuration;
-                }
-
                 if ($model->login()) {
                     return $this->redirect(['admin/index']);
                 } else {
@@ -572,7 +579,6 @@ class AdminController extends Controller
                         Yii::$app->activity->set('An error occurred while user `'.$username.'` has attempt login. Wrong password.', 'login', 'danger', 2);
                     }
                 }
-
             } catch (\DomainException $error) {
                 Yii::$app->session->setFlash('error', $error->getMessage());
                 return $this->redirect(['admin/login']);
