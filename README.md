@@ -47,7 +47,9 @@ To add a module to the project, add the following data in your configuration fil
             'class' => 'wdmg\admin\Module',
             'routePrefix' => 'admin',
             'checkForUpdates' => true, // boolean, the flag if updates check turn on
-            'cacheExpire' => 3600 // integer, the time to expire cache
+            'cacheExpire' => 3600, // integer, the time to expire cache
+            'multiSignIn' => false, // not allow by default
+            'sessionTimeout' => 900, // 15 min.
         ],
         ...
     ],
