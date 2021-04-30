@@ -88,6 +88,27 @@ class AdminController extends Controller
      */
     public function beforeAction($action)
     {
+
+        if (Yii::$app->hasModule('admin/users'))
+            $module = Yii::$app->getModule('admin/users');
+        else
+            $module = Yii::$app->getModule('users');
+
+        if ($module && isset(Yii::$app->params['admin.rememberDuration'])) {
+            $module->rememberDuration = intval(Yii::$app->params['admin.rememberDuration']);
+            Yii::$app->params['users.rememberDuration'] = $module->rememberDuration;
+        }
+
+        if ($module && isset(Yii::$app->params['admin.multiSignIn'])) {
+            $module->multiSignIn = intval(Yii::$app->params['admin.multiSignIn']);
+            Yii::$app->params['users.multiSignIn'] = $module->multiSignIn;
+        }
+
+        if ($module && isset(Yii::$app->params['admin.sessionTimeout'])) {
+            $module->sessionTimeout = intval(Yii::$app->params['admin.sessionTimeout']);
+            Yii::$app->params['users.sessionTimeout'] = $module->sessionTimeout;
+        }
+        
         return parent::beforeAction($action);
     }
 
@@ -537,25 +558,6 @@ class AdminController extends Controller
 
         if (!Yii::$app->user->isGuest)
             return $this->redirect(['admin/index']);
-
-        // Get remember duration
-        if (isset(Yii::$app->params['admin.rememberDuration'])) {
-
-            if (Yii::$app->hasModule('admin/users'))
-                $module = Yii::$app->getModule('admin/users');
-            else
-                $module = Yii::$app->getModule('users');
-
-            $rememberDuration = Yii::$app->params['admin.rememberDuration'];
-            $module->rememberDuration = intval($rememberDuration);
-
-            if (isset(Yii::$app->params['admin.multiSignIn']))
-                $module->multiSignIn = intval(Yii::$app->params['admin.multiSignIn']);
-
-            if (isset(Yii::$app->params['admin.sessionTimeout']))
-                $module->sessionTimeout = intval(Yii::$app->params['admin.sessionTimeout']);
-
-        }
 
         $model = new UsersSignin();
         if ($model->load(Yii::$app->request->post())) {
