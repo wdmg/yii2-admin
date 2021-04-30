@@ -108,7 +108,7 @@ class AdminController extends Controller
             $module->sessionTimeout = intval(Yii::$app->params['admin.sessionTimeout']);
             Yii::$app->params['users.sessionTimeout'] = $module->sessionTimeout;
         }
-        
+
         return parent::beforeAction($action);
     }
 

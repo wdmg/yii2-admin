@@ -17,7 +17,74 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="admin-index">
     <div class="row flex-row">
-
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-default">
+                <div class="panel-body">
+                    Default panel example
+                    <span class="count">99+</span>
+                    <span class="icon">
+                        <em class="fa fa-shopping-bag"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-primary">
+                <div class="panel-body">
+                    Primary panel example
+                    <span class="count">99+</span>
+                    <span class="icon">
+                        <em class="fa fa-shopping-bag"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-success">
+                <div class="panel-body">
+                    Success panel example
+                    <span class="count">99+</span>
+                    <span class="icon">
+                        <em class="fa fa-shopping-bag"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-info">
+                <div class="panel-body">
+                    Info panel example
+                    <span class="count">99+</span>
+                    <span class="icon">
+                        <em class="fa fa-shopping-bag"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-warning">
+                <div class="panel-body">
+                    Warning panel example
+                    <span class="count">99+</span>
+                    <span class="icon">
+                        <em class="fa fa-shopping-bag"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-danger">
+                <div class="panel-body">
+                    Danger panel example
+                    <span class="count">99+</span>
+                    <span class="icon">
+                        <em class="fa fa-shopping-bag"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row flex-row">
     <?php
         if ($intance = $module->moduleLoaded('admin/pages', true)) {
     ?>
