@@ -29,6 +29,8 @@ $brand-warning:         #f7b53e !default;
 //$brand-danger:          #d9534f !default;
 //$brand-danger:          #ff5f57 !default;
 $brand-danger:          #ec5852 !default;
+$brand-violet: #ae44ec !default;
+$brand-pink: #ec3a92 !default;
 
 //== Scaffolding
 //
@@ -1497,67 +1499,167 @@ body {
 
   .panel {
     &.panel-counter {
-      display: flex;
+      display: inline-flex;
+      flex-direction: column;
       min-height: 164px;
       font-size: 1.65rem;
       border: none;
       border-radius: 6px !important;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16), 0 8px 6px rgba(0, 0, 0, 0.08);
-      transition: box-shadow 0.5s cubic-bezier(.25, .8, .25, 1);
+      transition: margin-top 0.3s linear, box-shadow 0.5s cubic-bezier(.25, .8, .25, 1);
+      margin-top: 0px;
       margin-bottom: 30px;
       &.panel-default {
         @extend .panel-default;
         color: $text-color;
         background-color: $gray-lighter;
         background-image: linear-gradient(to bottom, $gray-lighter 0%, darken($gray-lighter, 18%) 100%);
+        text-shadow: 1px 1px rgba($gray-lighter, .24);
+        .panel-heading {
+          color: $text-color;
+        }
       }
       &.panel-primary {
         @extend .panel-primary;
         color: $body-bg;
         background-color: $brand-primary;
         background-image: linear-gradient(to bottom, $brand-primary 0%, darken($brand-primary, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($brand-primary, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
       }
       &.panel-success {
         @extend .panel-success;
         color: $body-bg;
         background-color: $brand-success;
         background-image: linear-gradient(to bottom, $brand-success 0%, darken($brand-success, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($brand-success, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
       }
       &.panel-info {
         @extend .panel-info;
         color: $body-bg;
         background-color: $brand-info;
         background-image: linear-gradient(to bottom, $brand-info 0%, darken($brand-info, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($brand-info, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
       }
       &.panel-warning {
         @extend .panel-warning;
         color: $body-bg;
         background-color: $brand-warning;
         background-image: linear-gradient(to bottom, $brand-warning 0%, darken($brand-warning, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($brand-warning, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
       }
       &.panel-danger {
         @extend .panel-danger;
         color: $body-bg;
         background-color: $brand-danger;
         background-image: linear-gradient(to bottom, $brand-danger 0%, darken($brand-danger, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($brand-danger, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
+      }
+      &.panel-violet {
+        @extend .panel-danger;
+        color: $body-bg;
+        background-color: $brand-violet;
+        background-image: linear-gradient(to bottom, $brand-violet 0%, darken($brand-violet, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($brand-violet, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
+      }
+      &.panel-pink {
+        @extend .panel-danger;
+        color: $body-bg;
+        background-color: $brand-pink;
+        background-image: linear-gradient(to bottom, $brand-pink 0%, darken($brand-pink, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($brand-pink, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
+      }
+      &.panel-dark {
+        @extend .panel-danger;
+        color: $body-bg;
+        background-color: $text-muted;
+        background-image: linear-gradient(to bottom, $text-muted 0%, darken($text-color, 18%) 100%);
+        text-shadow: 1px 1px rgba(darken($body-bg, 80%), .24);
+        .panel-heading {
+          color: $body-bg;
+        }
+      }
+      .panel-heading {
+        display: inline-flex;
+        color: initial;
+        background: none !important;
+        background-color: none !important;
+        border: none !important;
+        margin-bottom: auto !important;
+        font-size: 1.82rem;
+        padding-right: 5px;
+        padding-bottom: 0;
+        .btn {
+          padding: 5px 10px;
+          margin-left: auto;
+          opacity: 0.6;
+          color: inherit;
+          min-width: 12px;
+          text-shadow: none;
+          &:hover, &:focus {
+            opacity: 0.8;
+          }
+        }
+        .btn + .btn {
+          margin-left: 0px;
+        }
       }
       .panel-body {
         position: relative;
         display: flex;
-        flex-flow: row wrap;
+        flex-direction: column;
         padding-top: 10px;
         width: 100%;
-        overflow: hidden;
+        overflow: visible;
         z-index: 1;
         .count {
+          position: relative;
           display: inline-flex;
           margin-top: auto;
           margin-left: auto;
           font-size: 5.25rem;
-          //font-family: "Roboto Light";
+          line-height: 4.75rem;
+          &.subcount {
+            font-size: 2.25rem;
+            line-height: 2.5rem;
+          }
+          &.total {
+            padding-right: 3px;
+            font-size: 1.5rem;
+            line-height: 2rem;
+          }
+        }
+        .count[data-label] {
+          &:before {
+            position: relative;
+            content: attr(data-label);
+            padding-right: 6px;
+            font-size: 1.25rem;
+          }
         }
         .icon {
           position: absolute;
+          text-shadow: none;
           opacity: 0.16;
           pointer-events: none;
           left: 15px;
@@ -1567,6 +1669,8 @@ body {
         }
       }
       &:hover {
+        margin-top: -5px;
+        margin-bottom: 25px;
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22), 0 10px 10px rgba(0, 0, 0, 0.16);
       }
     }
@@ -1575,7 +1679,8 @@ body {
       border: none !important;
       border-radius: 6px !important;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16), 0 8px 6px rgba(0, 0, 0, 0.08);
-      transition: box-shadow 0.5s cubic-bezier(.25, .8, .25, 1);
+      transition: margin-top 0.3s linear, box-shadow 0.5s cubic-bezier(.25, .8, .25, 1);
+      margin-top: 0px;
       margin-bottom: 30px;
       .panel-heading {
         font-size: 1.64rem;
@@ -1613,6 +1718,8 @@ body {
         border-radius: 0px 0px 6px 6px;
       }
       &:hover {
+        margin-top: -5px;
+        margin-bottom: 25px;
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22), 0 10px 10px rgba(0, 0, 0, 0.16);
       }
     }

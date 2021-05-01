@@ -2,6 +2,7 @@
 
 namespace wdmg\admin\controllers;
 
+use wdmg\helpers\StringHelper;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -125,6 +126,27 @@ class AdminController extends Controller
             return $this->redirect(['admin/login']);
         } else {
 
+            // Dashboard counter`s
+            if ($this->module->moduleLoaded('admin/users'))
+                $counters['users'] = $this->getNewUsersCount();
+
+            if ($this->module->moduleLoaded('admin/store'))
+                $counters['orders'] = $this->getNewOrdersCount();
+
+            if ($this->module->moduleLoaded('admin/comments') || $this->module->moduleLoaded('admin/reviews')) {
+                $counters['comments_and_reviews'] = $this->getNewCommentsCount();
+            }
+
+            if ($this->module->moduleLoaded('admin/billing'))
+                $counters['transactions'] = $this->getNewTransactionsCount();
+
+            if ($this->module->moduleLoaded('admin/newsletters'))
+                $counters['newsletters'] = $this->getNewNewslettersCount();
+
+            if ($this->module->moduleLoaded('admin/subscribers'))
+                $counters['subscribers'] = $this->getNewSubscribersCount();
+
+            // Dashboard widget`s
             if ($this->module->moduleLoaded('admin/pages'))
                 $widgets['recentPages'] = $this->getRecentPages();
 
@@ -150,6 +172,7 @@ class AdminController extends Controller
 
             return $this->render('index', [
                 'module' => $this->module,
+                'counters' => (isset($counters)) ? $counters : [],
                 'widgets' => (isset($widgets)) ? $widgets : []
             ]);
         }
@@ -1451,4 +1474,58 @@ class AdminController extends Controller
 
         return $data;
     }
+
+
+    private function getNewUsersCount() {
+        $counts = \wdmg\users\models\Users::getStatsCount(true, true);
+        return [
+            'count' => ($counts['count']) ? "+" . $counts['count'] : "0",
+            'online' => ($counts['online']) ? $counts['online'] : "n/a",
+            'total' => ($counts['total']) ? $counts['total'] : "n/a",
+        ];
+    }
+
+    private function getNewOrdersCount() {
+        $counts = \wdmg\store\models\Orders::getStatsCount(true);
+        return [
+            'count' => ($counts['count']) ? "+" . $counts['count'] : "0",
+            'total' => ($counts['total']) ? $counts['total'] : "n/a",
+        ];
+    }
+
+    private function getNewCommentsCount() {
+        $counts = \wdmg\comments\models\Comments::getStatsCount(true);
+        $counts2 = \wdmg\reviews\models\Reviews::getStatsCount(true);
+        return [
+            'count' => ($counts['count'] || $counts2['count']) ? "+" . intval($counts['count']) + intval($counts2['count']) : "0",
+            'comments' => ($counts['total']) ? $counts['total'] : "n/a",
+            'reviews' => ($counts2['total']) ? $counts2['total'] : "n/a",
+            'total' => ($counts['total'] || $counts2['total']) ? intval($counts['total']) + intval($counts2['total']) : "n/a"
+        ];
+    }
+
+    private function getNewTransactionsCount() {
+        $counts = \wdmg\billing\models\Transactions::getStatsCount(true);
+        return [
+            'count' => ($counts['count']) ? "+" . $counts['count'] : "0",
+            'total' => ($counts['total']) ? $counts['total'] : "n/a",
+        ];
+    }
+
+    private function getNewNewslettersCount() {
+        $counts = \wdmg\newsletters\models\Newsletters::getStatsCount(true);
+        return [
+            'count' => ($counts['count']) ? "+" . $counts['count'] : "0",
+            'total' => ($counts['total']) ? $counts['total'] : "n/a",
+        ];
+    }
+
+    private function getNewSubscribersCount() {
+        $counts = \wdmg\subscribers\models\Subscribers::getStatsCount(true);
+        return [
+            'count' => ($counts['count']) ? "+" . $counts['count'] : "0",
+            'total' => ($counts['total']) ? $counts['total'] : "n/a",
+        ];
+    }
+
 }

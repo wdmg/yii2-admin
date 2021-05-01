@@ -17,72 +17,175 @@ $this->params['breadcrumbs'][] = $this->title;
 </div>
 <div class="admin-index">
     <div class="row flex-row">
-        <div class="col-xs-12 col-sm-6 col-md-3">
-            <div class="panel panel-counter panel-default">
-                <div class="panel-body">
-                    Default panel example
-                    <span class="count">99+</span>
-                    <span class="icon">
-                        <em class="fa fa-shopping-bag"></em>
-                    </span>
-                </div>
-            </div>
-        </div>
+        <?php if (isset($counters['users'])) { ?>
         <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="panel panel-counter panel-primary">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/users', 'New users for the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
                 <div class="panel-body">
-                    Primary panel example
-                    <span class="count">99+</span>
+                    <span class="count"><?= $counters['users']['count']; ?></span>
+                    <span class="count subcount" data-label="online:"><?= $counters['users']['online']; ?></span>
+                    <span class="count total" data-label="total:"><?= $counters['users']['total']; ?></span>
                     <span class="icon">
-                        <em class="fa fa-shopping-bag"></em>
+                        <em class="fa fa-fw fa-users"></em>
                     </span>
                 </div>
             </div>
         </div>
+        <?php } ?>
+        <?php if (isset($counters['orders'])) { ?>
         <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="panel panel-counter panel-success">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/store', 'New orders for the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
                 <div class="panel-body">
-                    Success panel example
-                    <span class="count">99+</span>
+                    <span class="count"><?= $counters['orders']['count']; ?></span>
+                    <span class="count total" data-label="total:"><?= $counters['orders']['total']; ?></span>
                     <span class="icon">
-                        <em class="fa fa-shopping-bag"></em>
+                        <em class="fa fa-fw fa-shopping-bag"></em>
                     </span>
                 </div>
             </div>
         </div>
-        <div class="col-xs-12 col-sm-6 col-md-3">
-            <div class="panel panel-counter panel-info">
-                <div class="panel-body">
-                    Info panel example
-                    <span class="count">99+</span>
-                    <span class="icon">
-                        <em class="fa fa-shopping-bag"></em>
-                    </span>
-                </div>
-            </div>
-        </div>
+        <?php } ?>
+        <?php if (isset($counters['comments_and_reviews'])) { ?>
         <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="panel panel-counter panel-warning">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/comments', 'New comments and reviews for the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
                 <div class="panel-body">
-                    Warning panel example
-                    <span class="count">99+</span>
+                    <span class="count"><?= $counters['comments_and_reviews']['count']; ?></span>
+                    <span class="count total" data-label="comments:"><?= $counters['comments_and_reviews']['comments']; ?></span>
+                    <span class="count total" data-label="reviews:"><?= $counters['comments_and_reviews']['reviews']; ?></span>
                     <span class="icon">
-                        <em class="fa fa-shopping-bag"></em>
+                        <em class="fa fa-fw fa-comments"></em>
                     </span>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <?php if (isset($counters['transactions'])) { ?>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-danger">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/billing', 'Transactions made in the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <span class="count"><?= $counters['transactions']['count']; ?></span>
+                    <span class="count total" data-label="total:"><?= $counters['transactions']['total']; ?></span>
+                    <span class="icon">
+                        <em class="fa fa-fw fa-wallet"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <?php if (isset($counters['newsletters'])) { ?>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-default">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/newsletters', 'Mailings made in the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <span class="count"><?= $counters['newsletters']['count']; ?></span>
+                    <span class="count total" data-label="total:"><?= $counters['newsletters']['total']; ?></span>
+                    <span class="icon">
+                        <em class="fa fa-fw fa-mail-bulk"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <?php if (isset($counters['subscribers'])) { ?>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-info">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/subscribers', 'New subscribers in the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <span class="count"><?= $counters['subscribers']['count']; ?></span>
+                    <span class="count total" data-label="total:"><?= $counters['subscribers']['total']; ?></span>
+                    <span class="icon">
+                        <em class="fa fa-fw fa-address-card"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <!--
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-pink">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/admin', 'Panel heading title') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <span class="count">+99</span>
+                    <span class="count total" data-label="total:">1.2K</span>
+                    <span class="icon">
+                    <em class="fa fa-fw fa-address-card"></em>
+                </span>
                 </div>
             </div>
         </div>
         <div class="col-xs-12 col-sm-6 col-md-3">
-            <div class="panel panel-counter panel-danger">
+            <div class="panel panel-counter panel-violet">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/admin', 'Panel heading title') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
                 <div class="panel-body">
-                    Danger panel example
-                    <span class="count">99+</span>
+                    <span class="count">+99</span>
+                    <span class="count total" data-label="total:">1.2K</span>
                     <span class="icon">
-                        <em class="fa fa-shopping-bag"></em>
-                    </span>
+                    <em class="fa fa-fw fa-address-card"></em>
+                </span>
                 </div>
             </div>
         </div>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-dark">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/admin', 'Panel heading title') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <span class="count">+99</span>
+                    <span class="count total" data-label="total:">1.2K</span>
+                    <span class="icon">
+                    <em class="fa fa-fw fa-address-card"></em>
+                </span>
+                </div>
+            </div>
+        </div>
+        -->
     </div>
     <div class="row flex-row">
     <?php

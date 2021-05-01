@@ -133,6 +133,14 @@ return [
 
     'View all' => "Смотреть всё",
 
+    'New user registrations in the last day' => "    Регистрации новых пользователей за последний день
+",
+    'New orders placed in the last day' => "Размещенно новых заказов за последний день",
+    'New comments and reviews in the last day' => "Ставлено комментариев и отзывов за последний день",
+    'New billing transactions for the last day' => "Осуществлено биллинг трансакций за последний день",
+    'New email newsletters mail for the last day' => "Разослано писем по эл. почте за последний день",
+    'New subscribers to publications in the last day' => "Подписчики на публикации за последний день",
+
     'OK! Module `{module}` successfully deleted.' => "OK! Модуль `{module}` успешно удалён.",
     'An error occurred while deleting a module `{module}`.' => "Произошла ошибка при удалении модуля `{module}`.",
 
