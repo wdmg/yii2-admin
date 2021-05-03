@@ -94,25 +94,19 @@
                     <animateTransform
                             id="anim11"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="0 164.41 214.43"
                             to="6 164.41 214.43"
-                            begin="2.3s; anim12.end"
-                            dur="5.7s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="2.3s;anim12.end"
+                            dur="5.7s" />
                     <animateTransform
                             id="anim12"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="6 164.41 214.43"
                             to="0 164.41 214.43"
                             begin="anim11.end"
-                            dur="5.5s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            dur="5.5s" />
                 </path>
                 <use fill="black" fill-opacity="1" filter="url(#filterGradient3)" xlink:href="#rigth-c1-path"></use>
                 <use fill="#000000" xlink:href="#rigth-c1-path"></use>
@@ -124,25 +118,19 @@
                     <animateTransform
                             id="anim9"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="0 155.86 214.4"
                             to="-6 155.86 214.4"
-                            begin="2.2s; anim10.end"
-                            dur="6s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="2.2s;anim10.end"
+                            dur="6s" />
                     <animateTransform
                             id="anim10"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="-6 155.86 214.4"
                             to="0 155.86 214.4"
                             begin="anim9.end"
-                            dur="6s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            dur="6s" />
                 </path>
                 <use fill="black" fill-opacity="1" filter="url(#filterGradient3)" xlink:href="#left-c1-path"></use>
                 <use fill="#000000" xlink:href="#left-c1-path"></use>
@@ -154,25 +142,19 @@
                     <animateTransform
                             id="anim7"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="0 164.43 207.86"
                             to="8 164.43 207.86"
-                            begin="2s; anim8.end"
-                            dur="8s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="2s;anim8.end + 1s"
+                            dur="8s" />
                     <animateTransform
                             id="anim8"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="8 164.43 207.86"
                             to="0 164.43 207.86"
-                            begin="anim7.end + 1s"
-                            dur="6s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="anim7.end"
+                            dur="6s" />
                 </path>
                 <use fill="black" fill-opacity="1" filter="url(#filterGradient2)" xlink:href="#right-b1-path"></use>
                 <use fill="#000000" xlink:href="#right-b1-path"></use>
@@ -184,25 +166,19 @@
                     <animateTransform
                             id="anim5"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="0 156.15 207.42"
                             to="-4 156.15 207.42"
-                            begin="3s; anim6.end"
-                            dur="6s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="3s;anim6.end"
+                            dur="6s" />
                     <animateTransform
                             id="anim6"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="-4 156.15 207.42"
                             to="0 156.15 207.42"
                             begin="anim5.end"
-                            dur="8s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            dur="8s" />
                 </path>
                 <use fill="black" fill-opacity="1" filter="url(#filterGradient2)" xlink:href="#left-b1-path"></use>
                 <use fill="#000000" xlink:href="#left-b1-path"></use>
@@ -214,25 +190,19 @@
                     <animateTransform
                             id="anim3"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="0 164.43 207.86"
                             to="6 164.43 207.86"
-                            begin="2s; anim4.end"
-                            dur="6s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="2s;anim4.end + 1s"
+                            dur="6s" />
                     <animateTransform
                             id="anim4"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="6 164.43 207.86"
                             to="0 164.43 207.86"
-                            begin="anim3.end + 1s"
-                            dur="4s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="anim3.end"
+                            dur="4s" />
                 </path>
                 <use fill="black" fill-opacity="1" filter="url(#filterGradient1)" xlink:href="#right-a1-path"></use>
                 <use fill="#000000" xlink:href="#right-a1-path"></use>
@@ -245,25 +215,19 @@
                     <animateTransform
                             id="anim1"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="0 156.15 207.42"
                             to="-5 156.15 207.42"
-                            begin="3s; anim2.end + 2s"
-                            dur="4s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            begin="3s;anim2.end + 2s"
+                            dur="4s" />
                     <animateTransform
                             id="anim2"
                             attributeName="transform"
-                            attributeType="x"
                             type="rotate"
                             from="-5 156.15 207.42"
                             to="0 156.15 207.42"
                             begin="anim1.end"
-                            dur="6s"
-                            restart="whenNotActive"
-                            fill="freeze" />
+                            dur="6s" />
                 </path>
                 <use fill="black" fill-opacity="1" filter="url(#filterGradient1)" xlink:href="#left-a1-path"></use>
                 <use fill="#000000" xlink:href="#left-a1-path"></use>
