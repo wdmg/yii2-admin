@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.2.*
+ * Animated logotype for Welcome screen
  * Added counter widgets to Dashboard
  * Multiple Sign In`s and logoffs by session timeout
  * Add support for yii2-billing
