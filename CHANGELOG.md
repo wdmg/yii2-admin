@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.2.*
+## 1.3.0 (2021-05-04)
+ * Public properties for expanding the list of language locales, list of modules available for install and setup, sidebar and creation menu list
  * Animated logotype for Welcome screen
  * Added counter widgets to Dashboard
  * Multiple Sign In`s and logoffs by session timeout

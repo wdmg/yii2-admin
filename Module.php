@@ -3,10 +3,10 @@
 namespace wdmg\admin;
 
 /**
- * Yii2 Admin panel for Butterfly.CMS
+ * Admin dashboard for Butterfly.CMS
  *
  * @category        Module
- * @version         1.2.2
+ * @version         1.3.0
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 - 2021 W.D.M.Group, Ukraine
@@ -16,7 +16,7 @@ namespace wdmg\admin;
 
 use Yii;
 use wdmg\base\BaseModule;
-use yii\helpers\ArrayHelper;
+use wdmg\helpers\ArrayHelper;
 
 /**
  * api module definition class
@@ -57,14 +57,42 @@ class Module extends BaseModule
     public $supportEmail = 'noreply@example.com';
 
     /**
+     * @var array, expanding the list of language locales for searching translations
+     */
+    public $customLocales = [];
+
+    /**
+     * @var array, expanding the list of modules available for installation and download
+     */
+    public $customSupportModules = [];
+
+    /**
+     * @var array, extending the sidebar menu list
+     */
+    public $customSidebarMenu = [];
+
+    /**
+     * @var array, expanding the creation menu list
+     */
+    public $customCreateMenu = [];
+
+    /**
      * @var string the module version
      */
-    private $version = "1.2.2";
+    private $version = "1.3.0";
 
     /**
      * @var integer, priority of initialization
      */
     private $priority = 0;
+
+    /**
+     * @var array, support system languages
+     */
+    private $locales = [
+        'en-US' => 'English',
+        'ru-RU' => 'Русский',
+    ];
 
     /**
      * @var array of support modules
@@ -291,14 +319,6 @@ class Module extends BaseModule
     public $sessionTimeout = 60 * 15; // 15 min.
 
     /**
-     * @var array, support system languages
-     */
-    private $locales = [
-        'en-US' => 'English',
-        'ru-RU' => 'Русский',
-    ];
-
-    /**
      * {@inheritdoc}
      */
     public function init()
@@ -312,6 +332,7 @@ class Module extends BaseModule
         $this->setPriority($this->priority);
 
         if (!Yii::$app instanceof \yii\console\Application) {
+
             // Set authorization route
             Yii::$app->user->loginUrl = ['admin/login'];
 
@@ -339,21 +360,21 @@ class Module extends BaseModule
     }
 
     /**
-     * Return list of support modules
-     * @return array of modules vendor/name
-     */
-    public function getSupportModules()
-    {
-        return $this->support;
-    }
-
-    /**
      * Return list of support languages
      * @return array of locales
      */
     public function getSupportLanguages()
     {
-        return $this->locales;
+        return ArrayHelper::merge((is_array($this->customLocales) ? $this->customLocales : []), $this->locales);
+    }
+
+    /**
+     * Return list of support modules
+     * @return array of modules vendor/name
+     */
+    public function getSupportModules()
+    {
+        return ArrayHelper::merge((is_array($this->customSupportModules) ? $this->customSupportModules : []), $this->support);
     }
 
     /**
@@ -362,7 +383,7 @@ class Module extends BaseModule
      */
     public function getMenuItems()
     {
-        return $this->menu;
+        return ArrayHelper::merge((is_array($this->customSidebarMenu) ? $this->customSidebarMenu : []), $this->menu);
     }
 
     /**
@@ -371,7 +392,7 @@ class Module extends BaseModule
      */
     public function getCreateMenuItems()
     {
-        return $this->createMenu;
+        return ArrayHelper::merge((is_array($this->customCreateMenu) ? $this->customCreateMenu : []), $this->createMenu);
     }
 
     /**

@@ -50,6 +50,26 @@ To add a module to the project, add the following data in your configuration fil
             'cacheExpire' => 3600, // integer, the time to expire cache
             'multiSignIn' => false, // not allow by default
             'sessionTimeout' => 900, // 15 min.
+            'customLocales' => [ // expanding the list of language locales for searching translations
+                'uk-UA' => 'Українська',
+            ],
+            'customSupportModules' => [ // expanding the list of modules available for installation and download
+                'wdmg/yii2-example',
+            ],
+            'customSidebarMenu' => [ // extending the sidebar menu list
+                [
+                    'label' => 'Example',
+                    'icon' => 'fa fa-fw fa-bars',
+                    'url' => ['/admin/example/default'],
+                    'order' => 10,
+                ]
+            ],
+            'customCreateMenu' => [ // expanding the creation menu list
+                'wdmg/yii2-example' => [
+                    'label' => 'Add new example',
+                    'url' => ['/admin/example/default/create']
+                ]
+            ]
         ],
         ...
     ],
@@ -76,6 +96,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.3.0 - Multiple Sign In and session timeout, added counter widgets, expanding list language locales, modules and dashboard menu
 * v.1.2.1 - Hot keys for pagination, support for Menu module
 * v.1.2.0 - Gulp workflow. Process info refactoring, `phpinfo()` in modal
 * v.1.1.28 - Fixed jQuery version on v3.5.1, rebuild assets

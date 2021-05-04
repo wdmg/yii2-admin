@@ -91,6 +91,23 @@ class Bootstrap extends BaseModule implements BootstrapInterface
             \yii\base\Event::on(\yii\base\Controller::class, \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
 
                 $langs = [];
+
+                // Get custom locales from params
+                if (isset(Yii::$app->params['admin.customLocales']))
+                    $this->_module->customLocales = Yii::$app->params['admin.customLocales'];
+
+                // Get custom list of support modules from params
+                if (isset(Yii::$app->params['admin.customSupportModules']))
+                    $this->_module->customSupportModules = Yii::$app->params['admin.customSupportModules'];
+
+                // Get custom list of sidebar menu from params
+                if (isset(Yii::$app->params['admin.customSidebarMenu']))
+                    $this->_module->customSidebarMenu = Yii::$app->params['admin.customSidebarMenu'];
+
+                // Get custom list of create menu from params
+                if (isset(Yii::$app->params['admin.customCreateMenu']))
+                    $this->_module->customCreateMenu = Yii::$app->params['admin.customCreateMenu'];
+
                 $locales = $this->_module->getSupportLanguages();
                 if ($translations) {
 
