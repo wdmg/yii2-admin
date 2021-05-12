@@ -495,7 +495,7 @@ function getDsnAttribute($name, $dsn) {
             'class' => 'btn btn-info',
             'data' => [
                 'toggle' => "modal",
-                'target' => "#getPhpInfo"
+                'target' => "#getPhpInfoModal"
             ]
         ]) ?>
         <?= Html::a(Yii::t('app/modules/admin', 'Run `phpinfo()` for CLI'), [
@@ -505,7 +505,7 @@ function getDsnAttribute($name, $dsn) {
             'class' => 'btn btn-warning',
             'data' => [
                 'toggle' => "modal",
-                'target' => "#getPhpInfo"
+                'target' => "#getPhpInfoModal"
             ]
         ]) ?>
     </div>
@@ -532,10 +532,19 @@ $this->registerJs(<<< JS
                 let iframe = $('<iframe />').attr('srcdoc', data);
                 iframe.attr('width', '100%').attr('height', '640px');
                 $(target).find('.modal-body').html($(iframe));
+                
                 if ($(data).find('.modal-footer').length > 0) {
                     $(target).find('.modal-footer').remove();
                     $(target).find('.modal-content').append($(data).find('.modal-footer'));
                 }
+                
+                if ($(target).find('button[type="submit"]').length > 0 && $(target).find('form').length > 0) {
+                    $(target).find('button[type="submit"]').on('click', function(event) {
+                        event.preventDefault();
+                        $(target).find('form').submit();
+                    });
+                }
+                
                 $(target).modal();
             }
         );
@@ -543,7 +552,7 @@ $this->registerJs(<<< JS
 JS
 ); ?>
 <?php Modal::begin([
-    'id' => 'getPhpInfo',
+    'id' => 'getPhpInfoModal',
     'header' => '<h4 class="modal-title">'.Yii::t('app/modules/admin', 'PHP Info').'</h4>',
     'footer' => '<a href="#" class="btn btn-primary" data-dismiss="modal">'.Yii::t('app/modules/admin', 'Close').'</a>',
     'size' => "modal-lg",

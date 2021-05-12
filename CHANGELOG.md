@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.3.*
+ * Show modal call fixed
+
 ## 1.3.0 (2021-05-04)
  * Public properties for expanding the list of language locales, list of modules available for install and setup, sidebar and creation menu list
  * Animated logotype for Welcome screen
