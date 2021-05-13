@@ -209,6 +209,7 @@ return [
     'Translate' => 'Перевод',
 
     'DataBase Status' => 'СУБД',
+    'Sphinx Search' => 'Sphinx поиск',
 ];
 
 ?>

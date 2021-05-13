@@ -256,6 +256,27 @@ function getDsnAttribute($name, $dsn) {
             </div>
         </div>
     </div>
+
+<?php if (isset($data['sphinx'])) { ?>
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h5 class="panel-title">
+                <a data-toggle="collapse" href="#phinxStatus">
+                    <?= Yii::t('app/modules/admin', "Sphinx Search") ?>
+                </a>
+            </h5>
+        </div>
+        <div id="phinxStatus" class="panel-collapse collapse">
+            <div class="panel-body">
+                <?= DetailView::widget([
+                    'model' => $data['sphinx'],
+                    'attributes' => array_keys($data['sphinx'])
+                ]); ?>
+            </div>
+        </div>
+    </div>
+<?php } ?>
+
     <div class="panel panel-default">
         <div class="panel-heading">
             <h5 class="panel-title">

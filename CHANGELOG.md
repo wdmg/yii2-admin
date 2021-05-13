@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.3.*
+## 1.3.1 (2021-05-13)
+ * Sphinx Search configuration and support
  * Show modal call fixed
 
 ## 1.3.0 (2021-05-04)

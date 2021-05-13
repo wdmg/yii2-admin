@@ -69,6 +69,14 @@ To add a module to the project, add the following data in your configuration fil
                     'label' => 'Add new example',
                     'url' => ['/admin/example/default/create']
                 ]
+            ],
+            'useSphinxSearch' => true, // boolean, the flag for configuration Sphinx Search
+            'sphinxSearchConf' => [ // configuration of Sphinx Search daemon
+                'dsn' => "mysql",
+                'host' => "127.0.0.1",
+                'port' => "9306",
+                'username' => "",
+                'password' => "",
             ]
         ],
         ...
@@ -96,6 +104,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.3.1 - Sphinx Search configuration and support
 * v.1.3.0 - Multiple Sign In and session timeout, added counter widgets, expanding list language locales, modules and dashboard menu
 * v.1.2.1 - Hot keys for pagination, support for Menu module
 * v.1.2.0 - Gulp workflow. Process info refactoring, `phpinfo()` in modal

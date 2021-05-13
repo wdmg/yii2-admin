@@ -1495,6 +1495,23 @@ body {
         }
       }
     }
+    &.panel-primary,
+    &.panel-success,
+    &.panel-info,
+    &.panel-danger,
+    &.panel-warning,
+    &.panel-violet,
+    &.panel-pink {
+      .panel-heading {
+        a {
+          color: $body-bg;
+          &:hover,
+          &:focus {
+            color: $body-bg
+          }
+        }
+      }
+    }
   }
 
   .panel {
@@ -1510,93 +1527,138 @@ body {
       margin-top: 0px;
       margin-bottom: 30px;
       &.panel-default {
-        @extend .panel-default;
+        //@extend .panel-default;
         color: $text-color;
         background-color: $gray-lighter;
         background-image: linear-gradient(to bottom, $gray-lighter 0%, darken($gray-lighter, 18%) 100%);
         text-shadow: 1px 1px rgba($gray-lighter, .24);
         .panel-heading {
           color: $text-color;
+          .panel-title {
+            a {
+              color: $text-color;
+            }
+          }
         }
       }
       &.panel-primary {
-        @extend .panel-primary;
+        //@extend .panel-primary;
         color: $body-bg;
         background-color: $brand-primary;
         background-image: linear-gradient(to bottom, $brand-primary 0%, darken($brand-primary, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($brand-primary, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       &.panel-success {
-        @extend .panel-success;
+        //@extend .panel-success;
         color: $body-bg;
         background-color: $brand-success;
         background-image: linear-gradient(to bottom, $brand-success 0%, darken($brand-success, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($brand-success, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       &.panel-info {
-        @extend .panel-info;
+        //@extend .panel-info;
         color: $body-bg;
         background-color: $brand-info;
         background-image: linear-gradient(to bottom, $brand-info 0%, darken($brand-info, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($brand-info, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       &.panel-warning {
-        @extend .panel-warning;
+        //@extend .panel-warning;
         color: $body-bg;
         background-color: $brand-warning;
         background-image: linear-gradient(to bottom, $brand-warning 0%, darken($brand-warning, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($brand-warning, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       &.panel-danger {
-        @extend .panel-danger;
+        //@extend .panel-danger;
         color: $body-bg;
         background-color: $brand-danger;
         background-image: linear-gradient(to bottom, $brand-danger 0%, darken($brand-danger, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($brand-danger, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       &.panel-violet {
-        @extend .panel-danger;
+        //@extend .panel-danger;
         color: $body-bg;
         background-color: $brand-violet;
         background-image: linear-gradient(to bottom, $brand-violet 0%, darken($brand-violet, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($brand-violet, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       &.panel-pink {
-        @extend .panel-danger;
+        //@extend .panel-danger;
         color: $body-bg;
         background-color: $brand-pink;
         background-image: linear-gradient(to bottom, $brand-pink 0%, darken($brand-pink, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($brand-pink, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       &.panel-dark {
-        @extend .panel-danger;
+        //@extend .panel-danger;
         color: $body-bg;
         background-color: $text-muted;
         background-image: linear-gradient(to bottom, $text-muted 0%, darken($text-color, 18%) 100%);
         text-shadow: 1px 1px rgba(darken($body-bg, 80%), .24);
         .panel-heading {
           color: $body-bg;
+          .panel-title {
+            a {
+              color: $body-bg;
+            }
+          }
         }
       }
       .panel-heading {

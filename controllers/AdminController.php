@@ -1307,6 +1307,8 @@ class AdminController extends Controller
             'smtpd',
             'qmqpd',
             'sendmail',
+            'searchd',
+            'indexer',
             'memcached',
             'crond',
             'node',
@@ -1369,6 +1371,8 @@ class AdminController extends Controller
     }
 
     private function getSystemData() {
+
+        $processes = $this->getActiveProcessesCount();
         $data = [
             'phpVersion' => PHP_VERSION,
             'yiiVersion' => Yii::getVersion(),
@@ -1469,8 +1473,19 @@ class AdminController extends Controller
             'system_load' => $this->getSystemLoad($this->getCoresCount()),
             'uptime' => $this->getUptime(),
             'params' => Yii::$app->params,
-            'processes' => $this->getActiveProcessesCount()
+            'processes' => $processes
         ];
+
+        $data['sphinx'] = null;
+        if (isset(Yii::$app->sphinx) && array_key_exists('searchd', $processes)) {
+            try {
+                if ($sphinx = Yii::$app->sphinx->createCommand('SHOW STATUS;')->queryAll()) {
+                    $data['sphinx'] = \wdmg\helpers\ArrayHelper::map($sphinx, 'Counter', 'Value');
+                }
+            } catch (\Exception $e) {
+                $data['sphinx']['error'] = $e->getMessage();
+            }
+        }
 
         return $data;
     }

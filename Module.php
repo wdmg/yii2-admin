@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Admin dashboard for Butterfly.CMS
  *
  * @category        Module
- * @version         1.3.0
+ * @version         1.3.1
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 - 2021 W.D.M.Group, Ukraine
@@ -79,7 +79,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.3.0";
+    private $version = "1.3.1";
 
     /**
      * @var integer, priority of initialization
@@ -304,7 +304,7 @@ class Module extends BaseModule
     ];
 
     /**
-     * @var bool of show disabled menu items in dashboard
+     * @var bool, of show disabled menu items in dashboard
      */
     public $menuShowDisabled = false;
 
@@ -317,6 +317,22 @@ class Module extends BaseModule
      * @var integer, session timeout in sec. of auth (where `0` is unlimited)
      */
     public $sessionTimeout = 60 * 15; // 15 min.
+
+    /**
+     * @var bool, the flag for configuration Sphinx Search
+     */
+    public $useSphinxSearch = false;
+
+    /**
+     * @var array, configuration of Sphinx Search daemon
+     */
+    public $sphinxSearchConf = [
+        'dsn' => "mysql",
+        'host' => "127.0.0.1",
+        'port' => "9306",
+        'username' => "",
+        'password' => "",
+    ];
 
     /**
      * {@inheritdoc}

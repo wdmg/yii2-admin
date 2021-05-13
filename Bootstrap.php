@@ -63,6 +63,31 @@ class Bootstrap extends BaseModule implements BootstrapInterface
         // Register language of user interface
         if (!($app instanceof \yii\console\Application)) {
 
+            if (isset(Yii::$app->params['admin.useSphinxSearch']))
+                $this->_module->useSphinxSearch = intval(Yii::$app->params['admin.useSphinxSearch']);
+
+            if (isset(Yii::$app->params['admin.sphinxSearchConf']))
+                $this->_module->sphinxSearchConf = intval(Yii::$app->params['admin.sphinxSearchConf']);
+
+            // Configure Sphinx search component
+            if ($this->_module->useSphinxSearch && !empty($this->_module->sphinxSearchConf)) {
+                if (class_exists('yii\sphinx\Connection') && !isset($app->sphinx)) {
+                    $dsn = $this->_module->sphinxSearchConf['dsn'];
+                    $host = $this->_module->sphinxSearchConf['host'];
+                    $port = $this->_module->sphinxSearchConf['port'];
+                    $username = $this->_module->sphinxSearchConf['username'];
+                    $password = $this->_module->sphinxSearchConf['password'];
+                    $app->setComponents([
+                        'sphinx' => [
+                            'class' => 'yii\sphinx\Connection',
+                            'dsn' => "$dsn:host=$host;port=$port;",
+                            'username' => $username,
+                            'password' => $password,
+                        ]
+                    ]);
+                }
+            }
+
             // Set the error handler page
             if (!YII_ENV_TEST) {
                 $errorHandler = Yii::$app->getErrorHandler();

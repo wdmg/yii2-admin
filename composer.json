@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-admin", "dashboard", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.3.0",
+  "version": "1.3.1",
   "homepage": "https://github.com/wdmg/yii2-admin",
   "support": {
     "source": "https://github.com/wdmg/yii2-admin",
@@ -49,7 +49,15 @@
       "customLocales": [],
       "customSupportModules": [],
       "customSidebarMenu": [],
-      "customCreateMenu": []
+      "customCreateMenu": [],
+      "useSphinxSearch": true,
+      "sphinxSearchConf": {
+        "dsn": "mysql",
+        "host": "127.0.0.1",
+        "port": "9306",
+        "username": "",
+        "password": ""
+      }
     }
   }
 }
