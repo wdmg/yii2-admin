@@ -61,12 +61,6 @@ function getDsnAttribute($name, $dsn) {
                 }
             ],
 
-            'memory_limit' => [
-                'label' => Yii::t('app/modules/admin', "Memory limit"),
-                'value' => function ($data) {
-                    return $data['memory_limit'] . (isset($data['memory_usage']) ? " (" . $data['memory_usage'] ." usage)" : '');
-                }
-            ],
             'cpu_limit' => [
                 'label' => Yii::t('app/modules/admin', "CPU limit"),
                 'value' => function ($data) {
@@ -78,13 +72,26 @@ function getDsnAttribute($name, $dsn) {
             'upload_max_filesize' => [
                 'label' => Yii::t('app/modules/admin', "Upload max filesize"),
                 'value' => function ($data) {
-                    return $data['upload_max_filesize'];
+                    return \wdmg\helpers\StringHelper::sizeFormatNormalize($data['upload_max_filesize'], 2);
                 }
             ],
             'post_max_size' => [
                 'label' => Yii::t('app/modules/admin', "Post max size"),
                 'value' => function ($data) {
-                    return $data['post_max_size'];
+                    return \wdmg\helpers\StringHelper::sizeFormatNormalize($data['post_max_size'], 2);
+                }
+            ],
+
+            'file_limit' => [
+                'label' => Yii::t('app/modules/admin', "File limit"),
+                'value' => function ($data) {
+                    return \wdmg\helpers\StringHelper::formatBytes($data['file_limit'], 2);
+                }
+            ],
+            'total_limit' => [
+                'label' => Yii::t('app/modules/admin', "Total limit"),
+                'value' => function ($data) {
+                    return \wdmg\helpers\StringHelper::formatBytes($data['total_limit'], 2);
                 }
             ],
 
@@ -98,6 +105,12 @@ function getDsnAttribute($name, $dsn) {
                 'label' => Yii::t('app/modules/admin', "Max execution time"),
                 'value' => function ($data) {
                     return $data['max_execution_time'] . " sec.";
+                }
+            ],
+            'memory_limit' => [
+                'label' => Yii::t('app/modules/admin', "Memory limit"),
+                'value' => function ($data) {
+                    return \wdmg\helpers\StringHelper::sizeFormatNormalize($data['memory_limit'], 2) . (isset($data['memory_usage']) ? " (" . \wdmg\helpers\StringHelper::sizeFormatNormalize($data['memory_usage'], 2) ." usage)" : '');
                 }
             ],
 
@@ -136,6 +149,13 @@ function getDsnAttribute($name, $dsn) {
                 'label' => Yii::t('app/modules/admin', "Server time"),
                 'value' => function ($data) {
                     return $data['datetime']['datetime'] . ((isset($data['datetime']['timezone'])) ? " (". $data['datetime']['timezone'] . ")" : "");
+                }
+            ],
+            'disk_space' => [
+                'label' => Yii::t('app/modules/admin', "Free space"),
+                'value' => function ($data) {
+                    return \wdmg\helpers\StringHelper::formatBytes(intval($data['disk_space']['free_space']), 2) . ' of ' .
+                        \wdmg\helpers\StringHelper::formatBytes(intval($data['disk_space']['total_space']), 2);
                 }
             ],
             'processes' => [

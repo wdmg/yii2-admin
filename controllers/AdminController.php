@@ -2,14 +2,14 @@
 
 namespace wdmg\admin\controllers;
 
-use wdmg\helpers\StringHelper;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
 use yii\filters\AccessControl;
 use yii\helpers\Json;
 use yii\helpers\BaseFileHelper;
-use yii\helpers\ArrayHelper;
+use wdmg\helpers\ArrayHelper;
+use wdmg\helpers\StringHelper;
 use wdmg\admin\models\Modules;
 use wdmg\admin\models\ModulesSearch;
 use wdmg\users\models\UsersSignin;
@@ -1176,6 +1176,13 @@ class AdminController extends Controller
         }
     }
 
+    private function getDiskSpace() {
+        return [
+            'free_space' => \disk_free_space(Yii::getAlias("@app")),
+            'total_space' => \disk_total_space(Yii::getAlias("@app"))
+        ];
+    }
+
     private function getMemoryUsage() {
         $mem = \memory_get_usage(true);
         if ($mem < 1024)
@@ -1454,6 +1461,9 @@ class AdminController extends Controller
 
             'max_input_time' => ini_get('max_input_time'),
             'max_execution_time' => ini_get('max_execution_time'),
+            
+            'file_limit' => min(StringHelper::sizeToBytes(ini_get('upload_max_filesize')), StringHelper::sizeToBytes(ini_get('post_max_size')), StringHelper::sizeToBytes(ini_get('memory_limit'))),
+            'total_limit' => min(StringHelper::sizeToBytes(ini_get('post_max_size')), StringHelper::sizeToBytes(ini_get('memory_limit'))),
 
             'client' => Yii::$app->getRequest()->getUserIP() .
                 ((Yii::$app->getRequest()->getUserHost()) ? " (" . Yii::$app->getRequest()->getUserHost() . ") " : "") .
@@ -1472,6 +1482,7 @@ class AdminController extends Controller
             'limits' => $this->getSystemLimits(),
             'system_load' => $this->getSystemLoad($this->getCoresCount()),
             'uptime' => $this->getUptime(),
+            'disk_space' => $this->getDiskSpace(),
             'params' => Yii::$app->params,
             'processes' => $processes
         ];
