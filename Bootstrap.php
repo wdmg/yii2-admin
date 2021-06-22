@@ -290,18 +290,14 @@ class Bootstrap extends BaseModule implements BootstrapInterface
 
         // Set error handler
         if (!($app instanceof \yii\console\Application) && $this->isBackend()) {
+            $errorHandlerAction = $this->getOption('admin.errorAction');
             if ($errorHandler = $app->getErrorHandler()) {
-
-                if (Yii::$app->getModule('admin/rbac'))
-                    $errorHandler->errorAction = 'admin/rbac/rbac/error';
-                else
-                    $errorHandler->errorAction = 'admin/error';
-
+                $errorHandler->errorAction = $this->routePrefix . '/' . $errorHandlerAction;
             } else {
                 $app->setComponents([
                     'errorHandler' => [
-                        'errorAction' => (Yii::$app->getModule('admin/rbac')) ?
-                            'admin/rbac/rbac/error' :
+                        'errorAction' => ($rbac = Yii::$app->getModule('admin/rbac')) ?
+                            $this->routePrefix . '/' . $rbac->errorAction :
                             'admin/error'
                     ]
                 ]);

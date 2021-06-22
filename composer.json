@@ -43,6 +43,7 @@
       "rememberDuration": 86400,
       "resetTokenExpire": 3600,
       "supportEmail": "noreply@example.com",
+      "errorAction": "admin/error",
       "menuShowDisabled": false,
       "multiSignIn": false,
       "sessionTimeout": 900,

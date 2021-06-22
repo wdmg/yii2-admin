@@ -212,7 +212,7 @@ function getDsnAttribute($name, $dsn) {
                             'format' => 'raw',
                             'value' => function ($data) {
                                 $output = null;
-                                if (is_countable($data['db']['primary'])) {
+                                if (count($data['db']['primary']) > 0) {
                                     foreach ($data['db']['primary'] as $name => $node) {
                                         if (isset($node['status'])) {
                                             if ($node['status'] == "ok") {
@@ -233,7 +233,7 @@ function getDsnAttribute($name, $dsn) {
                             'format' => 'raw',
                             'value' => function ($data) {
                                 $output = null;
-                                if (is_countable($data['db']['masters'])) {
+                                if (count($data['db']['masters']) > 0) {
                                     foreach ($data['db']['masters'] as $name => $node) {
                                         if (isset($node['status'])) {
                                             if ($node['status'] == "ok") {
@@ -254,7 +254,7 @@ function getDsnAttribute($name, $dsn) {
                             'format' => 'raw',
                             'value' => function ($data) {
                                 $output = null;
-                                if (is_countable($data['db']['slaves'])) {
+                                if (count($data['db']['slaves']) > 0) {
                                     foreach ($data['db']['slaves'] as $name => $node) {
                                         if (isset($node['status'])) {
                                             if ($node['status'] == "ok") {

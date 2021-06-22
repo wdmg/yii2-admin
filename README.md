@@ -104,6 +104,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.3.3 - Error handler action route
 * v.1.3.2 - Free disk space info, memory limit fixed
 * v.1.3.1 - Sphinx Search configuration and support
 * v.1.3.0 - Multiple Sign In and session timeout, added counter widgets, expanding list language locales, modules and dashboard menu

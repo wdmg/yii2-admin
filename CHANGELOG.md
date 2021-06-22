@@ -1,6 +1,10 @@
 Changelog
 =========
 
+## 1.3.3 (2021-06-22)
+ * Error handler action route
+ * Backward compatibility for PHP 5.6
+
 ## 1.3.2 (2021-06-08)
  * Free disk space info, memory limit fixed
 
