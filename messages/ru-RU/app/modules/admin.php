@@ -134,6 +134,8 @@ return [
 
     'Available modules' => "Доступные модули",
     'Add module' => "Добавить модуль",
+    'Install' => " Установить",
+    'All modules' => "Все модули",
 
     'View all' => "Смотреть всё",
 
@@ -163,7 +165,8 @@ return [
     'Unable to resolve child module `{module}`.' => "Не удалось разрешить дочерний модуль `{module}`.",
     'An error occurred while install a module `{module}`.' => "Произошла ошибка при установке модуля `{module}`.",
     'An error occurred while parsing `composer.json` of module `{module}`.' => "Произошла ошибка при разборе `composer.json` модуля `{module}`.",
-    'Error! File `composer.json` of `{module}` module not exist.' => "Ошибка! Файл `composer.json` модуля` {module} `не существует.",
+    'Error! File `composer.json` of `{module}` module not exist.' => "Ошибка! Файл `composer.json` модуля `{module}` не существует.",
+    'Error! File `composer.json` of `{module}` module not exist by path `{path}`.' => "Ошибка! Файл `composer.json` модуля `{module}` не существует по пути `{path}`.",
     'Error! Module `{module}` not present as extensions of application. Is install from Composer?' => "Ошибка! Модуль `{module}` не представлен как расширение приложения. Он установлен через Composer?",
 
     'Attention! In the system settings, the ability to check for updates is disabled.' => "Внимание! В настройках системы отключена возможность проверки обновлений.",

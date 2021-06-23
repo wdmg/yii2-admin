@@ -199,7 +199,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="col-xs-12 col-sm-6 col-lg-3">
                     <div class="form-group field-modules-autoactivate">
-                        <?= Html::submitButton(Yii::t('app/modules/admin', 'Add module'), [
+                        <?= Html::submitButton(Yii::t('app/modules/admin', 'Install'), [
                             'class' => 'btn btn-add btn-success',
                             'disabled' => (count($extensions) == 0) ? true : false
                         ]) ?>

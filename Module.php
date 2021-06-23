@@ -155,12 +155,7 @@ class Module extends BaseModule
             'label' => 'Dashboard',
             'icon' => 'fa fa-fw fa-tachometer-alt',
             'url' => ['/admin/admin/index'],
-            'order' => 1,
-        ], [
-            'label' => 'Modules',
-            'icon' => 'fa fa-fw fa-puzzle-piece',
-            'url' => ['/admin/admin/modules'],
-            'order' => 1,
+            'order' => 0,
         ], [
             'label' => 'System',
             'icon' => 'fa fa-fw fa-cogs',
@@ -172,6 +167,12 @@ class Module extends BaseModule
                 'redirects',
                 'robots',
                 'mailer',
+                [
+                    'label' => 'Modules',
+                    'icon' => 'fa fa-fw fa-puzzle-piece',
+                    'url' => ['/admin/admin/modules'],
+                    'order' => 98,
+                ],
                 [
                     'label' => 'Information',
                     'icon' => 'fa fa-fw fa-info-circle',

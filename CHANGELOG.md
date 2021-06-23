@@ -1,7 +1,8 @@
 Changelog
 =========
 
-## 1.3.3 (2021-06-22)
+## 1.3.3 (2021-06-23)
+ * All modules intallation
  * Error handler action route
  * Backward compatibility for PHP 5.6
 
