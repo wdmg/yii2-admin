@@ -6,10 +6,10 @@ namespace wdmg\admin;
  * Admin dashboard for Butterfly.CMS
  *
  * @category        Module
- * @version         1.3.3
+ * @version         1.3.2
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
- * @copyright       Copyright (c) 2019 - 2021 W.D.M.Group, Ukraine
+ * @copyright       Copyright (c) 2019 - 2023 W.D.M.Group, Ukraine
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  *
  */
@@ -42,6 +42,12 @@ class Module extends BaseModule
      * @var string, the description of module
      */
     public $description = "Main administrative panel";
+
+	/**
+	 * @var array, the list of support locales for multi-language versions of content.
+	 * @note This variable will be override if you use the `wdmg\yii2-translations` module.
+	 */
+	public $supportLocales = ['ru-RU', 'uk-UA', 'en-US'];
 
     /**
      * @var boolean, the flag if updates check turn on
@@ -79,17 +85,12 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.3.3";
+    private $version = "1.4.0";
 
     /**
      * @var integer, priority of initialization
      */
     private $priority = 0;
-
-    /**
-     * @var string the error handler action route
-     */
-    public $errorAction = 'admin/error';
 
     /**
      * @var array, support system languages
@@ -155,7 +156,12 @@ class Module extends BaseModule
             'label' => 'Dashboard',
             'icon' => 'fa fa-fw fa-tachometer-alt',
             'url' => ['/admin/admin/index'],
-            'order' => 0,
+            'order' => 1,
+        ], [
+            'label' => 'Modules',
+            'icon' => 'fa fa-fw fa-puzzle-piece',
+            'url' => ['/admin/admin/modules'],
+            'order' => 1,
         ], [
             'label' => 'System',
             'icon' => 'fa fa-fw fa-cogs',
@@ -167,12 +173,6 @@ class Module extends BaseModule
                 'redirects',
                 'robots',
                 'mailer',
-                [
-                    'label' => 'Modules',
-                    'icon' => 'fa fa-fw fa-puzzle-piece',
-                    'url' => ['/admin/admin/modules'],
-                    'order' => 98,
-                ],
                 [
                     'label' => 'Information',
                     'icon' => 'fa fa-fw fa-info-circle',

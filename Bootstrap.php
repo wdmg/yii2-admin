@@ -4,7 +4,7 @@ namespace wdmg\admin;
 
 /**
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
- * @copyright       Copyright (c) 2019 - 2021 W.D.M.Group, Ukraine
+ * @copyright       Copyright (c) 2019 - 2023 W.D.M.Group, Ukraine
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  */
 
@@ -94,19 +94,27 @@ class Bootstrap extends BaseModule implements BootstrapInterface
                 $errorHandler->errorAction = 'admin/admin/error';
             }
 
+	        $supportLocales = (isset($this->_module->supportLocales)) ? $this->_module->supportLocales : [];
             if ($lang = $app->request->get('lang', false)) {
-                $app->session->set('lang', $lang);
-                $app->language = $lang;
-                $app->response->cookies->add(new \yii\web\Cookie([
-                    'name' => 'lang',
-                    'value' => $lang,
-                    'expire' => time() + 604800
-                ]));
+	            if ($lang && in_array($lang, $supportLocales)) {
+		            $app->session->set('lang', $lang);
+		            $app->language = $lang;
+		            $app->response->cookies->add(new \yii\web\Cookie([
+			            'name' => 'lang',
+			            'value' => $lang,
+			            'expire' => time() + 604800
+		            ]));
+	            }
             } else {
                 if ($lang = $app->session->get('lang', false)) {
-                    $app->language = $lang;
-                } else if ($lang = Yii::$app->request->cookies->getValue('lang', (isset($_COOKIE['lang'])) ? $_COOKIE['lang'] : false)) {
-                    $app->language = $lang;
+	                if ($lang && in_array($lang, $supportLocales)) {
+		                $app->language = $lang;
+	                }
+                } else {
+	                $lang = Yii::$app->request->cookies->getValue('lang', false);
+	                if ($lang && in_array($lang, $supportLocales)) {
+		                $app->language = $lang;
+	                }
                 }
             }
         }
@@ -290,14 +298,18 @@ class Bootstrap extends BaseModule implements BootstrapInterface
 
         // Set error handler
         if (!($app instanceof \yii\console\Application) && $this->isBackend()) {
-            $errorHandlerAction = $this->getOption('admin.errorAction');
             if ($errorHandler = $app->getErrorHandler()) {
-                $errorHandler->errorAction = $this->routePrefix . '/' . $errorHandlerAction;
+
+                if (Yii::$app->getModule('admin/rbac'))
+                    $errorHandler->errorAction = 'admin/rbac/rbac/error';
+                else
+                    $errorHandler->errorAction = 'admin/error';
+
             } else {
                 $app->setComponents([
                     'errorHandler' => [
-                        'errorAction' => ($rbac = Yii::$app->getModule('admin/rbac')) ?
-                            $this->routePrefix . '/' . $rbac->errorAction :
+                        'errorAction' => (Yii::$app->getModule('admin/rbac')) ?
+                            'admin/rbac/rbac/error' :
                             'admin/error'
                     ]
                 ]);

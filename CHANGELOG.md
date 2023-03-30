@@ -1,10 +1,8 @@
 Changelog
 =========
 
-## 1.3.3 (2021-06-23)
- * All modules intallation
- * Error handler action route
- * Backward compatibility for PHP 5.6
+## 1.4.0 (2023-03-30)
+ * Fixs, update dependencies and copyrights
 
 ## 1.3.2 (2021-06-08)
  * Free disk space info, memory limit fixed

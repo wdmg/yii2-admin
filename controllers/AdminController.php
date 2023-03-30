@@ -349,34 +349,215 @@ class AdminController extends Controller
             $dataProvider = $searchModel->search(Yii::$app->request->queryParams);
 
             // Adding a new module model
-            //$results = false
             if (($post = Yii::$app->request->post()) && !Yii::$app->request->isAjax) {
+
                 if ($module_id = $post['Modules']['extensions']) {
+                    $module = Yii::$app->extensions[$module_id];
+
+                    // Polyfill for array_key_first() for PHP <= 7.3.0
+                    if (!function_exists('array_key_first')) {
+                        function array_key_first(array $arr) {
+                            foreach($arr as $key => $unused) {
+                                return $key;
+                            }
+                            return NULL;
+                        }
+                    }
+                    $alias = array_key_first($module['alias']);
 
                     $activate = false;
                     if (isset($post['Modules']['autoActivate']))
                         $activate = $post['Modules']['autoActivate'];
 
-                    if ($module_id == "*/all") {
-                        if (count($extensions) > 0) {
-                            foreach ($extensions as $module_id => $extension) {
-                                if ($results = Modules::installModule($module_id, $activate)) {
-                                    // Remove added modules from extensions list
-                                    unset($extensions[$module_id]);
+                    // Read the module meta data
+                    $composer = BaseFileHelper::normalizePath(Yii::getAlias($alias) . '\composer.json');
+                    if (file_exists($composer)) {
+                        $string = file_get_contents($composer);
+
+                        // and decode them...
+                        if ($meta = Json::decode($string)) {
+
+                            // Last check before filling in the attributes of a module
+                            if ($module_id == $meta["name"]) {
+
+                                $model->setAttribute('module', substr(strstr($alias, '/'), 1, strlen($alias)));
+
+                                $model->setAttribute('name', $meta["name"]);
+                                $model->setAttribute('description', $meta["description"]);
+
+                                $model->setAttribute('class', str_replace('/', '\\', str_replace('@', '', BaseFileHelper::normalizePath($alias . '\Module'))));
+
+                                if (isset($meta["autoload"]["psr-4"])) {
+                                    $path = array_key_first($meta["autoload"]["psr-4"]);
+                                    if (!empty($meta["autoload"]["psr-4"][$path])) {
+                                        $model->setAttribute('bootstrap', $meta["autoload"]["psr-4"][$path] . '\Bootstrap');
+                                    } else {
+                                        $model->setAttribute('bootstrap', null);
+                                    }
+                                } else {
+                                    $model->setAttribute('bootstrap', null);
+                                }
+
+                                if (isset($meta["homepage"]))
+                                    $model->setAttribute('homepage', $meta["homepage"]);
+
+                                if (isset($meta["support"])) {
+                                    if (is_array($meta["support"]))
+                                        $model->setAttribute('support', $meta["support"]);
+                                    else
+                                        $model->setAttribute('support', null);
+
+                                }
+
+                                if (isset($meta["authors"])) {
+                                    if (is_array($meta["authors"]))
+                                        $model->setAttribute('authors', $meta["authors"]);
+                                    else
+                                        $model->setAttribute('authors', null);
+
+                                }
+
+                                if (isset($meta["require"])) {
+                                    if (is_array($meta["require"]))
+                                        $model->setAttribute('require', $meta["require"]);
+                                    else
+                                        $model->setAttribute('require', null);
+
+                                }
+
+                                if (isset($meta["type"]))
+                                    $model->setAttribute('type', $meta["type"]);
+
+                                if (isset($meta["license"]))
+                                    $model->setAttribute('license', $meta["license"]);
+
+                                $model->setAttribute('version', $meta["version"]);
+
+
+                                if (isset($meta["extra"]["options"])) {
+                                    if (is_array($meta["extra"]["options"]))
+                                        $model->setAttribute('options', $meta["extra"]["options"]);
+                                    else
+                                        $model->setAttribute('options', null);
+
+                                }
+
+                                if ($activate)
+                                    $model->setAttribute('status', $model::MODULE_STATUS_ACTIVE);
+                                else
+                                    $model->setAttribute('status', $model::MODULE_STATUS_DISABLED);
+
+                                // Let's go through validation and save the model in the database
+                                if ($model->validate()) {
+
+                                    Yii::$app->getModule('admin')->setModule($model->module, ArrayHelper::merge([
+                                        'class' => $model->class
+                                    ], (is_array($model->options)) ? $model->options : unserialize($model->options)));
+
+                                    // Prepare to module check
+                                    $module_id = 'admin/' . $model->module;
+                                    $module = Yii::$app->getModule($module_id);
+
+                                    // Checking accessibility of module
+                                    if ($module) {
+
+                                        if ($module->install()) {
+
+                                            // Setting priority of loading
+                                            $model->priority = intval($module->getPriority());
+
+                                            // Save module item
+                                            if($model->save()) {
+
+                                                // Remove added modules from extensions list
+                                                unset($extensions[$model->name]);
+
+                                                Yii::$app->getSession()->setFlash(
+                                                    'success',
+                                                    Yii::t(
+                                                        'app/modules/admin',
+                                                        'OK! Module `{module}` successfully {status}.',
+                                                        [
+                                                            'module' => $model->name,
+                                                            'status' => ($activate) ? Yii::t('app/modules/admin', 'added and activated') : Yii::t('app/modules/admin', 'added')
+                                                        ]
+                                                    )
+                                                );
+                                            } else {
+                                                Yii::$app->getSession()->setFlash(
+                                                    'danger',
+                                                    Yii::t(
+                                                        'app/modules/admin',
+                                                        'An error occurred while adding a module `{module}`.',
+                                                        [
+                                                            'module' => $model->name
+                                                        ]
+                                                    )
+                                                );
+                                            }
+                                        } else {
+                                            Yii::$app->getSession()->setFlash(
+                                                'danger',
+                                                Yii::t(
+                                                    'app/modules/admin',
+                                                    'An error occurred while install a module `{module}`.',
+                                                    [
+                                                        'module' => $model->name
+                                                    ]
+                                                )
+                                            );
+                                        }
+                                    } else {
+                                        Yii::$app->getSession()->setFlash(
+                                            'danger',
+                                            Yii::t(
+                                                'app/modules/admin',
+                                                'Unable to resolve child module `{module}`.',
+                                                [
+                                                    'module' => $module_id
+                                                ]
+                                            )
+                                        );
+                                    }
                                 }
                             }
+                        } else {
+                            Yii::$app->getSession()->setFlash(
+                                'danger',
+                                Yii::t(
+                                    'app/modules/admin',
+                                    'An error occurred while parsing `composer.json` of module `{module}`.',
+                                    [
+                                        'module' => $model->name
+                                    ]
+                                )
+                            );
                         }
                     } else {
-                        if ($results = Modules::installModule($module_id, $activate)) {
-                            // Remove added modules from extensions list
-                            unset($extensions[$module_id]);
-                        }
+                        Yii::$app->getSession()->setFlash(
+                            'danger',
+                            Yii::t(
+                                'app/modules/admin',
+                                'Error! File `composer.json` of `{module}` module not exist.',
+                                [
+                                    'module' => $model->name
+                                ]
+                            )
+                        );
                     }
+                } else {
+                    Yii::$app->getSession()->setFlash(
+                        'danger',
+                        Yii::t(
+                            'app/modules/admin',
+                            'Error! Module `{module}` not present as extensions of application. Is install from Composer?',
+                            [
+                                'module' => $model->name
+                            ]
+                        )
+                    );
                 }
             }
-
-            if (count($extensions) > 0)
-                $extensions = ArrayHelper::merge($extensions, ['*/all' => Yii::t('app/modules/admin', 'All modules')]);
 
             return $this->render('index', [
                 'model' => $model,
@@ -1209,7 +1390,7 @@ class AdminController extends Controller
                 'host' => \yii\helpers\Url::base(true),
                 'language' => Yii::$app->language,
                 'sourceLanguage' => Yii::$app->sourceLanguage,
-                'i18n' => \locale_get_default(),
+                'i18n' => (function_exists('locale_get_default')) ? \locale_get_default() : null,
                 'charset' => Yii::$app->charset,
                 'env' => YII_ENV,
                 'debug' => YII_DEBUG,

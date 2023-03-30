@@ -32,9 +32,9 @@ class InitController extends Controller
         $welcome =
             '╔════════════════════════════════════════════════╗'. "\n" .
             '║                                                ║'. "\n" .
-            '║             ADMIN MODULE, v.'.$version.'             ║'. "\n" .
+            '║             ADMIN MODULE, v.'.$version.'              ║'. "\n" .
             '║          by Alexsander Vyshnyvetskyy           ║'. "\n" .
-            '║       (c) 2019-2021 W.D.M.Group, Ukraine       ║'. "\n" .
+            '║       (c) 2019-2023 W.D.M.Group, Ukraine       ║'. "\n" .
             '║                                                ║'. "\n" .
             '╚════════════════════════════════════════════════╝';
         echo $name = $this->ansiFormat($welcome . "\n\n", Console::FG_GREEN);
@@ -50,10 +50,9 @@ class InitController extends Controller
 
         if ($selected == "1") {
             Yii::$app->runAction('migrate/up', ['migrationPath' => '@vendor/wdmg/yii2-admin/migrations', 'interactive' => $this->interactive]);
-
             if ((!$this->interactive == 0) || (!$this->interactive)) {
-                Yii::$app->runAction('admin/users/init', ['choice' => 3, 'interactive' => true]);
-                Yii::$app->runAction('admin/rbac/init', ['choice' => 2, 'interactive' => true]);
+				Yii::$app->runAction('admin/users/init', ['choice' => 3, 'interactive' => true]);
+				Yii::$app->runAction('admin/rbac/init', ['choice' => 2, 'interactive' => true]);
             }
 
         } else if($selected == "2") {
