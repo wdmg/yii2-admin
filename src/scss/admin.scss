@@ -1279,16 +1279,6 @@ body {
     }
   }
 
-  .breadcrumb {
-    .favorite {
-      float: right;
-      &:before {
-        content: unset;
-        display: none;
-      }
-    }
-  }
-
   table {
     th.changed td,
     tr.changed td {
@@ -1438,6 +1428,14 @@ body {
     }
   }
 
+  .breadcrumb .favorite {
+    float: right;
+    &:before {
+      content: unset;
+      display: none;
+    }
+  }
+
   .popover {
     &.nav-popover {
       margin-left: -1px;
@@ -1533,7 +1531,7 @@ body {
       border: none;
       border-radius: 6px !important;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16), 0 8px 6px rgba(0, 0, 0, 0.08);
-      transition: margin-top 0.3s linear, box-shadow 0.5s cubic-bezier(.25, .8, .25, 1);
+      transition: transform 0.38s ease-in-out, box-shadow 0.45s cubic-bezier(.25, .8, .25, 1);
       margin-top: 0px;
       margin-bottom: 30px;
       &.panel-default {
@@ -1741,9 +1739,8 @@ body {
         }
       }
       &:hover {
-        margin-top: -5px;
-        margin-bottom: 25px;
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22), 0 10px 10px rgba(0, 0, 0, 0.16);
+        transform: translate(0, -10px);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 10px 10px rgba(0, 0, 0, 0.09);
       }
     }
     &.panel-widget {
@@ -1751,7 +1748,7 @@ body {
       border: none !important;
       border-radius: 6px !important;
       box-shadow: 0 6px 16px rgba(0, 0, 0, 0.16), 0 8px 6px rgba(0, 0, 0, 0.08);
-      transition: margin-top 0.3s linear, box-shadow 0.5s cubic-bezier(.25, .8, .25, 1);
+      transition: transform 0.38s ease-in-out, box-shadow 0.45s cubic-bezier(.25, .8, .25, 1);
       margin-top: 0px;
       margin-bottom: 30px;
       .panel-heading {
@@ -1790,9 +1787,8 @@ body {
         border-radius: 0px 0px 6px 6px;
       }
       &:hover {
-        margin-top: -5px;
-        margin-bottom: 25px;
-        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.22), 0 10px 10px rgba(0, 0, 0, 0.16);
+        transform: translate(0, -10px);
+        box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 10px 10px rgba(0, 0, 0, 0.09);
       }
     }
   }

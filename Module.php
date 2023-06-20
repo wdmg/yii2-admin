@@ -156,7 +156,7 @@ class Module extends BaseModule
             'label' => 'Dashboard',
             'icon' => 'fa fa-fw fa-tachometer-alt',
             'url' => ['/admin/admin/index'],
-            'order' => 1,
+            'order' => 0,
         ], [
             'label' => 'Modules',
             'icon' => 'fa fa-fw fa-puzzle-piece',

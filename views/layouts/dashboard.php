@@ -88,6 +88,13 @@ JS
                 'url' => '#terminal'
             ];
 
+        if (isset($this->params['favourites'])) {
+            $items[] = [
+                'label' => '<span class="fa fa-fw fa-star"></span> ' . Yii::t('app/modules/admin', 'Favourites'),
+                'items' => $this->params['favourites']
+            ];
+        }
+
         if (isset($this->params['langs'])) {
             $items[] = [
                 'label' => '<span class="fa fa-fw fa-language"></span> ' . Yii::t('app/modules/admin', 'Language'),
@@ -185,13 +192,28 @@ JS
                         'timeout' => 10000
                     ]); ?>
                     <?php
+
                         // Add to favorite link
                         $in_favorite = false;
+                        $favourites = $this->params['favourites'];
+                        if (is_array($favourites)) {
+                            foreach ($favourites as $key => &$row) {
+                                if ($row['url'] == Yii::$app->request->url) {
+	                                $in_favorite = true;
+                                    break;
+                                }
+                            }
+                        }
+
                         $links = isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [];
                         $links[] = [
-                            'label' => ($in_favorite) ? '<span class="glyphicon glyphicon-star"></span>' : '<span class="glyphicon glyphicon-star-empty"></span>',
+                            'label' => ($in_favorite) ? '<span class="glyphicon glyphicon-star"></span> ' .Yii::t('app/modules/admin', 'Un Favourite') : '<span class="glyphicon glyphicon-star-empty"></span> ' . Yii::t('app/modules/admin', 'Favourite'),
                             'url' => '#favorite',
-                            'class' => 'favorite',
+	                        'template' => '<li class="favorite">{link}</li>',
+	                        'data' => [
+		                        'label' => $this->title,
+		                        'url' => Yii::$app->request->url
+	                        ]
                         ];
                     ?>
                     <?= Breadcrumbs::widget([
@@ -237,6 +259,31 @@ JS
         });
 JS
     );*/ ?>
+
+    <?php $this->registerJs(<<< JS
+        $(document).ready(function() {
+            $('a[href="#favorite"]').click((event) => {
+                if (typeof (event.target.dataset.label) !== "undefined" && typeof (event.target.dataset.url) !== "undefined") {
+                   var data = {"label": event.target.dataset.label, "url": event.target.dataset.url};
+                    $.ajax({
+                        type: "POST",
+                        url: "/admin/favorite",
+                        data: data,
+                        dataType: "json",
+                        complete: function(data) {
+                            if(data) {
+                                if (data.status == 200 && data.responseJSON.loggedin) {
+                                    return true;
+                                }
+                            }
+                            window.location.href = "/admin/login";
+                        }
+                    }); 
+                }
+            });
+        });
+JS
+    ); ?>
 
     <?php
         // Register dashboard search assets

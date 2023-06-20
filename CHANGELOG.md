@@ -1,7 +1,9 @@
 Changelog
 =========
 
-## 1.4.1 (2023-06-20)
+## 1.4.1 (2023-06-21)
+ * Fix Users::getOptions for not auth
+ * Dashboard favourites list
  * Update node sass
  * Fix lang, update dependencies
 

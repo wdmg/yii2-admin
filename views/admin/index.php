@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
     </h1>
 </div>
 <div class="admin-index">
-    <div class="row flex-row">
+    <div class="row flex-row" style="padding-top: 10px">
         <?php if (isset($counters['users'])) { ?>
         <div class="col-xs-12 col-sm-6 col-md-3">
             <div class="panel panel-counter panel-primary">
@@ -187,7 +187,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </div>
         -->
     </div>
-    <div class="row flex-row">
+    <div class="row flex-row" style="padding-top: 10px">
     <?php
         if ($intance = $module->moduleLoaded('admin/pages', true)) {
     ?>

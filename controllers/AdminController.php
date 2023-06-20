@@ -2,6 +2,7 @@
 
 namespace wdmg\admin\controllers;
 
+use wdmg\users\models\Users;
 use Yii;
 use yii\web\Controller;
 use yii\filters\VerbFilter;
@@ -36,6 +37,7 @@ class AdminController extends Controller
                     'restore' => ['GET', 'POST'],
                     'logout' => ['POST'],
                     'checkpoint' => ['POST'],
+                    'favorite' => ['POST'],
                     'search' => ['POST'],
                     'error' => ['GET'],
                     'info' => ['GET'],
@@ -200,9 +202,6 @@ class AdminController extends Controller
 
             // Change model status (aJax request by switcher)
             if (Yii::$app->request->isAjax) {
-
-                //var_export(Yii::$app->request->get());die();
-
                 if (Yii::$app->request->get('change') == "status") {
                     if (Yii::$app->request->post('id', null)) {
                         $id = Yii::$app->request->post('id');
@@ -736,6 +735,48 @@ class AdminController extends Controller
             return ['loggedin' => true];
         else
             return ['loggedin' => false];
+    }
+
+
+    /**
+     * Add/remove from favourites
+     *
+     * @return Response
+     */
+    public function actionFavorite()
+    {
+
+        \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+        if (!Yii::$app->user->isGuest) {
+	        if ($url = \Yii::$app->request->post('url')) {
+		        if ($label = \Yii::$app->request->post('label')) {
+			        $favourites = Users::getOptions('favourites', []);
+			        $favourites = array_values($favourites);
+					if (!empty($favourites)) {
+						foreach ($favourites as $key => &$row) {
+							if ($row['url'] == $url) {
+								unset($favourites[$key]);
+							} else {
+								$favourites[] = [
+									'label' => $label,
+									'url' => $url,
+								];
+							}
+						}
+
+					} else {
+						$favourites[] = [
+							'label' => $label,
+							'url' => $url,
+						];
+					}
+
+			        Users::setOptions(['favourites' => $favourites], false);
+
+			        return $this->redirect($url);
+		        }
+	        }
+        }
     }
 
 

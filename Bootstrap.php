@@ -8,6 +8,7 @@ namespace wdmg\admin;
  * @license         https://opensource.org/licenses/MIT Massachusetts Institute of Technology (MIT) License
  */
 
+use wdmg\users\models\Users;
 use Yii;
 use wdmg\base\BaseModule;
 use yii\base\BootstrapInterface;
@@ -37,7 +38,7 @@ class Bootstrap extends BaseModule implements BootstrapInterface
             $app->getUrlManager()->addRules(
                 [
                     '/admin' => 'admin/admin/index',
-                    '/admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
+                    '/admin/<action:(index|modules|login|logout|restore|search|favorite|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
 
                     '<module:\w+>/<submodule:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<submodule>/<controller>/<action>',
                     '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
@@ -54,7 +55,7 @@ class Bootstrap extends BaseModule implements BootstrapInterface
             $app->getUrlManager()->addRules(
                 [
                     '/admin' => 'admin/admin/index',
-                    '/admin/<action:(index|modules|login|logout|restore|search|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
+                    '/admin/<action:(index|modules|login|logout|restore|search|favorite|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
                 ],
                 true
             );
@@ -197,6 +198,15 @@ class Bootstrap extends BaseModule implements BootstrapInterface
                 }
 
                 Yii::$app->view->params['langs'] = $langs;
+
+				// Dashboard favourites list
+	            if (!Yii::$app->user->isGuest) {
+		            $favourites = Users::getOptions('favourites', []);
+
+		            if (!empty($favourites))
+			            Yii::$app->view->params['favourites'] = array_values($favourites);
+
+	            }
             });
         }
 
