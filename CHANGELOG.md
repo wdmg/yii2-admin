@@ -2,6 +2,7 @@ Changelog
 =========
 
 ## 1.4.1 (2023-06-20)
+ * Update node sass
  * Fix lang, update dependencies
 
 ## 1.4.0 (2023-03-30)

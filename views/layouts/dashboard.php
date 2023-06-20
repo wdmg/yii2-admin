@@ -185,12 +185,13 @@ JS
                         'timeout' => 10000
                     ]); ?>
                     <?php
+                        // Add to favorite link
                         $in_favorite = false;
                         $links = isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [];
                         $links[] = [
                             'label' => ($in_favorite) ? '<span class="glyphicon glyphicon-star"></span>' : '<span class="glyphicon glyphicon-star-empty"></span>',
                             'url' => '#favorite',
-                            'style' => 'favorite',
+                            'class' => 'favorite',
                         ];
                     ?>
                     <?= Breadcrumbs::widget([
