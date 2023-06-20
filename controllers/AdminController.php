@@ -81,6 +81,9 @@ class AdminController extends Controller
             ];
         }
 
+	    if (!$this->module->isRestAPI())
+		    $behaviors['access']['except'][] = 'error';
+
         return $behaviors;
     }
 

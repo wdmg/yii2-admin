@@ -104,16 +104,7 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.4.1 - Fix lang, update dependencies
 * v.1.4.0 - Fixs, update dependencies and copyrights
 * v.1.3.2 - Free disk space info, memory limit fixed
 * v.1.3.1 - Sphinx Search configuration and support
-* v.1.3.0 - Multiple Sign In and session timeout, added counter widgets, expanding list language locales, modules and dashboard menu
-* v.1.2.1 - Hot keys for pagination, support for Menu module
-* v.1.2.0 - Gulp workflow. Process info refactoring, `phpinfo()` in modal
-* v.1.1.28 - Fixed jQuery version on v3.5.1, rebuild assets
-* v.1.1.27 - Support for Guard module, active processes info
-* v.1.1.26 - Set error handler, fixed add/activate module in controller
-* v.1.1.25 - Update dependencies, README.md
-* v.1.1.24 - UrlManager rules fixed, support for Robots.txt module
-* v.1.1.23 - Subclasses for buttons, stats widgets
-* v.1.1.22 - Added pagination, DB status to System info

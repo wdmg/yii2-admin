@@ -261,7 +261,7 @@ $(document).ready(function() {
           }
           $sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
         });
-        $this.hover(function() {
+        /*$this.hover(function() {
 
           var $dropdown = $(this);
           if (!$dropdown.find('.dropdown-menu').is(':visible')) {
@@ -292,7 +292,7 @@ $(document).ready(function() {
           }
           // Fixed: Dropdown menu hidding by popover is show
           //$sidebarNav.find(".dropdown:not(.active):not(:hover)").find('.dropdown-menu').slideUp("fast");
-        });
+        });*/
       });
       $sidebarNav.find(".dropdown.active").find('.dropdown-toggle .fa-angle-down').toggleClass('fa-angle-down fa-angle-up');
       $sidebarNav.find(".dropdown.active .dropdown-toggle").click();

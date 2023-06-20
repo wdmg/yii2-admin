@@ -1,6 +1,6 @@
 {
   "name": "yii2-admin-assets",
-  "version": "1.4.0",
+  "version": "1.4.1",
   "description": "Admin Module Assets",
   "main": "gulpfile.js",
   "scripts": {

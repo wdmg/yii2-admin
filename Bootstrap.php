@@ -94,29 +94,31 @@ class Bootstrap extends BaseModule implements BootstrapInterface
                 $errorHandler->errorAction = 'admin/admin/error';
             }
 
+	        //var_export($app->session->get('lang', false)) && die();
+	        //var_export($_COOKIE['lang']) && die();
+	        //var_export(Yii::$app->request->cookies->get('lang')) && die();
+
+
 	        $supportLocales = (isset($this->_module->supportLocales)) ? $this->_module->supportLocales : [];
-            if ($lang = $app->request->get('lang', false)) {
-	            if ($lang && in_array($lang, $supportLocales)) {
-		            $app->session->set('lang', $lang);
-		            $app->language = $lang;
-		            $app->response->cookies->add(new \yii\web\Cookie([
-			            'name' => 'lang',
-			            'value' => $lang,
-			            'expire' => time() + 604800
-		            ]));
-	            }
-            } else {
-                if ($lang = $app->session->get('lang', false)) {
-	                if ($lang && in_array($lang, $supportLocales)) {
-		                $app->language = $lang;
-	                }
-                } else {
-	                $lang = Yii::$app->request->cookies->getValue('lang', false);
-	                if ($lang && in_array($lang, $supportLocales)) {
-		                $app->language = $lang;
-	                }
-                }
-            }
+			$lang = Yii::$app->getRequest()->getCookies()->get('lang', false);
+
+			if (is_null($lang))
+				$lang = $_COOKIE['lang'];
+
+	        if ($lang && in_array($lang, $supportLocales))
+		        $app->language = $lang;
+
+	        if ($lang = $app->request->get('lang', false)) {
+		        if ($lang && in_array($lang, $supportLocales)) {
+			        $app->language = $lang;
+			        $app->session->set('lang', $lang);
+			        $app->response->cookies->add(new \yii\web\Cookie([
+				        'name' => 'lang',
+				        'value' => $lang,
+				        'expire' => time() + 604800
+			        ]));
+		        }
+	        }
         }
 
         // Configure languages menu for UI

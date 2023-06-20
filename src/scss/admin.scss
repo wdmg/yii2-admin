@@ -1279,6 +1279,16 @@ body {
     }
   }
 
+  .breadcrumb {
+    .favorite {
+      float: right;
+      &:before {
+        content: unset;
+        display: none;
+      }
+    }
+  }
+
   table {
     th.changed td,
     tr.changed td {

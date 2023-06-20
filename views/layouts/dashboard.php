@@ -184,12 +184,27 @@ JS
                         'id' => 'dashboardAjax',
                         'timeout' => 10000
                     ]); ?>
+                    <?php
+                        $in_favorite = false;
+                        $links = isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [];
+                        $links[] = [
+                            'label' => ($in_favorite) ? '<span class="glyphicon glyphicon-star"></span>' : '<span class="glyphicon glyphicon-star-empty"></span>',
+                            'url' => '#favorite',
+                            'style' => 'favorite',
+                        ];
+                    ?>
                     <?= Breadcrumbs::widget([
+                        'tag' => "ul",
+                        'options' => [
+                            'class' => 'breadcrumb',
+                            'data-path' => Yii::$app->request->url
+                        ],
+	                    'encodeLabels' => false,
                         'homeLink' => [
                             'label' => Yii::t('app/modules/admin', 'Main'),
                             'url' => Url::to(['/admin/admin/index'])
                         ],
-                        'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
+                        'links' => $links,
                     ]); ?>
                     <?= Alert::widget(); ?>
                     <?= $content; ?>
