@@ -1428,7 +1428,27 @@ body {
     }
   }
 
-  .breadcrumb .favorite {
+  .navbar-nav {
+    li.favourites.dropdown {
+      .dropdown-menu {
+        li > a {
+          padding: 6px 10px;
+          .glyphicon {
+            display:inline-block;
+            opacity:0.5;
+            float:right;
+            padding: 2px 0px 2px 3px;
+            &:hover {
+              cursor: pointer;
+              opacity: 1;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  .breadcrumb .favourites {
     float: right;
     &:before {
       content: unset;

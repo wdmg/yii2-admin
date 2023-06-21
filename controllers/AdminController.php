@@ -37,7 +37,7 @@ class AdminController extends Controller
                     'restore' => ['GET', 'POST'],
                     'logout' => ['POST'],
                     'checkpoint' => ['POST'],
-                    'favorite' => ['POST'],
+                    'favourites' => ['POST'],
                     'search' => ['POST'],
                     'error' => ['GET'],
                     'info' => ['GET'],
@@ -743,37 +743,47 @@ class AdminController extends Controller
      *
      * @return Response
      */
-    public function actionFavorite()
+    public function actionFavourites()
     {
 
         \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         if (!Yii::$app->user->isGuest) {
 	        if ($url = \Yii::$app->request->post('url')) {
 		        if ($label = \Yii::$app->request->post('label')) {
+
 			        $favourites = Users::getOptions('favourites', []);
-			        $favourites = array_values($favourites);
-					if (!empty($favourites)) {
-						foreach ($favourites as $key => &$row) {
-							if ($row['url'] == $url) {
-								unset($favourites[$key]);
-							} else {
-								$favourites[] = [
-									'label' => $label,
-									'url' => $url,
-								];
-							}
-						}
+			        if (is_array($favourites)) {
+				        if (!empty($favourites)) {
+					        $skipped = false;
+					        foreach ($favourites as $key => $row) {
+						        if ($row['url'] == $url) {
+									$skipped = true;
+							        unset($favourites[$key]);
+								}
+					        }
+					        if (!$skipped) {
+						        $favourites[] = [
+							        'label' => $label,
+							        'url' => $url,
+						        ];
+					        }
+				        } else {
+					        $favourites[] = [
+						        'label' => $label,
+						        'url' => $url,
+					        ];
+				        }
 
-					} else {
-						$favourites[] = [
-							'label' => $label,
-							'url' => $url,
-						];
-					}
+				        $favourites = array_map("unserialize", array_unique(array_map("serialize", $favourites)));
+			        }
 
+					Yii::$app->getView()->params['favourites'] = $favourites;
 			        Users::setOptions(['favourites' => $favourites], false);
 
-			        return $this->redirect($url);
+					if (!$skipped)
+						return $this->redirect($url);
+					else
+						return $this->redirect(\Yii::$app->request->referrer);
 		        }
 	        }
         }

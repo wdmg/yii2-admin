@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Admin dashboard for Butterfly.CMS
  *
  * @category        Module
- * @version         1.4.1
+ * @version         1.4.2
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 - 2023 W.D.M.Group, Ukraine
@@ -85,7 +85,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.4.1";
+    private $version = "1.4.2";
 
     /**
      * @var integer, priority of initialization

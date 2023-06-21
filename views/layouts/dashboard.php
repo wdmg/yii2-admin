@@ -89,9 +89,23 @@ JS
             ];
 
         if (isset($this->params['favourites'])) {
+
+            $favourites = [];
+            if (is_array($this->params['favourites'])) {
+	            foreach ($this->params['favourites'] as $item) {
+		            $favourites[] = [
+			            'url' => $item['url'],
+			            'label' => $item['label'] . '<i class="glyphicon glyphicon-trash" title="'.Yii::t('app/modules/admin', 'Remove').'" data-label="'.$item['label'].'" data-url="'.$item['url'].'"></i>',
+		            ];
+	            }
+            }
+
             $items[] = [
                 'label' => '<span class="fa fa-fw fa-star"></span> ' . Yii::t('app/modules/admin', 'Favourites'),
-                'items' => $this->params['favourites']
+                'items' => $favourites,
+                'options' => [
+                    'class' => 'favourites'
+                ]
             ];
         }
 
@@ -193,28 +207,51 @@ JS
                     ]); ?>
                     <?php
 
-                        // Add to favorite link
-                        $in_favorite = false;
+                        // Breadcrumbs links
+                        $links = isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [];
+
+                        // Add to favourites link
+                        $in_favourites = false;
                         $favourites = $this->params['favourites'];
                         if (is_array($favourites)) {
                             foreach ($favourites as $key => &$row) {
                                 if ($row['url'] == Yii::$app->request->url) {
-	                                $in_favorite = true;
+	                                $in_favourites = true;
                                     break;
                                 }
                             }
                         }
 
-                        $links = isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [];
-                        $links[] = [
-                            'label' => ($in_favorite) ? '<span class="glyphicon glyphicon-star"></span> ' .Yii::t('app/modules/admin', 'Un Favourite') : '<span class="glyphicon glyphicon-star-empty"></span> ' . Yii::t('app/modules/admin', 'Favourite'),
-                            'url' => '#favorite',
-	                        'template' => '<li class="favorite">{link}</li>',
-	                        'data' => [
-		                        'label' => $this->title,
-		                        'url' => Yii::$app->request->url
-	                        ]
-                        ];
+                        // Get title for favourites
+                        $favourite_title = $this->title;
+                        if (!empty($this->params['breadcrumbs'])) {
+	                        $last_breads_key = \wdmg\helpers\ArrayHelper::keyLast($this->params['breadcrumbs']);
+                            if ($last_breads_key) {
+	                            $last_of_breads = $this->params['breadcrumbs'][$last_breads_key];
+	                            if (!is_array($last_of_breads) && !empty($last_of_breads)) {
+		                            if ($this->title == $last_of_breads) {
+
+			                            if ($this->context->module->name !== $last_of_breads)
+				                            $favourite_title = $this->context->module->name . ' / ' . $last_of_breads;
+
+		                            } else {
+			                            $favourite_title .= ' / ' . $last_of_breads;
+		                            }
+	                            }
+                            }
+                        }
+
+                        if (!empty($favourite_title) && !empty(Yii::$app->request->url)) {
+	                        $links[] = [
+		                        'label' => ($in_favourites) ? '<span class="glyphicon glyphicon-star"></span> ' . Yii::t('app/modules/admin', 'Un Favourite') : '<span class="glyphicon glyphicon-star-empty"></span> ' . Yii::t('app/modules/admin', 'Favourite'),
+		                        'url' => '#favourites',
+		                        'template' => '<li class="favourites">{link}</li>',
+		                        'data' => [
+			                        'label' => $favourite_title,
+			                        'url' => Yii::$app->request->url
+		                        ]
+	                        ];
+                        }
                     ?>
                     <?= Breadcrumbs::widget([
                         'tag' => "ul",
@@ -262,12 +299,15 @@ JS
 
     <?php $this->registerJs(<<< JS
         $(document).ready(function() {
-            $('a[href="#favorite"]').click((event) => {
+            $('#mainNav li.favourites .dropdown-menu li > a > .glyphicon, a[href="#favourites"]').click((event) => {
+                
+                event.preventDefault();
+                
                 if (typeof (event.target.dataset.label) !== "undefined" && typeof (event.target.dataset.url) !== "undefined") {
                    var data = {"label": event.target.dataset.label, "url": event.target.dataset.url};
                     $.ajax({
                         type: "POST",
-                        url: "/admin/favorite",
+                        url: "/admin/favourites",
                         data: data,
                         dataType: "json",
                         complete: function(data) {

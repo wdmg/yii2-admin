@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.4.2 (2023-06-21)
+ * Fix add to favourites
+
 ## 1.4.1 (2023-06-21)
  * Fix Users::getOptions for not auth
  * Dashboard favourites list

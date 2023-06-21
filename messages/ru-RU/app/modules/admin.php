@@ -67,6 +67,7 @@ return [
     'Favourites' => "Избранное",
     'Favourite' => "В избранное",
     'Un Favourite' => "Удалить",
+    'Remove' => "Убрать",
 
     'Information' => "Информация",
     'System information' => "Информация о системе",
