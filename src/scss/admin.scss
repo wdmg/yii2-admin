@@ -1277,6 +1277,12 @@ body {
         }
       }
     }
+    .navbar-clock {
+      color: #d6d6d6;
+      font-size: 2rem;
+      font-weight: 300;
+      margin: 12px 15px;
+    }
   }
 
   table {
@@ -1759,7 +1765,7 @@ body {
         }
       }
       &:hover {
-        transform: translate(0, -10px);
+        transform: translate(0, -8px);
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 10px 10px rgba(0, 0, 0, 0.09);
       }
     }
@@ -1807,7 +1813,7 @@ body {
         border-radius: 0px 0px 6px 6px;
       }
       &:hover {
-        transform: translate(0, -10px);
+        transform: translate(0, -8px);
         box-shadow: 0 14px 28px rgba(0, 0, 0, 0.18), 0 10px 10px rgba(0, 0, 0, 0.09);
       }
     }

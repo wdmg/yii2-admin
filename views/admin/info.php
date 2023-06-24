@@ -54,6 +54,12 @@ function getDsnAttribute($name, $dsn) {
                     return $data['charset'] . ", " . $data['language'];
                 }
             ],
+            'timezone' => [
+                'label' => Yii::t('app/modules/admin', "Timezone"),
+                'value' => function ($data) {
+                    return date('Y-m-d H:i:s') ." (". ini_get('date.timezone') .")";
+                }
+            ],
             'i18n' => [
                 'label' => Yii::t('app/modules/admin', "Internationalization"),
                 'value' => function ($data) {

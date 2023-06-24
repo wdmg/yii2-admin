@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-admin", "dashboard", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "homepage": "https://github.com/wdmg/yii2-admin",
   "support": {
     "source": "https://github.com/wdmg/yii2-admin",
@@ -46,6 +46,9 @@
       "menuShowDisabled": false,
       "multiSignIn": false,
       "sessionTimeout": 900,
+	  "showDate": true,
+	  "showTime": true,
+	  "timeFormat24": true,
       "customLocales": [],
       "customSupportModules": [],
       "customSidebarMenu": [],

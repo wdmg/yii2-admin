@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.4.3 (2023-06-25)
+ * Add server date and time to dashboard UI
+
 ## 1.4.2 (2023-06-21)
  * Fix add to favourites
 

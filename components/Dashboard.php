@@ -129,10 +129,14 @@ class Dashboard extends Component
                             $moduleNavitems = $module->dashboardNavItems();
                             if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
                                 foreach ($moduleNavitems as $moduleNavitem) {
-                                    $navitems[] = $moduleNavitem;
+	                                if (isset($moduleNavitem['label'])) {
+		                                $navitems[] = $moduleNavitem;
+	                                }
                                 }
                             } else  {
-                                $navitems = $moduleNavitems;
+	                            if (isset($moduleNavitems['label'])) {
+		                            $navitems[] = $moduleNavitems;
+	                            }
                             }
 
                             // Check if the received menu item contains a direct link
@@ -177,10 +181,14 @@ class Dashboard extends Component
                                         $moduleNavitems = $module->dashboardNavItems();
                                         if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
                                             foreach ($moduleNavitems as $moduleNavitem) {
-                                                $navitems[] = $moduleNavitem;
+	                                            if (isset($moduleNavitem['label'])) {
+		                                            $navitems[] = $moduleNavitem;
+	                                            }
                                             }
                                         } else  {
-                                            $navitems[] = $moduleNavitems;
+	                                        if (isset($moduleNavitems['label'])) {
+		                                        $navitems[] = $moduleNavitems;
+	                                        }
                                         }
                                         $found++;
                                     }
@@ -217,10 +225,14 @@ class Dashboard extends Component
                                             $moduleNavitems = $module->dashboardNavItems();
                                             if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
                                                 foreach ($moduleNavitems as $moduleNavitem) {
-                                                    $navitems[] = $moduleNavitem;
+	                                                if (isset($moduleNavitem['label'])) {
+		                                                $navitems[] = $moduleNavitem;
+	                                                }
                                                 }
                                             } else  {
-                                                $navitems[] = $moduleNavitems;
+	                                            if (isset($moduleNavitems['label'])) {
+		                                            $navitems[] = $moduleNavitems;
+	                                            }
                                             }
                                         }
                                     }

@@ -111,13 +111,17 @@ class Bootstrap extends BaseModule implements BootstrapInterface
 
 	        if ($lang = $app->request->get('lang', false)) {
 		        if ($lang && in_array($lang, $supportLocales)) {
+
 			        $app->language = $lang;
-			        $app->session->set('lang', $lang);
-			        $app->response->cookies->add(new \yii\web\Cookie([
-				        'name' => 'lang',
-				        'value' => $lang,
-				        'expire' => time() + 604800
-			        ]));
+
+					if (!$this->isRestAPI()) {
+						$app->session->set('lang', $lang);
+						$app->response->cookies->add(new \yii\web\Cookie([
+							'name' => 'lang',
+							'value' => $lang,
+							'expire' => time() + 604800
+						]));
+					}
 		        }
 	        }
         }
@@ -277,6 +281,7 @@ class Bootstrap extends BaseModule implements BootstrapInterface
                                             }
                                         }
                                     }
+
 
                                     // Configure dashboard layout
                                     $installed->layout = 'dashboard';

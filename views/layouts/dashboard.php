@@ -127,7 +127,6 @@ JS
                 'url' => ['/admin/admin/logout'], 'linkOptions' => ['data-method' => 'post']
             ];
 
-
         echo Nav::widget([
             'options' => [
                 'class' => 'navbar-nav navbar-left',
@@ -180,7 +179,10 @@ JS
             ActiveForm::end();
         }
 
+        echo '<div id="time-clock" class="navbar-text navbar-right navbar-clock"></div>';
+
         NavBar::end();
+
         echo Progress::widget([
             'id' => 'requestProgress',
             'percent' => 0,
@@ -297,6 +299,57 @@ JS
 JS
     );*/ ?>
 
+    <?php
+    $show_date = $this->params['datetime.showDate'];
+    $show_time = $this->params['datetime.showTime'];
+    $format_24 = $this->params['datetime.timeFormat24'];
+    $server_datetime = gmdate('Y-m-d\TH:i:s\Z');
+    $this->registerJs(<<< JS
+        $(document).ready(function() {
+            const server_datetime = new Date('$server_datetime');
+            function showTime() {
+                server_datetime.setSeconds(server_datetime.getSeconds() + 1);
+                var hours = server_datetime.getHours(); // 0 - 23
+                var minutes = server_datetime.getMinutes(); // 0 - 59
+                var seconds = server_datetime.getSeconds(); // 0 - 59
+                
+                var session = "";
+                if (!Boolean('$format_24')) {
+                    session = "AM";
+                
+                    if (hours == 0)
+                        hours = 12;
+                    
+                    if (hours > 12) {
+                        hours = hours - 12;
+                        session = "PM";
+                    }
+                }
+                
+                hours = (hours < 10) ? "0" + hours : hours;
+                minutes = (minutes < 10) ? "0" + minutes : minutes;
+                seconds = (seconds < 10) ? "0" + seconds : seconds;
+                
+                var delimiter = '<span style="opacity:1">:</span>';
+                if (seconds % 2)
+                    delimiter = '<span style="opacity:0">:</span>';
+                
+                var date = "";
+                if (Boolean('$show_date'))
+                    date = server_datetime.toLocaleDateString(undefined, { weekday: 'short', year: 'numeric', month: 'long', day: 'numeric' }) + " ";
+                
+                var time = "";
+                if (Boolean('$show_time'))
+                    time = hours + delimiter + minutes + delimiter + seconds + " " + session;
+                
+                document.getElementById("time-clock").innerHTML = date + time;
+                setTimeout(showTime, 1000);
+            }
+            showTime(true);
+        });
+JS
+    ); ?>
+
     <?php $this->registerJs(<<< JS
         $(document).ready(function() {
             $('#mainNav li.favourites .dropdown-menu li > a > .glyphicon, a[href="#favourites"]').click((event) => {
@@ -312,11 +365,11 @@ JS
                         dataType: "json",
                         complete: function(data) {
                             if(data) {
-                                if (data.status == 200 && data.responseJSON.loggedin) {
+                                if (data.status == 200 && data.responseJSON.success) {
                                     return true;
                                 }
                             }
-                            window.location.href = "/admin/login";
+                            window.location.href = "/admin";
                         }
                     }); 
                 }

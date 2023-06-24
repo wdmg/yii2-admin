@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Admin dashboard for Butterfly.CMS
  *
  * @category        Module
- * @version         1.4.2
+ * @version         1.4.3
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 - 2023 W.D.M.Group, Ukraine
@@ -52,7 +52,11 @@ class Module extends BaseModule
     /**
      * @var boolean, the flag if updates check turn on
      */
-    public $checkForUpdates = true;
+    public $checkForUpdates = false;
+
+	public $showDate = true;
+    public $showTime = true;
+    public $timeFormat24 = true;
 
     /**
      * @var integer, the time to expire cache
@@ -85,7 +89,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.4.2";
+    private $version = "1.4.3";
 
     /**
      * @var integer, priority of initialization
@@ -300,6 +304,9 @@ class Module extends BaseModule
         ], 'wdmg/yii2-users' => [
             'label' => 'User',
             'url' => ['/admin/users/users/create/']
+        ], 'wdmg/yii2-profiles' => [
+            'label' => 'Profile',
+            'url' => ['/admin/profiles/profiles/create/']
         ], 'wdmg/yii2-tasks' => [
             'label' => 'Task',
             'url' => ['/admin/tasks/item/create/']
@@ -377,6 +384,13 @@ class Module extends BaseModule
             else
                 $this->view->params['version'] = 'v'. $version;
 
+	        $this->showDate = $this->getOption('admin.showDate');
+	        $this->showTime = $this->getOption('admin.showTime');
+	        $this->timeFormat24 = $this->getOption('admin.timeFormat24');
+
+	        $this->view->params['datetime.showDate'] = $this->showDate;
+	        $this->view->params['datetime.showTime'] = $this->showTime;
+	        $this->view->params['datetime.timeFormat24'] = $this->timeFormat24;
         }
 
     }
@@ -454,7 +468,6 @@ class Module extends BaseModule
         $status = null;
         $versions = null;
         $remote_version = null;
-
         if (Yii::$app->getCache()) {
             if (Yii::$app->cache->exists('modules.versions'))
                 $versions = Yii::$app->cache->get('modules.versions');
