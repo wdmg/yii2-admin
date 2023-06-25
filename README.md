@@ -104,9 +104,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.4.4 - Add task and tickets counters
 * v.1.4.3 - Add server date and time to dashboard UI
 * v.1.4.2 - Fix add to favourites
-* v.1.4.1 - Dashboard favourites, fix lang, update dependencies
-* v.1.4.0 - Fixs, update dependencies and copyrights
-* v.1.3.2 - Free disk space info, memory limit fixed
-* v.1.3.1 - Sphinx Search configuration and support

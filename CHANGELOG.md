@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.4.4 (2023-06-25)
+ * Add task and tickets counters
+
 ## 1.4.3 (2023-06-25)
  * Add server date and time to dashboard UI
 

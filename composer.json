@@ -4,7 +4,7 @@
   "keywords": ["yii2", "yii2-admin", "dashboard", "wdmg"],
   "type": "yii2-extension",
   "license": "MIT",
-  "version": "1.4.3",
+  "version": "1.4.4",
   "homepage": "https://github.com/wdmg/yii2-admin",
   "support": {
     "source": "https://github.com/wdmg/yii2-admin",

@@ -28,8 +28,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count"><?= $counters['users']['count']; ?></span>
-                    <span class="count subcount" data-label="online:"><?= $counters['users']['online']; ?></span>
-                    <span class="count total" data-label="total:"><?= $counters['users']['total']; ?></span>
+                    <span class="count subcount" data-label="<?= Yii::t('app/modules/admin', 'online') ?>:"><?= $counters['users']['online']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:"><?= $counters['users']['total']; ?></span>
                     <span class="icon">
                         <em class="fa fa-fw fa-users"></em>
                     </span>
@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count"><?= $counters['orders']['count']; ?></span>
-                    <span class="count total" data-label="total:"><?= $counters['orders']['total']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:"><?= $counters['orders']['total']; ?></span>
                     <span class="icon">
                         <em class="fa fa-fw fa-shopping-bag"></em>
                     </span>
@@ -67,8 +67,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count"><?= $counters['comments_and_reviews']['count']; ?></span>
-                    <span class="count total" data-label="comments:"><?= $counters['comments_and_reviews']['comments']; ?></span>
-                    <span class="count total" data-label="reviews:"><?= $counters['comments_and_reviews']['reviews']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'comments') ?>:"><?= $counters['comments_and_reviews']['comments']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'reviews') ?>:"><?= $counters['comments_and_reviews']['reviews']; ?></span>
                     <span class="icon">
                         <em class="fa fa-fw fa-comments"></em>
                     </span>
@@ -87,7 +87,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count"><?= $counters['transactions']['count']; ?></span>
-                    <span class="count total" data-label="total:"><?= $counters['transactions']['total']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:"><?= $counters['transactions']['total']; ?></span>
                     <span class="icon">
                         <em class="fa fa-fw fa-wallet"></em>
                     </span>
@@ -106,7 +106,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count"><?= $counters['newsletters']['count']; ?></span>
-                    <span class="count total" data-label="total:"><?= $counters['newsletters']['total']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:"><?= $counters['newsletters']['total']; ?></span>
                     <span class="icon">
                         <em class="fa fa-fw fa-mail-bulk"></em>
                     </span>
@@ -125,9 +125,47 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count"><?= $counters['subscribers']['count']; ?></span>
-                    <span class="count total" data-label="total:"><?= $counters['subscribers']['total']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:"><?= $counters['subscribers']['total']; ?></span>
                     <span class="icon">
                         <em class="fa fa-fw fa-address-card"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <?php if (isset($counters['tasks'])) { ?>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-pink">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/tasks', 'New tasks in the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <span class="count"><?= $counters['tasks']['count']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:"><?= $counters['tasks']['total']; ?></span>
+                    <span class="icon">
+                        <em class="fa fa-fw fa-tasks"></em>
+                    </span>
+                </div>
+            </div>
+        </div>
+        <?php } ?>
+        <?php if (isset($counters['tickets'])) { ?>
+        <div class="col-xs-12 col-sm-6 col-md-3">
+            <div class="panel panel-counter panel-violet">
+                <div class="panel-heading">
+                    <?= Yii::t('app/modules/tickets', 'New tickets in the last 24 hours') ?>
+                    <a href="javascript:{};" class="btn btn-link btn-menu">
+                        <em class="fa fa-ellipsis-v"></em>
+                    </a>
+                </div>
+                <div class="panel-body">
+                    <span class="count"><?= $counters['tickets']['count']; ?></span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:"><?= $counters['tickets']['total']; ?></span>
+                    <span class="icon">
+                        <em class="fa fa-fw fa-ticket-alt"></em>
                     </span>
                 </div>
             </div>
@@ -144,7 +182,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count">+99</span>
-                    <span class="count total" data-label="total:">1.2K</span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:">1.2K</span>
                     <span class="icon">
                     <em class="fa fa-fw fa-address-card"></em>
                 </span>
@@ -161,7 +199,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count">+99</span>
-                    <span class="count total" data-label="total:">1.2K</span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:">1.2K</span>
                     <span class="icon">
                     <em class="fa fa-fw fa-address-card"></em>
                 </span>
@@ -178,7 +216,7 @@ $this->params['breadcrumbs'][] = $this->title;
                 </div>
                 <div class="panel-body">
                     <span class="count">+99</span>
-                    <span class="count total" data-label="total:">1.2K</span>
+                    <span class="count total" data-label="<?= Yii::t('app/modules/admin', 'total') ?>:">1.2K</span>
                     <span class="icon">
                     <em class="fa fa-fw fa-address-card"></em>
                 </span>

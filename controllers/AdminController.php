@@ -151,6 +151,12 @@ class AdminController extends Controller
             if ($this->module->moduleLoaded('admin/subscribers'))
                 $counters['subscribers'] = $this->getNewSubscribersCount();
 
+            if ($this->module->moduleLoaded('admin/tasks'))
+                $counters['tasks'] = $this->getNewTasksCount();
+
+            if ($this->module->moduleLoaded('admin/tickets'))
+                $counters['tickets'] = $this->getNewTicketsCount();
+
             // Dashboard widget`s
             if ($this->module->moduleLoaded('admin/pages'))
                 $widgets['recentPages'] = $this->getRecentPages();
@@ -1608,4 +1614,19 @@ class AdminController extends Controller
         ];
     }
 
+    private function getNewTasksCount() {
+        $counts = \wdmg\tasks\models\Tasks::getStatsCount(true);
+        return [
+            'count' => ($counts['count']) ? "+" . $counts['count'] : "0",
+            'total' => ($counts['total']) ? $counts['total'] : "n/a",
+        ];
+    }
+
+    private function getNewTicketsCount() {
+        $counts = \wdmg\tickets\models\Tickets::getStatsCount(true);
+        return [
+            'count' => ($counts['count']) ? "+" . $counts['count'] : "0",
+            'total' => ($counts['total']) ? $counts['total'] : "n/a",
+        ];
+    }
 }

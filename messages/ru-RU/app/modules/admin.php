@@ -69,6 +69,11 @@ return [
     'Un Favourite' => "Удалить",
     'Remove' => "Убрать",
 
+    'online' => "онлайн",
+    'total' => "всего",
+    'comments' => "комментариев",
+    'reviews' => "отзывов",
+
     'Information' => "Информация",
     'System information' => "Информация о системе",
     'IP, host' => "IP, хост",
