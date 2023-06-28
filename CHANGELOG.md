@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.4.5 (2023-06-28)
+ * Count fixed in sidebar menu
+
 ## 1.4.4 (2023-06-25)
  * Add task and tickets counters
 

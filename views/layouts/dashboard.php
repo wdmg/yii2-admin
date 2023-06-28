@@ -53,7 +53,7 @@ JS
     <title><?= Html::encode($this->title . ' — Butterfly.CMS') ?></title>
     <?php $this->head() ?>
 </head>
-<body class="dashboard <?= (YII_ENV_DEV) ? 'env-dev' : '' ?>">
+<body class="dashboard<?= (YII_ENV_DEV) ? ' env-dev' : '' ?><?= (YII_DEBUG) ? ' env-debug' : '' ?>">
     <?php $this->beginBody() ?>
     <div class="<?= 'module-' . $this->context->module->id; ?> <?= 'action-' . $this->context->action->id; ?>">
         <?php
@@ -275,6 +275,11 @@ JS
             </div>
         </div>
     </div>
+
+    <?php
+        /*\wdmg\messages\widgets\ChatWidget::begin();
+        \wdmg\messages\widgets\ChatWidget::end();*/
+    ?>
 
     <?php /*$this->registerJs(<<< JS
         $(document).ready(function() {

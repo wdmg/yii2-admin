@@ -28,7 +28,7 @@ $this->registerLinkTag(['rel' => 'icon', 'type' => 'image/png', 'href' => Url::t
     <title><?= Html::encode('Butterfly.CMS — ' . $this->title) ?></title>
     <?php $this->head() ?>
 </head>
-<body class="welcome <?= (YII_ENV_DEV) ? 'env-dev' : '' ?>">
+<body class="welcome<?= (YII_ENV_DEV) ? ' env-dev' : '' ?><?= (YII_DEBUG) ? ' env-debug' : '' ?>">
     <?php $this->beginBody() ?>
     <?php Pjax::begin([
         'id' => 'authAjax',

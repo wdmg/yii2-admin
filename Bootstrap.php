@@ -126,7 +126,8 @@ class Bootstrap extends BaseModule implements BootstrapInterface
 	        }
         }
 
-        // Configure languages menu for UI
+
+	    // Configure languages menu for UI
         if (!($app instanceof \yii\console\Application) && $this->_module) {
             \yii\base\Event::on(\yii\base\Controller::class, \yii\base\Controller::EVENT_BEFORE_ACTION, function ($event) use ($translations) {
 
@@ -212,7 +213,7 @@ class Bootstrap extends BaseModule implements BootstrapInterface
 
 	            }
             });
-        }
+		}
 
         // Configure administrative panel
         $app->setComponents([
@@ -379,5 +380,6 @@ class Bootstrap extends BaseModule implements BootstrapInterface
                 }
             }*/ // @TODO: Need review, see /yiisoft/yii2/web/UrlManager.php:640
         }
+
     }
 }
