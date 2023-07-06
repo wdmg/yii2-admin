@@ -85,7 +85,10 @@ JS
         if (Yii::$app->getModule('admin/terminal', false))
             $items[] = [
                 'label' => '<span class="fa fa-fw fa-terminal"></span> ' . Yii::t('app/modules/admin', 'Terminal'),
-                'url' => '#terminal'
+                'url' => '#terminal',
+                'linkOptions' => [
+                    'data-route' => Url::to(['/admin/terminal/terminal'])
+                ]
             ];
 
         if (isset($this->params['favourites'])) {
@@ -517,13 +520,13 @@ JS
     <?php
         // Register dashboard terminal assets
         if (Yii::$app->getModule('admin/terminal', false)) {
-            $url = Url::to(['/admin/terminal/index']);
             $this->registerJs(<<< JS
                 $(function() {
                     $('body').delegate('a[href="#terminal"]', 'click', function(event) {
                         event.preventDefault();
+                        let route = event.target.dataset.route;
                         $.get(
-                            '$url',
+                            route,
                             function (data) {
                                 $('#terminalModal .modal-body').html($(data).remove('.modal-footer'));
                                 if ($(data).find('.modal-footer').length > 0) {
@@ -578,7 +581,7 @@ JS
     </footer>
 
     <?php
-        $url = Url::to(['admin/bugreport']);
+        $url = Url::to(['/admin/bugreport']);
         $this->registerJs(<<< JS
             $('body').delegate('a[href="#bugreport"]', 'click', function(event) {
                 event.preventDefault();

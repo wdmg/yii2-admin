@@ -1,6 +1,9 @@
 Changelog
 =========
 
+## 1.4.6 (2023-07-06)
+ * Fix sidebar, terminal link
+
 ## 1.4.5 (2023-06-28)
  * Count fixed in sidebar menu
 

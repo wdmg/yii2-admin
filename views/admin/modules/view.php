@@ -31,7 +31,10 @@ use yii\widgets\DetailView;
                 'format' => 'raw',
                 'contentOptions' => [
                     'style' => "word-break:break-all;"
-                ]
+                ],
+                'value' => function($data) {
+                    return "<code>".var_export($data->require, true)."</code>";
+                }
             ],
             [
                 'attribute' => 'type',
@@ -45,21 +48,30 @@ use yii\widgets\DetailView;
                 'format' => 'raw',
                 'contentOptions' => [
                     'style' => "word-break:break-all;"
-                ]
+                ],
+	            'value' => function($data) {
+		            return Html::a($data->homepage, $data->homepage, ['target' => "_blank"]);
+	            }
             ],
             [
                 'attribute' => 'support',
                 'format' => 'raw',
                 'contentOptions' => [
                     'style' => "word-break:break-all;"
-                ]
+                ],
+	            'value' => function($data) {
+		            return "<code>".var_export($data->support, true)."</code>";
+	            }
             ],
             [
                 'attribute' => 'authors',
                 'format' => 'raw',
                 'contentOptions' => [
                     'style' => "word-break:break-all;"
-                ]
+                ],
+	            'value' => function($data) {
+		            return "<code>".var_export($data->authors, true)."</code>";
+	            }
             ],
 
             'license:ntext',
@@ -81,7 +93,10 @@ use yii\widgets\DetailView;
                 'format' => 'raw',
                 'contentOptions' => [
                     'style' => "word-break:break-all;"
-                ]
+                ],
+	            'value' => function($data) {
+		            return "<code>".var_export($data->options, true)."</code>";
+	            }
             ],
 
             'status:ntext',

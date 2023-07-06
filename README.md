@@ -104,7 +104,6 @@ Use the `Module::dashboardNavItems()` method of the module to generate a navigat
     ?>
 
 # Status and version [ready to use]
+* v.1.4.6 - Fix sidebar, terminal link
 * v.1.4.5 - Count fixed in sidebar menu
 * v.1.4.4 - Add task and tickets counters
-* v.1.4.3 - Add server date and time to dashboard UI
-* v.1.4.2 - Fix add to favourites

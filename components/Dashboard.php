@@ -122,29 +122,35 @@ class Dashboard extends Component
                 // Check the presence of the module identifier among the available packages
                 foreach ($modules as $module) {
                     if ($menu['item'] == $module['module']) {
-                        if($module = Yii::$app->getModule('admin/'. $module['module'], false)) {
+                        if ($module = Yii::$app->getModule('admin/'. $module['module'], false)) {
+
 
                             // Call Module::dashboardNavItems() to get its native menu
                             $navitems = [];
                             $moduleNavitems = $module->dashboardNavItems();
-                            if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
-                                foreach ($moduleNavitems as $moduleNavitem) {
-	                                if (isset($moduleNavitem['label'])) {
-		                                $navitems[] = $moduleNavitem;
-	                                }
-                                }
-                            } else  {
-	                            if (isset($moduleNavitems['label'])) {
-		                            $navitems[] = $moduleNavitems;
-	                            }
-                            }
+
+	                        if (isset($moduleNavitems['items'])) {
+		                        $navitems['items'] = $moduleNavitems['items'];
+							} else {
+								if (ArrayHelper::isIndexed($moduleNavitems) && !ArrayHelper::isAssociative($moduleNavitems, true)) {
+									foreach ($moduleNavitems as $moduleNavitem) {
+										if (isset($moduleNavitem['label'])) {
+											$navitems[] = $moduleNavitem;
+										}
+									}
+								} else  {
+									if (isset($moduleNavitems['label'])) {
+										$navitems[] = $moduleNavitems;
+									}
+								}
+							}
 
                             // Check if the received menu item contains a direct link
                             if (isset($navitems['url']))
                                 $menu['url'] = $navitems['url'];
 
                             // Check if the received menu item contains sub-items
-                            if ($navitems['items']) {
+                            if (!empty($navitems['items'])) {
                                 $menu['items'] = $navitems['items'];
                             }
 
@@ -154,8 +160,8 @@ class Dashboard extends Component
                 }
             }
 
-            // Check if the menu item has nested sub-items
-            if (isset($menu['items']) && is_array($menu['items'])) {
+	        // Check if the menu item has nested sub-items
+			if (isset($menu['items']) && is_array($menu['items'])) {
 
                 // If the nested item is not represented by an array, then this is the module identifier,
                 // of the module in which you need to call Module::dashboardNavItems() to get its native menu

@@ -6,7 +6,7 @@ namespace wdmg\admin;
  * Admin dashboard for Butterfly.CMS
  *
  * @category        Module
- * @version         1.4.5
+ * @version         1.4.6
  * @author          Alexsander Vyshnyvetskyy <alex.vyshnyvetskyy@gmail.com>
  * @link            https://github.com/wdmg/yii2-admin
  * @copyright       Copyright (c) 2019 - 2023 W.D.M.Group, Ukraine
@@ -89,7 +89,7 @@ class Module extends BaseModule
     /**
      * @var string the module version
      */
-    private $version = "1.4.5";
+    private $version = "1.4.6";
 
     /**
      * @var integer, priority of initialization
@@ -153,9 +153,9 @@ class Module extends BaseModule
     ];
 
     /**
-     * @var array of main menu items
+     * @var array of sidebar menu items
      */
-    private $menu = [
+    private $sidebarMenu = [
         [
             'label' => 'Dashboard',
             'icon' => 'fa fa-fw fa-tachometer-alt',
@@ -419,7 +419,7 @@ class Module extends BaseModule
      */
     public function getMenuItems()
     {
-        return ArrayHelper::merge((is_array($this->customSidebarMenu) ? $this->customSidebarMenu : []), $this->menu);
+        return ArrayHelper::merge((is_array($this->customSidebarMenu) ? $this->customSidebarMenu : []), $this->sidebarMenu);
     }
 
     /**

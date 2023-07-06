@@ -38,7 +38,7 @@ class Bootstrap extends BaseModule implements BootstrapInterface
             $app->getUrlManager()->addRules(
                 [
                     '/admin' => 'admin/admin/index',
-                    '/admin/<action:(index|modules|login|logout|restore|search|favourites|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
+                    '/admin/<action:(index|modules|login|logout|restore|search|favourites|terminal|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
 
                     '<module:\w+>/<submodule:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<submodule>/<controller>/<action>',
                     '<module:\w+>/<controller:\w+>/<action:\w+>/<id:\d+>' => '<module>/<controller>/<action>',
@@ -55,7 +55,7 @@ class Bootstrap extends BaseModule implements BootstrapInterface
             $app->getUrlManager()->addRules(
                 [
                     '/admin' => 'admin/admin/index',
-                    '/admin/<action:(index|modules|login|logout|restore|search|favourites|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
+                    '/admin/<action:(index|modules|login|logout|restore|search|favourites|terminal|checkpoint|bugreport|info|error)>' => 'admin/admin/<action>',
                 ],
                 true
             );
